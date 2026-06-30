@@ -62,10 +62,6 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
-    recipient_postal_code: {
-        type: Number,
-        required: true
-    },
     recipient_province: {
         type: String,
         required: true
