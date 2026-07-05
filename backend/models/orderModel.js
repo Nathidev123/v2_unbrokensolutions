@@ -100,6 +100,11 @@ const orderSchema = new Schema({
     shipment_options: {
         type: String,
         required: true
+    },
+    delivery_status: {
+        type: String,
+        default: "Open"
+        
     }
 },
 {timestamps:true}

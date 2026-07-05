@@ -16,19 +16,28 @@ export const orderReducer = (state, action) => {
             } 
         case 'DELETE_ORDER':
             return{
-                orders: state.orders.filter((f) => f._id !== action.payload)
-            }    
+                orders: state.orders.filter((currentorder) => currentorder._id !== action.payload)
+
+            }   
+        case 'PATCH_ORDER':
+            return{
+                orders: state.orders.map(order => {
+                  return  order._id === action.payload._id ?
+                         action.payload: order
+                })
+            }     
             default: return state
         }
 }
-
+//dispatch informs reducer to carry out the methods/ which methods
 //creating context provider component
 //creating global state, accessible from any component
 //making 'orders' global
 export const OrderContextProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(orderReducer, {
-        orders: null
+        orders: []
+        //state is orders
     })
 
     //wrapped app in index.js

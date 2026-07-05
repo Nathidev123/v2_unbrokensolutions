@@ -10,6 +10,9 @@ const {
     deleteOrder
 } = require('../controller/orderController')
 
+const {
+    calculateDistance
+} = require('../controller/calculateDistance')
 const router = express.Router()
 
 
@@ -20,6 +23,6 @@ router.get('/:id', getOrder)
 router.post('/', addOrder)
 router.patch('/:id', patchOrder)
 router.delete('/:id', deleteOrder)
-
+router.post('/distance', calculateDistance)
 
 module.exports = router 

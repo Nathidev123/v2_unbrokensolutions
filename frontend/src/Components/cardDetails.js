@@ -1,12 +1,24 @@
 import { useOrderContext } from '../hooks/useOrderContext'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-const CardDetails = ({ order }) => {
+import OrderModal from './OrderModal'
+import { useState } from 'react'
 
+ 
+const CardDetails = ({ order }) => {
+//admin.js is the parent
+//it passed order in. order comes from iterating orders
+//we do the same at the bottom and pass that prop to orderModal
+//over the orders array
+    //for modal -> update
+    const [showModal, setShowModal] = useState(false) 
     const { dispatch } = useOrderContext()
+
+     
+
     const handleClick = async () => {
         const response = await fetch('/api/order/' + order._id, {
             method: 'DELETE'
-            //then backend will attempt to delete from db
+            //first backend will attempt to delete from db
 
         })
         const json = await response.json()
@@ -14,6 +26,15 @@ const CardDetails = ({ order }) => {
             dispatch({type: 'DELETE_ORDER', payload: json})
         }
     }
+    //setting back Modal to false,
+    //calling it in OrderModal
+    const closeModal = () => {
+        setShowModal(false)
+        //passed the prop into orderModal below
+    }
+   
+
+
     return(
         <div className="admin-card-details">
             <h3>{order.company_name}</h3>
@@ -24,7 +45,6 @@ const CardDetails = ({ order }) => {
                 <p><strong>City: </strong>{order.city}</p>
                 <p><strong>Postal Code: </strong>{order.postal_code}</p>
                 <p><strong>Province: </strong>{order.province}</p>
-                <p><strong>Created At: </strong>{order.createdAt}</p>
                 <p><strong>Recipient Company: </strong>{order.recipient_company}</p>
                 <p><strong>Email: </strong>{order.recipient_email}</p>
                 <p><strong>Phone: </strong>{order.recipient_phone}</p>
@@ -41,11 +61,26 @@ const CardDetails = ({ order }) => {
                 <p><strong>Parcel Value: </strong>{order.parcel_value}</p>
                 <p><strong>Package Name: </strong>{order.package_name}</p>
                 <p><strong>Shipment Options: </strong>{order.shipment_options}</p>
-                <p>{formatDistanceToNow(new Date(order.createdAt), {addSuffix: true})}</p>
+                <p><strong>Delivery Status: </strong>{order.delivery_status}</p>
+
+                <p>Created {formatDistanceToNow(new Date(order.createdAt), {addSuffix: true})}</p>
+                {order.updatedAt && (
+                    <p>Updated {formatDistanceToNow(new Date(order.updatedAt), {addSuffix: true})}</p>
+                )}
+                
                 <button onClick={handleClick}>Delete</button>
-                <button>Update</button>
+                <button onClick={() => setShowModal(true)}>Update</button>
+        
+        {showModal && (
+            <OrderModal
+                order={order}
+                closeModal={closeModal}>
+            </OrderModal>
+        )}
+        
         </div>
     )
+    //above passing props to orderModal
 }
 /*check buttons*/
 

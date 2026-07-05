@@ -36,14 +36,22 @@ const Admin = () => {
                 key={order._id} 
                 order={order}
                  ></CardDetails>
+
             ))
             }
+            
             </div>
              
         </div>
         </>
         
        )
+       /*<ShipmentForm
+                 key={order._id} 
+                order={order}>
+                 </ShipmentForm>
+                 dont need this as for shipmentForm
+                 it already has order(state) so we used that one*/
 }
 
 export default Admin
