@@ -213,6 +213,27 @@ const OrderModal = ({ order, closeModal }) => {
                 name="package_name"
                 className={emptyFields.includes('package_name') ? 'error': ''}/>
 
+            <label>Distance: </label>    
+                <input value={editOrder.distanceKm}
+                onChange={handleChange}
+                name="distanceKm"
+                className={emptyFields.includes('distanceKm') ? 'error': ''}/>
+
+
+            <label>Duration: </label>    
+                <input value={editOrder.durationMinutes}
+                onChange={handleChange}
+                name="durationMinutes"
+                className={emptyFields.includes('durationMinutes') ? 'error': ''}/>
+
+            <label>Estimated Amount: </label>    
+                <input value={editOrder.estimatedAmount}
+                onChange={handleChange}
+                name="estimatedAmount"
+                className={emptyFields.includes('stimatedAmount') ? 'error': ''}/>
+
+
+
             <label>Shipment Options</label>
                 <input value={editOrder.shipment_options}
                 onChange={handleChange}

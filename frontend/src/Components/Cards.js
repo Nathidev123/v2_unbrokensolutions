@@ -8,6 +8,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { IoIosGlobe } from "react-icons/io";
 import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { VscTools } from "react-icons/vsc";
+import { Link } from 'react-router-dom';
 const Cards = () => {
 
 
@@ -57,6 +58,7 @@ const Cards = () => {
             <PiPackage className="icons" />
             <h2>Courier & Express</h2>
             <p>Door-to-door delivery with speed, care and real-time tracking.
+            <Link to="/shipment"> Get a Quote </Link>            
             </p>
             </div>
     </div>

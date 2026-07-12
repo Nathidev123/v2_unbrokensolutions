@@ -10,10 +10,7 @@ return(
     <img className='logo-image' src={updatedlogo} alt="logo"/>
     
     </div>
-    {/*to only show services*/}
-    {location.pathname === "/" && (
-        <Link to="/services" className='navlink'>Services</Link>
-    )}
+    
 
     {/*to only show services*/}
     {location.pathname === "/" && (
@@ -47,4 +44,9 @@ return(
 )
 }
 export default Navbar
-/*<h1>Unbroken Solutions</h1>*/
+/*<h1>Unbroken Solutions</h1>
+
+{/*to only show services*//*
+    {location.pathname === "/" && (
+        <Link to="/services" className='navlink'>Services</Link>
+    )}*/

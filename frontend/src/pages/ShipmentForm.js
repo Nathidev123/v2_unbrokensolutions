@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useOrderContext } from '../hooks/useOrderContext'
 import Quotation from "../Components/Quotation"
 
@@ -49,7 +49,11 @@ const ShipmentForm = () => {
             //here we had to create the elements of order
          })
     }
-
+    
+    //testing
+     useEffect(() => {
+    console.log("showQuotation:", showQuotation);
+}, [showQuotation]);   
    
     
    const handleSubmit = async (e) => {
@@ -58,7 +62,7 @@ const ShipmentForm = () => {
         //creating post request
         //states need to match with the names in the controller 
        
-        const response = await fetch('/api/order/', {
+        /*const response = await fetch('/api/order/', {
             method: 'POST',
             body: JSON.stringify(order),
             headers: {
@@ -71,6 +75,7 @@ const ShipmentForm = () => {
         if(!response.ok) {
             setError(json.error) //from controller
             setEmptyFields(json.emptyFields || [])
+            //setShowQuotation(false)
         }
         if(response.ok) {
             /*setOrder({
@@ -90,19 +95,52 @@ const ShipmentForm = () => {
                     recipient_province: '',
         weight: '', height: '', length: '', width: '', package_contents: '', parcel_value: '',
         package_name: '', shipment_options: ''  
-            })*/
+            })
             
-            
+            if (response.ok) {
+    
+}
             setError(null)
             setEmptyFields([])
 
             console.log('new card added', json)
 
             dispatch({type: 'CREATE_ORDER', payload: json})
-
+            */
+           const fields = []
+            if (!order.company_name) fields.push("company_name")
+            if (!order.contact_name) fields.push("contact_name")
+            if (!order.email) fields.push("email")
+            if (!order.phone) fields.push("phone")
+            if (!order.street_address) fields.push("street_address")
+            if (!order.city) fields.push("city")
+            if (!order.postal_code) fields.push("postal_code")
+            if (!order.province) fields.push("province")
+            if (!order.recipient_company) fields.push("recipient_company")
+            if (!order.recipient_name) fields.push("recipient_name")
+            if (!order.recipient_email) fields.push("recipient_email")
+            if (!order.recipient_phone) fields.push("recipient_phone")
+            if (!order.recipient_street_address) fields.push("recipient_street_address")
+            if (!order.recipient_city) fields.push("recipient_city")
+            if (!order.recipient_province) fields.push("recipient_province")
+            if (!order.weight) fields.push("weight")
+            if (!order.height) fields.push("height")
+            if (!order.length) fields.push("length")
+            if (!order.width) fields.push("width")
+            if (!order.package_contents) fields.push("package_contents")
+            if (!order.parcel_value) fields.push("parcel_value")
+            if (!order.package_name) fields.push("package_name")
+            if (!order.shipment_options) fields.push("shipment_options")
+            
+            if(fields.length > 0){
+                setError('Please fill in all required fields')
+                return
+            }
+            setError(null)
+            setShowQuotation(true)
         }
         
-   }
+   
    
     return(
         <>
@@ -287,7 +325,10 @@ const ShipmentForm = () => {
             </label>
             </div>
             {error && <div className="error">{error}</div>}
-            <button className="shipmentFormSubmit" onClick={() => setShowQuotation(true)}>Submit</button>
+            <button 
+            className="shipmentFormSubmit" 
+            type="submit"
+            >Submit</button>
             
            </div>
             </form>

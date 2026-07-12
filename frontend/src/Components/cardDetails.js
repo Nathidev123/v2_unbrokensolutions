@@ -32,6 +32,8 @@ const CardDetails = ({ order }) => {
         setShowModal(false)
         //passed the prop into orderModal below
     }
+
+    
    
 
 
@@ -62,6 +64,10 @@ const CardDetails = ({ order }) => {
                 <p><strong>Package Name: </strong>{order.package_name}</p>
                 <p><strong>Shipment Options: </strong>{order.shipment_options}</p>
                 <p><strong>Delivery Status: </strong>{order.delivery_status}</p>
+                <p><strong>Distance:</strong> {order.distanceKm} km</p>
+                <p><strong>Duration:</strong> {order.durationMinutes} min</p>
+                <p><strong>Estimated Amount:</strong> R{order.estimatedAmount}</p>
+                
 
                 <p>Created {formatDistanceToNow(new Date(order.createdAt), {addSuffix: true})}</p>
                 {order.updatedAt && (
@@ -71,6 +77,7 @@ const CardDetails = ({ order }) => {
                 <button onClick={handleClick}>Delete</button>
                 <button onClick={() => setShowModal(true)}>Update</button>
         
+
         {showModal && (
             <OrderModal
                 order={order}
@@ -86,4 +93,7 @@ const CardDetails = ({ order }) => {
 
 export default CardDetails
 
-/**/
+/*
+<p><strong>Distance: </strong>{distancKm.toFixed(1)} km</p>
+                <p><strong>Duration: </strong>{durationMinutes} min</p>
+                <p><strong>Estimated Amount: </strong>R{estimatedAmount}</p>*/

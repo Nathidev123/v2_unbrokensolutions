@@ -1,0 +1,5 @@
+
+const paymentGateway = (req, res) => {
+
+    
+}

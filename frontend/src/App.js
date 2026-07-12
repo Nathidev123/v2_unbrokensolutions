@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import ShipmentForm from './pages/ShipmentForm'
 import EmailForm from './pages/EmailForm';
 import Admin from './pages/Admin'
+import ConfirmationPage from './pages/confirmationPage';
+import RoadFreight from './pages/RoadFreightForm';
 
 function App() {
   return (
@@ -33,8 +35,16 @@ function App() {
       element={<ShipmentForm />}>
       </Route>
 
-       <Route path='/admin'
+      <Route path='/admin'
       element={<Admin />}>
+      </Route>
+
+      <Route path='/roadFreight'
+      element={<RoadFreight />}>
+      </Route>
+
+      <Route path='/confirmation'
+      element={<ConfirmationPage />}>
       </Route>
 
       </Routes>

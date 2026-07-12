@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const orderRoutes = require('./routes/orders')
-
+const roadFreightRoutes =  require('./routes/roadFreight')
 const app = express()
 
 //middleware
@@ -16,6 +16,8 @@ app.get("/", (req, res) => {
 
 //grabbing different routes from orders.js
 app.use('/api/order/',orderRoutes)
+app.use('/api/freight/', roadFreightRoutes)
+
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {

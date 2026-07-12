@@ -1,10 +1,8 @@
-
 const mongoose = require('mongoose')
-
 const Schema = mongoose.Schema
 
-const orderSchema = new Schema({
-    /*custeomer info*/
+const roadFreightSchema = new Schema({
+   /*custeomer info*/
     company_name: {
         type: String,
         required: true
@@ -100,25 +98,9 @@ const orderSchema = new Schema({
     shipment_options: {
         type: String,
         required: true
-    },
-    delivery_status: {
-        type: String,
-        default: "Open"
-        
-    },
-    distanceKm: {
-    type: Number
-    },
-
-    durationMinutes: {
-    type: Number
-    },
-
-    estimatedAmount: {
-    type: Number
     }
-},
-{timestamps:true}
+}, 
+{timestamps: true}
 )
 
-module.exports = mongoose.model('orderSchema', orderSchema)
+module.exports = mongoose.model('roadFreightSchema', roadFreightSchema)

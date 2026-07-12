@@ -1,27 +1,21 @@
+
 const mongoose = require('mongoose')
+const roadFreightSchema = require('../models/roadFreightModel')
 
-const orderSchema = require('../models/orderModel')
 
-const addOrder = async (req, res) => {
-    console.log({
-    distanceKm: req.body.distanceKm,
-    durationMinutes: req.body.durationMinutes,
-    estimatedAmount: req.body.estimatedAmount
-})
-    const{
-        company_name, contact_name, email, phone, street_address,
+//dont forget emptyFields array
+const addFreight = async (req, res) => {
+    const {
+     company_name, contact_name, email, phone, street_address,
         city, postal_code, province, recipient_company, recipient_name,
         recipient_email,recipient_phone, recipient_street_address,
         recipient_city, recipient_province,
         weight, height, length, width, package_contents, parcel_value,
-        package_name, shipment_options, distanceKm, durationMinutes, estimatedAmount
-    }= req.body
-
-    /*fixing the error display*/
-    
+        package_name, shipment_options, distanceKm, durationMinutes, estimatedAmount   
+     }
+      = req.body
     
     let emptyFields = []
-
     if(!company_name){
         emptyFields.push('company_name')
     }
@@ -101,57 +95,55 @@ const addOrder = async (req, res) => {
     if(!/^\d{10}$/.test(recipient_phone)){
         return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
     }
-    try {
-        const order = await orderSchema.create({company_name, contact_name, email, phone, street_address,
-        city, postal_code, province, recipient_company, recipient_name,
-        recipient_email,recipient_phone, recipient_street_address,
-        recipient_city, recipient_province,
-        weight, height, length, width, package_contents, parcel_value,
-        package_name, shipment_options, distanceKm, durationMinutes, estimatedAmount})
-        
-        console.log(order)
-        res.status(200).json(order)
-    }
-    catch(error) {
-        res.status(400).json({error: error.message})
-    }
-}   
-
-
-const getAllOrders = async (req, res) => {
-
-    const orders = await orderSchema.find({}).sort({createdAt: -1})
     
-    res.status(200).json(orders)
-}
-
-const getOrder = async (req, res) => {
-    const { id } = req.params
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        res.status(404).json({error: 'No such order'})
-    }
-    const order = await orderSchema.findById(id)
-    if(!order){
-        res.status(400).json({error: 'No such order'})
-    }
-    res.status(200).json(order)
-}
-
-
-const patchOrder = async (req, res) => {
-
-    const{
+    try {
+        const roadFreight = await roadFreightSchema.create({
         company_name, contact_name, email, phone, street_address,
         city, postal_code, province, recipient_company, recipient_name,
         recipient_email,recipient_phone, recipient_street_address,
         recipient_city, recipient_province,
         weight, height, length, width, package_contents, parcel_value,
-        package_name, shipment_options, delivery_status, distanceKm, durationMinutes, estimatedAmount
-    }= req.body
-    /* phone number */
-    
-    let emptyFields = []
+        package_name, shipment_options, distanceKm, durationMinutes, estimatedAmount     
+    })
+        res.status(200).json(roadFreight)
+    }
+    catch(error){
+        res.status(400).json({error: error.message})
+    }
+}
 
+const getAllFreight = async (req, res) => {
+    const roadFrieght = await roadFreightSchema.find({}).sort({createdAt: -1})
+
+    res.status(200).json(roadFrieght)
+}
+
+
+
+const getFreight = async (req, res) => {
+    const { id } = req.params
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        res.status(404).json({error: 'No such order'})
+    }
+    const roadFreight = await roadFreightSchema.findById(id)
+    if(!roadFreight){
+        res.status(400).json({error: 'No such order'})
+    }
+    res.status(200).json(roadFreight)
+}
+
+
+const patchFreight = async (req, res) => {
+    const {
+        company_name, contact_name, email, phone, street_address,
+        city, postal_code, province, recipient_company, recipient_name,
+        recipient_email,recipient_phone, recipient_street_address,
+        recipient_city, recipient_province,
+        weight, height, length, width, package_contents, parcel_value,
+        package_name, shipment_options, distanceKm, durationMinutes, estimatedAmount
+    } = req.body
+
+    /*let emptyFields = []
     if(!company_name){
         emptyFields.push('company_name')
     }
@@ -221,56 +213,51 @@ const patchOrder = async (req, res) => {
     if(!shipment_options){
         emptyFields.push('shipment_options')
     }
-    if(!delivery_status){
-        emptyFields.push('delivery_status')
-    }
-    if(!distanceKm){
-        emptyFields.push('distanceKm')
-    }
-    if(!durationMinutes){
-        emptyFields.push('durationMinutes')
-    }
-    if(!estimatedAmount){
-        emptyFields.push('estimtedAmount')
-    }
+    
     if(emptyFields.length > 0 ){
         return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
     }
+    if(!/^\d{10}$/.test(phone)){
+        return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
+    }
+    if(!/^\d{10}$/.test(recipient_phone)){
+        return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
+    }
+ */
     const { id } = req.params
-
     if(!mongoose.Types.ObjectId.isValid(id)){
         res.status(404).json({error: 'No such order'})
     }
-    const order = await orderSchema.findOneAndUpdate({_id: id},{
+    
+    const roadFreight = await roadFreightSchema.findOneAndUpdate({_id: id},{
         ...req.body
-    
     })
-    if(!order){
+    if(!roadFreight){
         res.status(400).json({error: 'No such order'})
     }
-    res.status(200).json(order)
+    res.status(200).json(roadFreight)
+    
     
 }
 
-const deleteOrder = async (req, res) => {
+const deleteFreight = async (req, res) => {
     const { id } = req.params
 
     if(!mongoose.Types.ObjectId.isValid(id)){
         res.status(404).json({error: 'No such order'})
-    }  
-    const order = await orderSchema.findOneAndDelete({_id: id})
-
-    if(!order){
+    }
+    const roadFreight = await roadFreightSchema.findOneAndDelete({_id: id})
+    if(!roadFreight){
         res.status(400).json({error: 'No such order'})
     }
-    res.status(200).json(order)
+    res.status(200).json(roadFreight)
+
 }
-
-
-module.exports = {
-    addOrder,
-    getAllOrders,
-    getOrder,
-    patchOrder,
-    deleteOrder
+    
+module.exports= {
+    addFreight,
+    getAllFreight,
+    patchFreight,
+    deleteFreight,
+    getFreight
 }

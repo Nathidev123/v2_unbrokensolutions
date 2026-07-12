@@ -1,4 +1,5 @@
 const axios = require('axios')
+//messenger of the rq and res to google maps
 
 const calculateDistance = async (req, res) => {
 
@@ -11,6 +12,7 @@ const calculateDistance = async (req, res) => {
         const response = await axios.post(
             'https://routes.googleapis.com/directions/v2:computeRoutes',
             {
+                //using axios send an Http post request to Google
                 origin: {
                     address: pickupAddress
                 },

@@ -1,18 +1,18 @@
 
 import { useEffect, useState } from "react"
-//installed axios
+
 const Quotation = ({ order }) => {
 
     const [distance, setDistance] = useState(null)
     const [duration, setDuration] = useState(null)
-
+    const [error, setError] = useState('')
     const pickupAddress = `${order.street_address}, ${order.city}, ${order.province},South Africa`
     const dropOffAddress = `${order.recipient_street_address}, ${order.recipient_city}, ${order.recipient_province},South Africa`
     const weight = order.weight
 
     
 const getDistance = async () => {
-
+    //sendin req to backend
     const response = await fetch('/api/order/distance', {
 
         method: 'POST',
@@ -27,7 +27,7 @@ const getDistance = async () => {
         })
 
     })
-
+    //recieving response from backend
     const json = await response.json()
 
     if (response.ok) {
@@ -35,7 +35,9 @@ const getDistance = async () => {
         setDuration(json.duration)
         console.log(json)
     } else {
+        setError('Failed to calculate distance')
         console.log(json)
+
     }
 
 }
@@ -44,13 +46,15 @@ useEffect(() => {
     getDistance()
 }, [])
 //for quotation to appear immediately
+
+    //formatting 
     const distanceKm = distance ? distance / 1000 : 0
 
     const totalSeconds = duration ? parseInt(duration) : 0
 
-    const hours = Math.floor(totalSeconds / 3600)
+    const durationMinutes = Math.ceil(totalSeconds / 60)
 
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    //const minutes = Math.floor((totalSeconds % 3600) / 60)
     const weightKg = Number(weight)
     //business rules
         /* Kg
@@ -120,16 +124,35 @@ useEffect(() => {
     order.shipment_options
 ) 
 
-    const handlePayment = () => {
-        /*const [emptyFields, setEmptyFields] = useState([])
-        const [error, setError] = useState(null)*/
-         /* Estimation calculator */
+    const handlePayment = async () => {
+        const response =  await fetch('/api/order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...order,
+                distanceKm,
+                durationMinutes, 
+                estimatedAmount
+            })
+        })
+
+        const json = await response.json()
+        if(response.ok){
+            console.log("Order saved", json)
+            //will add continue to payment here later
+        } else {
+
+            console.log(json.error)
+        }
+
 
     }     
     
         
        //NEXT ENSURING QUOTES AMOUNT PERSIST TO DB//////////
-
+        
     
     return(
        <>
@@ -153,7 +176,7 @@ useEffect(() => {
             <p><strong>Width: </strong>{order.width}</p>
 
             <br></br>
-            <hr></hr>
+            
             <p><strong>Package Contents: </strong>{order.package_contents}</p>
             <p><strong>Parcel Value: </strong>{order.parcel_value}</p>
             <p><strong>Package Name: </strong>{order.package_name}</p>
@@ -163,18 +186,20 @@ useEffect(() => {
             </p>
 
             <p>
-                <strong>Duration:</strong> {hours > 0 ? `${hours} hr ` : ""}
-                {minutes} min
+                <strong>Duration:</strong> {durationMinutes} min
             </p>
+            <br></br>
+            <hr></hr>
                         <p>
                 <strong>Estimated Amount:</strong> R{estimatedAmount.toFixed(2)}
             </p>
             <br></br>
-
+            
             {/*block continuation to payment if form isnt complete ///////////////////////////////////////////////////*/}
             <button className="makePayment" 
             onClick={handlePayment}
             >Make Payment</button>
+            {error && <div className="error">{error}</div>}
             </div>
             </>
     )
@@ -183,4 +208,19 @@ useEffect(() => {
 
 
 export default Quotation
-/* */
+/*React frontend doesnt knbow how to calculate distances and doesnt
+know how to communicate with google maps, it only knows how to ask backend for
+info needed */
+
+/*ShipmentForm -> Show Quotation ->User clicks "Make Payment"
+    
+
+↓
+POST to backend  ->  Save order in MongoDB  -> Save order in MongoDB
+  
+↓
+Redirect to payment gateway  */  
+
+    
+
+   

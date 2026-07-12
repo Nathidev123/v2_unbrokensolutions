@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { OrderContextProvider } from './context/orderContext';
-
+import { RoadFreightContextProvider } from './context/freightContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <OrderContextProvider>
+    <RoadFreightContextProvider>
     <App />
+    </RoadFreightContextProvider>
     </OrderContextProvider>
   </React.StrictMode>
 );
