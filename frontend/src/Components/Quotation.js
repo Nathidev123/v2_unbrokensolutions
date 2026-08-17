@@ -1,11 +1,16 @@
-
+import updatedlogo from '../assets/updatedlogo.png'
+import { jsPDF } from 'jspdf'
 import { useEffect, useState } from "react"
-
+import emailjs from '@emailjs/browser'
+import { useNavigate } from 'react-router-dom'
 const Quotation = ({ order }) => {
+    const navigate = useNavigate()
 
     const [distance, setDistance] = useState(null)
     const [duration, setDuration] = useState(null)
     const [error, setError] = useState('')
+    const [alert, setAlert] = useState('');
+    const [message, setMessage] = useState('');
     const pickupAddress = `${order.street_address}, ${order.city}, ${order.province},South Africa`
     const dropOffAddress = `${order.recipient_street_address}, ${order.recipient_city}, ${order.recipient_province},South Africa`
     const weight = order.weight
@@ -123,8 +128,69 @@ useEffect(() => {
     Number(distanceKm),
     order.shipment_options
 ) 
+   //Quote generator
+   const generateQuotationPDF = () => {
+        const doc = new jsPDF()
+        const y = 20 
 
-    const handlePayment = async () => {
+        doc.setFontSize(18)
+        doc.text(order.company_name, 15, y)
+
+        doc.setFontSize(16)
+        doc.text('Quotation', 15, y + 10)
+
+        doc.setFontSize(12)
+        new Date('1970-01-01').toLocaleDateString()
+        doc.text(
+            [
+              `Contact Name: ${order.contact_name}`,
+    `Email: ${order.email}`,
+    `Phone: ${order.phone}`,
+    `Street Address: ${order.street_address}`,
+    `City: ${order.city}`,
+    `Province: ${order.province}`,
+    `Postal Code: ${order.postal_code}`,
+
+    "",
+    "────────────────────────────────",
+    `Recipient Company: ${order.recipient_company}`,
+    `Street Address: ${order.recipient_street_address}`,
+    `City: ${order.recipient_city}`,
+    `Province: ${order.recipient_province}`,
+
+    "",
+    "────────────────────────────────",
+    `Weight: ${order.weight}`,
+    `Height: ${order.height}`,
+    `Length: ${order.length}`,
+    `Width: ${order.width}`,
+
+    "",
+
+    `Package Contents: ${order.package_contents}`,
+    `Parcel Value: ${order.parcel_value}`,
+    `Package Name: ${order.package_name}`,
+    `Shipment Option: ${order.shipment_options}`,
+    `Distance: ${distanceKm.toFixed(1)} km`,
+    `Duration: ${durationMinutes} min`,
+
+    "",
+    "────────────────────────────────",
+    "",
+    `Estimated Amount: R${estimatedAmount.toFixed(2)}`   
+            ],
+            15,
+            y + 30,
+            { lineHeightFactor: 1.5 }
+        )
+         doc.save(`Unbroken Solutions Quote-${order.company_name}.pdf`)
+        //takes pdf built and returns it as a Base64 Data
+        //URI string, which is the format EmailJS expects for
+        //attachment
+        //so basically hand the pdf as an attachment in the email
+    }
+    
+    const handleFinish = async () => {
         const response =  await fetch('/api/order/', {
             method: 'POST',
             headers: {
@@ -141,24 +207,85 @@ useEffect(() => {
         const json = await response.json()
         if(response.ok){
             console.log("Order saved", json)
-            //will add continue to payment here later
+            
+            //sending automated email to user and unbroken solutions
+            const serviceId = 'service_bry1mab'
+            const templateId = 'template_vqdtk19'
+            const publicKey = 'eCS5a5yRYSaLDbX4R'
+            navigate('/thankyou')
+            generateQuotationPDF()
+            
+            //object that contains dynamic template params
+            const templateParams = {
+                email: order.email,
+                name: order.contact_name,
+                message: message,
+                logo_url: updatedlogo,
+                /*quote - here since attachment for emailjs
+                needs subscription*/
+                company_name: order.company_name,
+                contact_name: order.contact_name,
+                email: order.email,
+                phone: order.phone,
+
+                street_address: order.street_address,
+                city: order.city,
+                province: order.province,
+                postal_code: order.postal_code,
+
+                recipient_company: order.recipient_company,
+                recipient_street_address: order.recipient_street_address,
+                recipient_city: order.recipient_city,
+                recipient_province: order.recipient_province,
+
+                weight: order.weight,
+                height: order.height,
+                length: order.length,
+                width: order.width,
+
+                package_contents: order.package_contents,
+                parcel_value: order.parcel_value,
+                package_name: order.package_name,
+                shipment_options: order.shipment_options,
+
+                distance: distanceKm.toFixed(1),
+                duration: durationMinutes,
+                estimated_amount: estimatedAmount.toFixed(2),
+            }
+            //did cc 'unbrokensolutions(still my email for now)' to receive email as well
+            //so as to avoid sendin
+            // g two emails, one to user and one to unbroken solutions
+            emailjs.send(serviceId, templateId, templateParams, publicKey)
+            .then((response) => {
+                console.log('Email sent successfully!', response.status, response.text)
+                setAlert({ type: 'success', message: 'Your message has been sent. We will get back to you shortly'})
+
+                setTimeout(() => {
+                    setAlert(null);
+                    
+                }, 5000);
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error)
+                setAlert({ type: 'error', message: 'Failed to send email. Please try again.' })
+            })
+
         } else {
 
             console.log(json.error)
         }
 
 
-    }     
-    
-        
-       //NEXT ENSURING QUOTES AMOUNT PERSIST TO DB//////////
-        
-    
+    }    
+
     return(
        <>
        <div className="quotation">
             <h3>{order.company_name}</h3>
             <label>Quotation</label>
+            <p><strong>Contact Name: </strong>{order.contact_name}</p>
+            <p><strong>Email: </strong>{order.email}</p>
+            <p><strong>Phone: </strong>{order.phone}</p>
             <p><strong>Street Address: </strong>{order.street_address}</p>
             <p><strong>City: </strong>{order.city}</p>
             <p><strong>Province: </strong>{order.province}</p>
@@ -197,8 +324,8 @@ useEffect(() => {
             
             {/*block continuation to payment if form isnt complete ///////////////////////////////////////////////////*/}
             <button className="makePayment" 
-            onClick={handlePayment}
-            >Make Payment</button>
+            onClick={handleFinish}
+            >Done</button>
             {error && <div className="error">{error}</div>}
             </div>
             </>
@@ -221,6 +348,4 @@ POST to backend  ->  Save order in MongoDB  -> Save order in MongoDB
 ↓
 Redirect to payment gateway  */  
 
-    
 
-   

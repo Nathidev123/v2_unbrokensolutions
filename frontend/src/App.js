@@ -8,6 +8,7 @@ import EmailForm from './pages/EmailForm';
 import Admin from './pages/Admin'
 import ConfirmationPage from './pages/confirmationPage';
 import RoadFreight from './pages/RoadFreightForm';
+import ThankYouPage from './pages/ThankYouPage';
 
 function App() {
   return (
@@ -46,6 +47,11 @@ function App() {
       <Route path='/confirmation'
       element={<ConfirmationPage />}>
       </Route>
+
+      <Route path='/thankyou'
+      element={<ThankYouPage />}>
+      </Route>
+
 
       </Routes>
       
