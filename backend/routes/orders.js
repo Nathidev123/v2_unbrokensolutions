@@ -15,6 +15,10 @@ const {
 } = require('../controller/calculateDistance')
 const router = express.Router()
 
+//for sea ports
+const {
+    getSeaPort
+} = require('../controller/getSeaPort')
 
 
 
@@ -27,5 +31,5 @@ router.patch('/:id', patchOrder)
 router.delete('/:id', deleteOrder)
 
 router.post('/distance', calculateDistance)
-
+router.get('/seaport', getSeaPort)
 module.exports = router 

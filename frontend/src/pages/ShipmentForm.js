@@ -34,6 +34,7 @@ const ShipmentForm = () => {
                      recipient_street_address: '',
                     recipient_city: '', 
                     recipient_province: '',
+                    
         weight: '', height: '', length: '', width: '', package_contents: '', parcel_value: '',
         package_name: '', shipment_options: ''
         //one object one state

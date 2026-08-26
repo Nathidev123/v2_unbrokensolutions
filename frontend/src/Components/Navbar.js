@@ -36,7 +36,10 @@ return(
     {location.pathname === "/shipment" && (
         <Link to="/"  className='navlink'>Home</Link>
     )}
-
+    {location.pathname === "/" && (
+        <Link to="/roadFormOne">Shipping</Link>
+    )}
+    
     
     </div>
     

@@ -8,6 +8,8 @@ import EmailForm from './pages/EmailForm';
 import Admin from './pages/Admin'
 import ConfirmationPage from './pages/confirmationPage';
 import RoadFreight from './pages/RoadFreightForm';
+import RoadFormOne from './pages/RoadFormOne'
+import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
 
 function App() {
@@ -52,6 +54,13 @@ function App() {
       element={<ThankYouPage />}>
       </Route>
 
+      <Route path='/RoadFormOne'
+      element={<RoadFormOne />}>
+      </Route>
+
+      <Route path='/RoadFormTwo'
+      element={<RoadFormTwo />}>
+      </Route>
 
       </Routes>
       

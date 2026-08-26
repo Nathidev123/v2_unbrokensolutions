@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import { OrderContextProvider } from './context/orderContext';
 import { RoadFreightContextProvider } from './context/freightContext';
+import { FormContextProvider } from './context/FormContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <OrderContextProvider>
     <RoadFreightContextProvider>
+    <FormContextProvider>
     <App />
+    </FormContextProvider>
     </RoadFreightContextProvider>
     </OrderContextProvider>
   </React.StrictMode>

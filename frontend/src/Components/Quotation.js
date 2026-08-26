@@ -52,82 +52,7 @@ useEffect(() => {
 }, [])
 //for quotation to appear immediately
 
-    //formatting 
-    const distanceKm = distance ? distance / 1000 : 0
-
-    const totalSeconds = duration ? parseInt(duration) : 0
-
-    const durationMinutes = Math.ceil(totalSeconds / 60)
-
-    //const minutes = Math.floor((totalSeconds % 3600) / 60)
-    const weightKg = Number(weight)
-    //business rules
-        /* Kg
-        R15 per kg
-
-        Distance bands
-        0 -10km = R55
-        10 - 25km = R85
-        25 - 50km R120
-
-        Shipment Options
-        Same Day = +R100
-        Tomorrow = +R50
-        Normal = +R25
-
-        (kg * rate) + distance band + shipment_option
-        
-            = Estimated Amount
-        */
-
-    const calculateQuotation = (weightKg, distanceKm, shipmentOption) => {
-
-    const weightCharge = weightKg * 15
-
-    let distanceCharge = 0
-
-    if (distanceKm <= 10) {
-
-        distanceCharge = 55
-
-    } else if (distanceKm <= 25) {
-
-        distanceCharge = 85
-
-    } else if (distanceKm <= 50) {
-
-        distanceCharge = 120
-
-    } else {
-
-        distanceCharge = 120 + ((distanceKm - 50) * 2)
-
-    }
-
-    let shipmentCharge = 0
-
-    if (shipmentOption === "Same Day Delivery") {
-
-        shipmentCharge = 100
-
-    } else if (shipmentOption === "Tomorrow") {
-
-        shipmentCharge = 50
-
-    } else {
-
-        shipmentCharge = 25
-
-    }
-
-    return weightCharge + distanceCharge + shipmentCharge
-
-}
-    const estimatedAmount = calculateQuotation(
-    weightKg,
-    Number(distanceKm),
-    order.shipment_options
-) 
+    
    //Quote generator
    const generateQuotationPDF = () => {
         const doc = new jsPDF()
@@ -323,9 +248,9 @@ useEffect(() => {
             <br></br>
             
             {/*block continuation to payment if form isnt complete ///////////////////////////////////////////////////*/}
-            <button className="makePayment" 
+            <button className="confirmQuote" 
             onClick={handleFinish}
-            >Done</button>
+            >Confirm</button>
             {error && <div className="error">{error}</div>}
             </div>
             </>
