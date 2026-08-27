@@ -76,18 +76,7 @@ const addOrder = async (req, res) => {
     if(!phone){
         emptyFields.push('phone')
     }
-    if(!street_address){
-        emptyFields.push('street_address')
-    }
-    if(!city){
-        emptyFields.push('city')
-    }
-    if(!postal_code){
-        emptyFields.push('postal_code')
-    }
-    if(!province){
-        emptyFields.push('province')
-    }
+    
     if(!recipient_company){
         emptyFields.push('recipient_company')
     }
@@ -100,15 +89,7 @@ const addOrder = async (req, res) => {
     if(!recipient_phone){
         emptyFields.push('recipient_phone')
     }
-    if(!recipient_street_address){
-        emptyFields.push('recipient_street_address')
-    }
-    if(!recipient_city){
-        emptyFields.push('recipient_city')
-    }
-    if(! recipient_province){
-        emptyFields.push('recipient_province')
-    }
+    
     if(! weight){
         emptyFields.push('weight')
     }
@@ -121,7 +102,11 @@ const addOrder = async (req, res) => {
     if(!width){
         emptyFields.push('width')
     }
-    if(!package_contents){
+    
+
+    //conditions based on services chosen//////////////
+    if(service_type === 'courier'){
+        if(!package_contents){
         emptyFields.push('package_contents')
     }
     if(!parcel_value){
@@ -136,16 +121,69 @@ const addOrder = async (req, res) => {
     if(!delivery_speed){
         emptyFields.push('delivery_speed')
     }
+    if(!street_address){
+        emptyFields.push('street_address')
+    }
+    if(!city){
+        emptyFields.push('city')
+    }
+    if(!postal_code){
+        emptyFields.push('postal_code')
+    }
+    if(!province){
+        emptyFields.push('province')
+    }
+    if(!recipient_street_address){
+        emptyFields.push('recipient_street_address')
+    }
+    if(!recipient_city){
+        emptyFields.push('recipient_city')
+    }
+    if(! recipient_province){
+        emptyFields.push('recipient_province')
+    }
+    if(!required_delivery_date){
+        emptyFields.push('required_delivery_date')
+    }
+    }
 
-    //conditions based on services chosen//////////////
-    if(service_type === 'courier'){
-        if(!delivery_speed){
-        emptyFields.push('delivery_speed')
-    }
-    }
+
     if(service_type === 'road'){
         if(!load_type){
         emptyFields.push('load_type')
+    }
+    if(!cargo_type){
+        emptyFields.push('cargo_type')
+    }
+    if(!required_delivery_date){
+        emptyFields.push('required_delivery_date')
+    }
+    if(!declared_value){
+        emptyFields.push('declared_value')
+    }
+    if(!cargo_description){
+        emptyFields.push('cargo_description')
+    }
+    if(!street_address){
+        emptyFields.push('street_address')
+    }
+    if(!city){
+        emptyFields.push('city')
+    }
+    if(!postal_code){
+        emptyFields.push('postal_code')
+    }
+    if(!province){
+        emptyFields.push('province')
+    }
+    if(!recipient_street_address){
+        emptyFields.push('recipient_street_address')
+    }
+    if(!recipient_city){
+        emptyFields.push('recipient_city')
+    }
+    if(! recipient_province){
+        emptyFields.push('recipient_province')
     }
     }
 
@@ -159,8 +197,14 @@ const addOrder = async (req, res) => {
     if(!cargo_type){
         emptyFields.push('cargo_type')
     }
-    if(dangerous_goods === undefined){
-        emptyFields.push('dangerous_goods')
+    if(!required_delivery_date){
+        emptyFields.push('required_delivery_date')
+    }
+    if(!declared_value){
+        emptyFields.push('declared_value')
+    }
+    if(!cargo_description){
+        emptyFields.push('cargo_description')
     }
     }
 
@@ -168,14 +212,28 @@ const addOrder = async (req, res) => {
         if(!shipment_type){
         emptyFields.push('shipment_type')
     }
-    if(!container_type){
-        emptyFields.push('container_type')
-    }
     if(!port_of_origin){
         emptyFields.push('port_of_origin')
     }
     if(!port_of_destination){
         emptyFields.push('port_of_destination')
+    }
+    if(!required_delivery_date){
+        emptyFields.push('required_delivery_date')
+    }
+    if(!declared_value){
+        emptyFields.push('declared_value')
+    }
+    if(!cargo_description){
+        emptyFields.push('cargo_description')
+    }
+    if(shipment_type === 'FCL'){
+        if(!container_type){
+            emptyFields.push('container_type')
+        }
+        if(!number_of_containers){
+            emptyFields.push('number_of_containers')
+        }
     }
     }
     

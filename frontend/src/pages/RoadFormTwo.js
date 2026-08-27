@@ -824,11 +824,26 @@ useEffect(() => {
                      
                     </div>
                 )}
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    <label>Required delivery date</label>
+                    <input 
+                    type="date"
+                    name="required_delivery_date"
+                    value={formData.required_delivery_date}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('required_delivery_date') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
                 
                 {/*Road Freight*/}
                 {formData.service_type === "road" && (
                     <div className="form-group">
-                    <label htmlFor="load_type">Shipment Type</label>
+                    <label htmlFor="load_type">Load Type</label>
                     <select 
                     name="load_type"
                     value={formData.shipment_type}
@@ -843,29 +858,7 @@ useEffect(() => {
                 </div>
                 )}
 
-                {formData.service_type === "road" && (
-                    <div className="form-group">
-                    <label htmlFor="cargo_type">Cargo Type</label>
-                    <select 
-                    name="cargo_type"
-                    value={formData.cargo_type}
-                    onChange={handleChange}                  
-                    className={emptyFields.includes('cargo_type') ? 'error': ''}
-                    >
-                   <option value="">Select Cargo</option>
-                    <option value="General Cargo">General Cargo</option>
-                    <option value="Dangerous Goods">Dangerous Goods</option>
-                    <option value="Perishable Goods">Perishable Goods</option>
-                    <option value="Medical">Medical Goods</option>
-                    <option value="Live Animals">Live Animals</option>
-                    <option value="Valuable Cargo">Valuable Cargo</option>
-                    <option value="Fragile Cargo">Fragile Cargo</option>
-                    <option value="Oversized Cargo">Oversized Cargo</option>
-                    <option value="Temperature-Controlled">Temperature Controlled</option>
-                    <option value="Documents">Documents</option>
-                     </select>
-                    </div>
-                )} 
+                
                 
                 {formData.service_type === "road" && (
                     <div className="form-group">
@@ -939,6 +932,123 @@ useEffect(() => {
                      
                     </div>
                 )} 
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Pick up Address"
+                    type="text"
+                    name="street_address"
+                    value={formData.street_address}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('street_address') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Postal Code"
+                    type="text"
+                    name="postal_code"
+                    value={formData.postal_code}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('postal_code') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Pick up City"
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('city') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Pick up Province"
+                    type="text"
+                    name="province"
+                    value={formData.province}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('province') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    type="text"
+                    placeholder="Recipient Street Address"
+                    name="recipient_street_address"
+                    value={formData.recipient_street_address}
+                    onChange={handleChange}
+                    className={emptyFields.includes('recipient_street_address') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Recipient City"
+                    name="recipient_city"
+                    value={formData.recipient_city}
+                    onChange={handleChange}
+                    className={emptyFields.includes('recipient_city') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Recipient Province"
+                    name="recipient_province"
+                    value={formData.recipient_province}
+                    onChange={handleChange}
+                    className={emptyFields.includes('recipient_province') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
                     </div>
                     {error && <div className="error">{error}</div>}
                 </form>
