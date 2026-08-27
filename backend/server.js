@@ -4,11 +4,16 @@ const express = require('express')
 const mongoose = require('mongoose')
 const orderRoutes = require('./routes/orders')
 const roadFreightRoutes =  require('./routes/roadFreight')
+const seaPortRoutes = require('./routes/seaPorts')
+const cors = require('cors') //added cors 
+//as was blocking sea port search
 const app = express()
 
 
 //middleware
+app.use(cors())
 app.use(express.json())
+
 
 
 app.get("/", (req, res) => {
@@ -18,7 +23,7 @@ app.get("/", (req, res) => {
 //grabbing different routes from orders.js
 app.use('/api/order/',orderRoutes)
 app.use('/api/freight/', roadFreightRoutes)
-
+app.use('/api/seaports', seaPortRoutes)
 
 
 mongoose.connect(process.env.MONGO_URI)

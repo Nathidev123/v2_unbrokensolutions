@@ -33,6 +33,7 @@ const addOrder = async (req, res) => {
         package_contents, 
         parcel_value,
         package_name,
+        declared_value,
         package_type,
         delivery_speed, 
 
@@ -50,6 +51,7 @@ const addOrder = async (req, res) => {
 
         //road freight
         load_type, 
+        required_delivery_date,
 
         //quote/order
         distanceKm, 

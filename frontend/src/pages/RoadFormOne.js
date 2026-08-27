@@ -79,47 +79,7 @@ const RoadFormOne = () => {
                     />
                 </div>
 
-                <div className="form-group">
-                    <input 
-                    placeholder="Street Address"
-                    name="street_address"
-                    value={formData.street_address}
-                    onChange={handleChange}
-                    className={emptyFields.includes('street_address') ? 'error': ''}
-                    />
-                </div>
-
-                <div className="form-group">
-                    <input 
-                    placeholder="City"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    className={emptyFields.includes('city') ? 'error': ''}
-                    />
-                </div>
-
-                <div className="form-group">
-                    <input 
-                    placeholder="Postal Code"
-                    name="postal_code"
-                    value={formData.postal_code}
-                    onChange={handleChange}
-                    className={emptyFields.includes('postal_code') ? 'error': ''}
-                    />
-                </div>
-
-                <div className="form-group">
-                    <input 
-                    placeholder="Province"
-                    name="province"
-                    value={formData.province}
-                    onChange={handleChange}
-                    className={emptyFields.includes('province') ? 'error': ''}
-                    />
-                </div>
-
-                
+ 
                 <div className="form-group">
                     <h1>Recipient</h1>
                     <input 
@@ -158,36 +118,6 @@ const RoadFormOne = () => {
                     value={formData.recipient_phone}
                     onChange={handleChange}
                     className={emptyFields.includes('recipient_phone') ? 'error': ''}
-                    />
-                </div>
-
-                <div className="form-group">
-                    <input 
-                    placeholder="Recipient Street Address"
-                    name="recipient_street_address"
-                    value={formData.recipient_street_address}
-                    onChange={handleChange}
-                    className={emptyFields.includes('recipient_street_address') ? 'error': ''}
-                    />
-                </div>
-                
-                <div className="form-group">
-                    <input 
-                    placeholder="Recipient City"
-                    name="recipient_city"
-                    value={formData.recipient_city}
-                    onChange={handleChange}
-                    className={emptyFields.includes('recipient_city') ? 'error': ''}
-                    />
-                </div>
-
-                <div className="form-group">
-                    <input 
-                    placeholder="Recipient Province"
-                    name="recipient_province"
-                    value={formData.recipient_province}
-                    onChange={handleChange}
-                    className={emptyFields.includes('recipient_province') ? 'error': ''}
                     />
                 </div>
 

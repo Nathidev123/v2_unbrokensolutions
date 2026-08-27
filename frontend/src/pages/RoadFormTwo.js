@@ -28,7 +28,7 @@ const RoadFormTwo = () => {
 
     //for sea ports
     const[seaportResults, setSeaportResults] = useState([])
-    const[seaportSearch, setSeaportSearch] = useState([])
+    const[seaportSearch, setSeaportSearch] = useState('')
 /*
     const getDistance = async () => {
     //sendin req to backend
@@ -139,28 +139,31 @@ useEffect(() => {
     }
 
     //same functionality but for sea ports
-    const searchSeaports = async(value) => {
-         setSeaportSearch(value)
+    const searchSeaports = async(query) => {
+         setSeaportSearch(query)
 
-        if(value.length < 2){
+        if(query.length < 2){
             setSeaportResults([])
             return
         }
+        setTimeout(async () => {
 
+        
         try {
             //connecting to api
-            const response = await fetch(`http://localhost:5000/api/seaports?query=${encodeURIComponent(value)}`
+            const response = await fetch(`http://localhost:8000/api/seaports?query=${encodeURIComponent(query)}`
     
                 
             )
             const data = await response.json()
-            setSeaportResults(data.data)
+            setSeaportResults(data)
             console.log("Sea Port Response:", data)
         } catch (error) {
             console.log(error)
             setError('Could not find destination Sea Port, try again')
         }
-    }
+    }, 400)}
+    
     
     
 
@@ -217,61 +220,9 @@ useEffect(() => {
                            className={emptyFields.includes('width') ? 'error': ''}/> 
                             </div>  
                             
-                        <div className="form-group">
-                            <h1>Package Details</h1>
-                           <input 
-                           placeholder="Package Contents"
-                           name="package_contents"
-                           value={formData.package_contents}
-                           onChange={handleChange}
-                           className={emptyFields.includes('package_contents') ? 'error': ''}/> 
-                            </div>      
-                        <div className="form-group">
-                           <input 
-                           placeholder="Parcel Value"
-                           name="parcel_value"
-                           value={formData.parcel_value}
-                           onChange={handleChange}
-                           className={emptyFields.includes('parcel_value') ? 'error': ''}/> 
-                            </div> 
-                        <div className="form-group">
-                           <input 
-                           placeholder="Package Name"
-                           name="package_name"
-                           value={formData.package_name}
-                           onChange={handleChange}
-                           className={emptyFields.includes('package_name') ? 'error': ''}/> 
-                            </div>   
-                        <div className="form-group">
-                        <label htmlFor="package_type"></label>
-                           <select 
-                           
-                           name="package_type"
-                           value={formData.package_type}
-                           onChange={handleChange}
-                           className={emptyFields.includes('package_type') ? 'error': ''}>
-                            <option value="">Select Package Type</option>
-                            <option value="Box">Box</option>
-                            <option value="Crate">Crate</option>
-                            <option value="Pallet">Pallet</option>
-                            <option value="Bag">Bag</option>
-                            <option value="Container">Container</option>
-                            <option value="Envelope">Envelope</option>
-                           </select>
-                            </div>
+                        
 
-                        <div className="form-group">
-                           <select 
-                           name="delivery_speed"
-                           value={formData.delivery_speed}
-                           onChange={handleChange}
-                           className={emptyFields.includes('delivery_speed') ? 'error': ''}>
-                            <option value="">Select Service Level</option>
-                            <option value="Economy">Economy</option>
-                            <option value="Standard">Standard</option>
-                            <option value="Priority">Priority</option>
-                           </select>
-                            </div>
+                        
                     <h1>Select Service</h1>
                     <div className="form-group">
                     <label htmlFor="service_type"></label>
@@ -375,6 +326,23 @@ useEffect(() => {
                 )}
                 {formData.service_type === "air" && (
                     <div className="form-group">
+                    
+                    <input 
+                    placeholder="Declared Value"
+                    type="text"
+                    name="declared_value"
+                    value={formData.declared_value}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('declared_value') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                
+                {formData.service_type === "air" && (
+                    <div className="form-group">
                     <label htmlFor="cargo_type">Cargo Type</label>
                     <select 
                     name="cargo_type"
@@ -392,7 +360,7 @@ useEffect(() => {
                     <option value="Fragile Cargo">Fragile Cargo</option>
                     <option value="Oversized Cargo">Oversized Cargo</option>
                     <option value="Temperature-Controlled">Temperature Controlled</option>
-                    <option value="Documents"></option>
+                    <option value="Documents">Documents</option>
                      </select>
                     </div>
                 )} 
@@ -413,6 +381,22 @@ useEffect(() => {
                      
                     </div>
                 )} 
+                 {formData.service_type === "air" && (
+                    <div className="form-group">
+                    <label>Required delivery date</label>
+                    <input 
+                    type="date"
+                    name="required_delivery_date"
+                    value={formData.required_delivery_date}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('required_delivery_date') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                
 
                 {formData.service_type === "sea" && (
                     <div className="form-group">
@@ -512,22 +496,22 @@ useEffect(() => {
                     
                     />
                 {/*iata is the standard 3 letter airport code system*/}
-                {seaportResults.length > 0 && (
+                {seaportResults?.length > 0 && (
                     <div className="sea-port-results">
 
                         {seaportResults.map((seaport) => (
                             <div
-                            key={seaport.iata}
+                            key={seaport.id}
                             className="sea-port-result"
                             onClick={() => {
                                 dispatch2({
                                     type: "UPDATE_FIELD",
-                                    field: "sea-port",
-                                    value: seaport.iata
+                                    field: "port_of_destination",
+                                    value: seaport.un_locode
                                 })
 
                                 setSeaportSearch(
-                                    `${seaport.name}, ${seaport.city} (${seaport.iata})`
+                                    `${seaport.name}, (${seaport.un_locode})`
                                 )
 
                                 setSeaportResults([])
@@ -538,11 +522,11 @@ useEffect(() => {
                             </strong>
 
                             <span>
-                            {seaport.city}, {seaport.country}
+                             {seaport.country}
                             </span>
 
                             <span>
-                            {seaport.iata}
+                            {seaport.un_locode}
                             </span> 
 
                             </div>
@@ -552,9 +536,31 @@ useEffect(() => {
                 )} 
                 
                         
-                    
+                 {formData.service_type === "sea" && (
+                    <div className="form-group">
+                    <label htmlFor="cargo_type">Cargo Type</label>
+                    <select 
+                    name="cargo_type"
+                    value={formData.cargo_type}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('cargo_type') ? 'error': ''}
+                    >
+                   <option value="">Select Cargo</option>
+                    <option value="General Cargo">General Cargo</option>
+                    <option value="Dangerous Goods">Dangerous Goods</option>
+                    <option value="Perishable Goods">Perishable Goods</option>
+                    <option value="Medical">Medical Goods</option>
+                    <option value="Live Animals">Live Animals</option>
+                    <option value="Valuable Cargo">Valuable Cargo</option>
+                    <option value="Fragile Cargo">Fragile Cargo</option>
+                    <option value="Oversized Cargo">Oversized Cargo</option>
+                    <option value="Temperature-Controlled">Temperature Controlled</option>
+                    <option value="Documents">Documents</option>
+                     </select>
+                    </div>
+                )}   
                 </div>
-
+                
                 
                 )}
                 {formData.service_type === "sea" && (
@@ -573,9 +579,366 @@ useEffect(() => {
                      
                     </div>
                 )}
+                {formData.service_type === "sea" && (
+                    <div className="form-group">
+                    <label>Required delivery date</label>
+                    <input 
+                    type="date"
+                    name="required_delivery_date"
+                    value={formData.required_delivery_date}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('required_delivery_date') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "sea" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Declared Value"
+                    type="text"
+                    name="declared_value"
+                    value={formData.declared_value}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('declared_value') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                {/*Courier*/}
+                
+                
+                
+                        {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Package Contents"
+                    type="text"
+                    name="package_contents"
+                    value={formData.package_contents}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('package_contents') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Parcel Value"
+                    type="text"
+                    name="parcel_value"
+                    value={formData.parcel_value}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('parcel_value') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Package Name"
+                    type="text"
+                    name="package_name"
+                    value={formData.package_name}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('package_name') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                
+                    <select 
+                    name="package_type"
+                    value={formData.cargo_type}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('package_type') ? 'error': ''}
+                    >
+                            <option value="">Select Package Type</option>
+                            <option value="Box">Box</option>
+                            <option value="Crate">Crate</option>
+                            <option value="Pallet">Pallet</option>
+                            <option value="Bag">Bag</option>
+                            <option value="Container">Container</option>
+                            <option value="Envelope">Envelope</option>
+                     </select>
+                    </div>
+                )} 
+
+
                         </div>
                 
+                
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
                     
+                    <select 
+                    name="delivery_speed"
+                    value={formData.delivery_speed}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('delivery_speed') ? 'error': ''}
+                    >
+                            <option value="">Select Service Level</option>
+                            <option value="Economy">Economy</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Priority">Priority</option>
+                     </select>
+                    </div>
+                )}   
+                
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Street Address"
+                    type="text"
+                    name="street_address"
+                    value={formData.street_address}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('street_address') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Postal Code"
+                    type="text"
+                    name="postal_code"
+                    value={formData.postal_code}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('postal_code') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="City"
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('city') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Province"
+                    type="text"
+                    name="province"
+                    value={formData.province}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('province') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    type="text"
+                    placeholder="Recipient Street Address"
+                    name="recipient_street_address"
+                    value={formData.recipient_street_address}
+                    onChange={handleChange}
+                    className={emptyFields.includes('recipient_street_address') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Recipient City"
+                    name="recipient_city"
+                    value={formData.recipient_city}
+                    onChange={handleChange}
+                    className={emptyFields.includes('recipient_city') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                
+                {formData.service_type === "courier" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Recipient Province"
+                    name="recipient_province"
+                    value={formData.recipient_province}
+                    onChange={handleChange}
+                    className={emptyFields.includes('recipient_province') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                
+                {/*Road Freight*/}
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    <label htmlFor="load_type">Shipment Type</label>
+                    <select 
+                    name="load_type"
+                    value={formData.shipment_type}
+                    onChange={handleChange}
+                    className={emptyFields.includes('load_type') ? 'error': ''}
+                    >
+                        <option value="">Load Type</option>
+                        <option value="FTL">Full Truck Load, FCL</option>
+                        <option value="LTL">Less than Truck Load, LCL</option>
+                          
+                    </select>
+                </div>
+                )}
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    <label htmlFor="cargo_type">Cargo Type</label>
+                    <select 
+                    name="cargo_type"
+                    value={formData.cargo_type}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('cargo_type') ? 'error': ''}
+                    >
+                   <option value="">Select Cargo</option>
+                    <option value="General Cargo">General Cargo</option>
+                    <option value="Dangerous Goods">Dangerous Goods</option>
+                    <option value="Perishable Goods">Perishable Goods</option>
+                    <option value="Medical">Medical Goods</option>
+                    <option value="Live Animals">Live Animals</option>
+                    <option value="Valuable Cargo">Valuable Cargo</option>
+                    <option value="Fragile Cargo">Fragile Cargo</option>
+                    <option value="Oversized Cargo">Oversized Cargo</option>
+                    <option value="Temperature-Controlled">Temperature Controlled</option>
+                    <option value="Documents">Documents</option>
+                     </select>
+                    </div>
+                )} 
+                
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Declared Value"
+                    type="text"
+                    name="declared_value"
+                    value={formData.declared_value}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('declared_value') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    <label>Required delivery date</label>
+                    <input 
+                    type="date"
+                    name="required_delivery_date"
+                    value={formData.required_delivery_date}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('required_delivery_date') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )}
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    <label htmlFor="cargo_type">Cargo Type</label>
+                    <select 
+                    name="cargo_type"
+                    value={formData.cargo_type}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('cargo_type') ? 'error': ''}
+                    >
+                   <option value="">Select Cargo</option>
+                    <option value="General Cargo">General Cargo</option>
+                    <option value="Dangerous Goods">Dangerous Goods</option>
+                    <option value="Perishable Goods">Perishable Goods</option>
+                    <option value="Medical">Medical Goods</option>
+                    <option value="Live Animals">Live Animals</option>
+                    <option value="Valuable Cargo">Valuable Cargo</option>
+                    <option value="Fragile Cargo">Fragile Cargo</option>
+                    <option value="Oversized Cargo">Oversized Cargo</option>
+                    <option value="Temperature-Controlled">Temperature Controlled</option>
+                    <option value="Documents">Documents</option>
+                     </select>
+                    </div>
+                )}
+
+                {formData.service_type === "road" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    type="text"
+                    placeholder="Cargo Description"
+                    name="cargo_description"
+                    value={formData.cargo_description}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('cargo_description') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
+                )} 
                     </div>
                     {error && <div className="error">{error}</div>}
                 </form>

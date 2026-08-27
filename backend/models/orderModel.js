@@ -145,7 +145,7 @@ const orderSchema = new Schema({
         type: String,
 
     },
-
+    
     //Sea Freight
     shipment_type: {
         enum: ['FCL', 'LCL']
@@ -174,6 +174,12 @@ const orderSchema = new Schema({
         enum: ['FTL', 'LTL']
         //ftl = full truck load
         //ltl = less than truck load
+    },
+    declared_value: {
+        type: String
+    },
+    required_delivery_date: {
+        type: Date
     },
     //Order Quote
     delivery_status: {

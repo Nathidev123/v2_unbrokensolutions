@@ -31,6 +31,7 @@ const initialState = {
         cargo_type: '',
         cargo_description: '',
         shipment_type: '',
+        preferred_date: '',
         container_type: '',
         number_of_containers: '',
         port_of_origin: '',
