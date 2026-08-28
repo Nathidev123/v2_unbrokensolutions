@@ -23,6 +23,7 @@ const initialState = {
         width: '', 
         package_contents: '', 
         parcel_value: '',
+        declared_value: '',
         package_name: '', 
         package_type: '',
         delivery_speed: '',
@@ -31,14 +32,15 @@ const initialState = {
         cargo_type: '',
         cargo_description: '',
         shipment_type: '',
-        preferred_date: '',
+        required_delivery_date: '',
         container_type: '',
         number_of_containers: '',
         port_of_origin: '',
         port_of_destination: '',
         load_type: '',
+        additional_information: ''
     },
-    emptyFields: []
+   emptyFields: [] 
      
 }
 // splitting the form to 2/3 pages
@@ -53,6 +55,13 @@ export const formReducer = (state, action) => {
                     [action.field]: action.value
                 }
             }
+            
+            case "SET_EMPTY_FIELDS":
+            return {
+                ...state,
+                emptyFields: action.payload
+            }
+
             case "RESET_FORM":
                 return initialState
             

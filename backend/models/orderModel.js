@@ -28,50 +28,52 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
+
+    /*this is courier now*/
     street_address: {
         type: String,
-        required: true
+        
     },
     city: {
         type: String,
-        required: true
+        
     },
     postal_code: {
         type: String,
-        required: true
+        
     },
     province: {
         type: String,
-        required: true
+        
     },
     /*recipient info*/
     recipient_company: {
         type: String,
-        required: true
+        
     },
     recipient_name: {
         type: String,
-        required: true
+        
     },
     recipient_email: {
         type: String,
-        required: true
+        
     },
     recipient_phone: {
         type: String,
-        required: true
+        
     },
     recipient_street_address: {
         type: String,
-        required: true
+        
     },
     recipient_city: {
         type: String,
-        required: true
+        
     },
     recipient_province: {
         type: String,
-        required: true
+        
     },
 
     //Common amongst all service types
@@ -95,21 +97,18 @@ const orderSchema = new Schema({
 
     
     /*package details*/
+    /*Courier*/
     package_contents: {
         type: String,
-        required: true
-    },
-    package_type: {
-        type: String,
-        required: true
+        
     },
     parcel_value: {
         type: Number,
-        required: true
+        
     },
     package_name: {
         type: String,
-        required: true
+        
     },
     package_type: {
         type: String,
@@ -131,8 +130,8 @@ const orderSchema = new Schema({
     },
 
     destination_airport: {
-        type: String,
-        enum: ['JNB', 'CPT', 'DUR', 'PLZ', 'BFN', 'GRJ', 'MQP','HLA', 'UTN' ]
+        type: String
+        
     },
     cargo_type: {
         type: String,
@@ -148,6 +147,7 @@ const orderSchema = new Schema({
     
     //Sea Freight
     shipment_type: {
+        type: String,
         enum: ['FCL', 'LCL']
         //fcl full container load
         //less than container load
@@ -180,6 +180,9 @@ const orderSchema = new Schema({
     },
     required_delivery_date: {
         type: Date
+    },
+    additional_information: {
+        type: String
     },
     //Order Quote
     delivery_status: {

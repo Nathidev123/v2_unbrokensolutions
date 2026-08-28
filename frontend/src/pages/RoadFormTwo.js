@@ -83,14 +83,48 @@ useEffect(() => {
     //1 append all the form data all the fields
     //2 generate and send quote
     //3 send automated email
-    const handleSubmit = () => {
-         if(emptyFields.length > 0){
-        setError("Please fill in all fields")
-        return
-       }
-       setError(null)
+    const handleSubmit = async () => {
+        console.log("FORM DATA:", formData)
+        const response = await fetch('/api/order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                ...formData
+            })
+        })
 
-       const data = new FormData()
+        const json = await response.json()
+        console.log("BACKEND RESPONSE:", json)
+        //debugging
+        
+        if(!response.ok){
+
+            if(json.emptyFields) {
+
+            dispatch2({
+            type: "SET_EMPTY_FIELDS",
+            payload: json.emptyFields
+            
+        })
+    }   
+        setError(json.error, emptyFields)
+        return
+  
+    }
+    /* send request -> backend validate -> 
+
+            |                       |                     
+            error                   success
+            |                       |
+            emptyFields            order created
+            |                       | 
+            context                continue*/
+
+        console.log("Great Success", json)
+        setError(null)
+        const data = new FormData()
 
        Object.entries(formData).forEach(([key, value]) => {
         data.append(key, value)
@@ -106,7 +140,7 @@ useEffect(() => {
        for(const[key, value] of data.entries()) {
         console.log(key, value)
        }
-       
+
         
     }
 
@@ -232,7 +266,7 @@ useEffect(() => {
                     onChange={handleChange}
                     className={emptyFields.includes('service_type') ? 'error': ''}
                     >
-                        <option value="">Select Service</option>
+                        <option value="">Select Service Type</option>
                         <option value="courier">Courier & Express</option>
                         <option value="road">Road Freight</option>
                         <option value="air">Air Freight</option>
@@ -249,7 +283,7 @@ useEffect(() => {
                     onChange={handleChange}
                     className={emptyFields.includes('origin_airport') ? 'error': ''}
                     >
-                        <option value="">Select Airport</option>
+                        <option value="">Select Origin Airport</option>
                         <option value="JNB">O.R Tambo International Airport, JNB</option>
                         <option value="CPT">Cape Town International Airport, CPT</option>
                         <option value="DUR">King Shaka International Airport, DUR</option>
@@ -282,38 +316,37 @@ useEffect(() => {
                 {airportResults.length > 0 && (
                     <div className="airport-results">
 
-                        {airportResults.map((airport) => (
-                            <div
-                            key={airport.iata}
-                            className="airport-result"
-                            onClick={() => {
-                                dispatch2({
-                                    type: "UPDATE_FIELD",
-                                    field: "destination_airport",
-                                    value: airport.iata
-                                })
+                {airportResults.map((airport, index) => (
+    <div
+        key={airport.iata || `${airport.name}-${airport.city}-${index}`}
+        className="airport-result"
+        onClick={() => {
+            dispatch2({
+                type: "UPDATE_FIELD",
+                field: "destination_airport",
+                value: airport.iata
+            })
 
-                                setAirportSearch(
-                                    `${airport.name}, ${airport.city} (${airport.iata})`
-                                )
+            setAirportSearch(
+                `${airport.name}, ${airport.city} (${airport.iata})`
+            )
 
-                                setAirportResults([])
+            setAirportResults([])
+        }}
+    >
+        <strong>
+            {airport.name}
+        </strong>
 
-                            }}>
-                                <strong>
-                            {airport.name}
-                            </strong>
+        <span>
+            {airport.city}, {airport.country}
+        </span>
 
-                            <span>
-                            {airport.city}, {airport.country}
-                            </span>
-
-                            <span>
-                            {airport.iata}
-                            </span> 
-
-                            </div>
-                        ))}
+        <span>
+            {airport.iata}
+        </span>
+    </div>
+))}
 
                     </div>
                 )} 
@@ -350,7 +383,7 @@ useEffect(() => {
                     onChange={handleChange}                  
                     className={emptyFields.includes('cargo_type') ? 'error': ''}
                     >
-                   <option value="">Select Cargo</option>
+                   <option value="">Select Cargo Type</option>
                     <option value="General Cargo">General Cargo</option>
                     <option value="Dangerous Goods">Dangerous Goods</option>
                     <option value="Perishable Goods">Perishable Goods</option>
@@ -407,7 +440,7 @@ useEffect(() => {
                     onChange={handleChange}
                     className={emptyFields.includes('shipment_type') ? 'error': ''}
                     >
-                        <option value="">Shipment Type</option>
+                        <option value="">Select Shipment Type</option>
                         <option value="FCL">Full Container Load, FCL</option>
                         <option value="LCL">Less than Container Load, LCL</option>
                           
@@ -446,7 +479,7 @@ useEffect(() => {
                     onChange={handleChange}
                     className={emptyFields.includes('number_of_containers') ? 'error': ''}
                     >
-                        <option value="">Number of Containers</option>
+                        <option value="">Select Number of Containers</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -467,7 +500,7 @@ useEffect(() => {
                     onChange={handleChange}
                     className={emptyFields.includes('port_of_origin') ? 'error': ''}
                     >
-                        <option value="">Select Port</option>
+                        <option value="">Select Port of Origin</option>
                         <option value="durban">Port of Durban</option>
                         <option value="richards_bay">Port of Richards Bay</option>
                         <option value="cape_town">Port of Cape Town</option>
@@ -536,7 +569,13 @@ useEffect(() => {
                 )} 
                 
                         
-                 {formData.service_type === "sea" && (
+                 
+                </div>
+                
+                
+                )}
+
+                {formData.service_type === "sea" && (
                     <div className="form-group">
                     <label htmlFor="cargo_type">Cargo Type</label>
                     <select 
@@ -545,7 +584,7 @@ useEffect(() => {
                     onChange={handleChange}                  
                     className={emptyFields.includes('cargo_type') ? 'error': ''}
                     >
-                   <option value="">Select Cargo</option>
+                    <option value="">Select Cargo Type</option>
                     <option value="General Cargo">General Cargo</option>
                     <option value="Dangerous Goods">Dangerous Goods</option>
                     <option value="Perishable Goods">Perishable Goods</option>
@@ -559,10 +598,24 @@ useEffect(() => {
                      </select>
                     </div>
                 )}   
-                </div>
-                
-                
+
+                {formData.service_type === "sea" && (
+                    <div className="form-group">
+                    
+                    <input 
+                    placeholder="Declared Value"
+                    type="text"
+                    name="declared_value"
+                    value={formData.declared_value}
+                    onChange={handleChange}                  
+                    className={emptyFields.includes('declared_value') ? 'error': ''}
+                    
+                    />
+                   
+                     
+                    </div>
                 )}
+
                 {formData.service_type === "sea" && (
                     <div className="form-group">
                     
@@ -595,22 +648,7 @@ useEffect(() => {
                     </div>
                 )}
 
-                {formData.service_type === "sea" && (
-                    <div className="form-group">
-                    
-                    <input 
-                    placeholder="Declared Value"
-                    type="text"
-                    name="declared_value"
-                    value={formData.declared_value}
-                    onChange={handleChange}                  
-                    className={emptyFields.includes('declared_value') ? 'error': ''}
-                    
-                    />
-                   
-                     
-                    </div>
-                )}
+                
                 {/*Courier*/}
                 
                 
@@ -671,7 +709,7 @@ useEffect(() => {
                 
                     <select 
                     name="package_type"
-                    value={formData.cargo_type}
+                    value={formData.package_type}
                     onChange={handleChange}                  
                     className={emptyFields.includes('package_type') ? 'error': ''}
                     >
@@ -850,9 +888,9 @@ useEffect(() => {
                     onChange={handleChange}
                     className={emptyFields.includes('load_type') ? 'error': ''}
                     >
-                        <option value="">Load Type</option>
-                        <option value="FTL">Full Truck Load, FCL</option>
-                        <option value="LTL">Less than Truck Load, LCL</option>
+                        <option value="">Select Load Type</option>
+                        <option value="FTL">Full Truck Load, FTL</option>
+                        <option value="LTL">Less than Truck Load, LTL</option>
                           
                     </select>
                 </div>
@@ -901,7 +939,7 @@ useEffect(() => {
                     onChange={handleChange}                  
                     className={emptyFields.includes('cargo_type') ? 'error': ''}
                     >
-                   <option value="">Select Cargo</option>
+                    <option value="">Select Cargo Type</option>
                     <option value="General Cargo">General Cargo</option>
                     <option value="Dangerous Goods">Dangerous Goods</option>
                     <option value="Perishable Goods">Perishable Goods</option>
@@ -1049,6 +1087,14 @@ useEffect(() => {
                      
                     </div>
                 )}
+                <div className="form-group">
+                           <textarea 
+                           placeholder="Additional Information"
+                           name="additional_information"
+                           value={formData.additional_information}
+                           onChange={handleChange}
+                           className={emptyFields.includes('additional_information') ? 'error': ''}/> 
+                            </div> 
                     </div>
                     {error && <div className="error">{error}</div>}
                 </form>

@@ -36,7 +36,7 @@ const addOrder = async (req, res) => {
         declared_value,
         package_type,
         delivery_speed, 
-
+        additional_information,
         //air freight
         origin_airport,
         destination_airport,
@@ -102,6 +102,7 @@ const addOrder = async (req, res) => {
     if(!width){
         emptyFields.push('width')
     }
+    
     
 
     //conditions based on services chosen//////////////
@@ -248,6 +249,9 @@ const addOrder = async (req, res) => {
         return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
     }
     try {
+        //the || undefined is to bypass the 'not valid enum' error
+        //but not bypassing emptyFields
+        //as these checks happen at ifferent stages
         const order = await orderSchema.create({
         //general info
         service_type,
@@ -273,23 +277,25 @@ const addOrder = async (req, res) => {
         package_contents, 
         parcel_value,
         package_name,
-        //courier
-        delivery_speed, 
-
+        declared_value,
+        package_type: package_type || undefined,
+        delivery_speed: delivery_speed || undefined, 
+        additional_information,
         //air freight
-        origin_airport,
-        destination_airport,
-        cargo_type,
-        dangerous_goods,
-
+        origin_airport: origin_airport || undefined,
+        destination_airport: destination_airport || undefined,
+        cargo_type: cargo_type || undefined,
+        cargo_description,
         //sea freight
-        shipment_type,
-        container_type,
-        port_of_origin,
-        port_of_destination,
+        shipment_type: shipment_type || undefined,
+        container_type: container_type || undefined,
+        number_of_containers: number_of_containers || undefined,
+        port_of_origin: port_of_origin || undefined,
+        port_of_destination: port_of_destination || undefined,
 
         //road freight
-        load_type, 
+        load_type: load_type || undefined, 
+        required_delivery_date,
 
         //quote/order
         distanceKm, 
