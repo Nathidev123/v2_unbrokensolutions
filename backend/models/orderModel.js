@@ -10,7 +10,7 @@ const orderSchema = new Schema({
         enum: ['courier', 'road', 'air', 'sea'],
         required: true
     },
-
+    
     /*customer info*/
     company_name: {
         type: String,
@@ -32,19 +32,28 @@ const orderSchema = new Schema({
     /*this is courier now*/
     street_address: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+           
+        }
     },
     city: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+        }
     },
     postal_code: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+        }
     },
     province: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+        }
     },
     /*recipient info*/
     recipient_company: {
@@ -65,15 +74,21 @@ const orderSchema = new Schema({
     },
     recipient_street_address: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+        }
     },
     recipient_city: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+        }
     },
     recipient_province: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  || this.service_type === 'road'
+        }
     },
 
     //Common amongst all service types
@@ -100,86 +115,139 @@ const orderSchema = new Schema({
     /*Courier*/
     package_contents: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  
+        }
     },
     parcel_value: {
         type: Number,
-        
+        required: function () {
+            return this.service_type === 'courier'  
+        }
     },
     package_name: {
         type: String,
-        
+        required: function () {
+            return this.service_type === 'courier'  
+        }
     },
     package_type: {
         type: String,
-        enum: ['Box', 'Crate', 'Pallet', 'Bag', 'Container', 'Envelope']
+        enum: ['Box', 'Crate', 'Pallet', 'Bag', 'Container', 'Envelope'],
+        required: function () {
+            return this.service_type === 'courier'  
+        }
     },
     
 
     //Courier & Express
     delivery_speed: {
         type: String,
-        enum: ['Economy', 'Standard', 'Priority']
+        enum: ['Economy', 'Standard', 'Priority'],
+        required: function () {
+            return this.service_type === 'courier'  
+        }
     },
 
     
     //Air freight
     origin_airport: {
         type: String,
-        enum: ['JNB', 'CPT', 'DUR', 'PLZ', 'BFN', 'GRJ', 'MQP','HLA', 'UTN' ]
+        enum: ['JNB', 'CPT', 'DUR', 'PLZ', 'BFN', 'GRJ', 'MQP','HLA', 'UTN' ],
+        required: function () {
+            return this.service_type === 'air'  
+        }
     },
 
     destination_airport: {
-        type: String
-        
+        type: String,
+        required: function () {
+            return this.service_type === 'air'  
+        }
     },
     cargo_type: {
         type: String,
         enum: ['General Cargo', 'Dangerous Goods', 'Perishable Goods',
             'Medical', 'Live Animals', 'Valuable Cargo', 'Fragile Cargo',
             'Oversized Cargo', 'Temperature-Controlled', 'Documents'
-        ]
+        ],
+        required: function () {
+            return this.service_type === 'air'  || this.service_type === 'road' ||  this.service_type === 'sea'
+            
+        }
     },
     cargo_description: {
         type: String,
-
+        required: function () {
+            return this.service_type === 'air'  || this.service_type === 'road' ||  this.service_type === 'sea'
+            
+        }
     },
     
     //Sea Freight
     shipment_type: {
         type: String,
-        enum: ['FCL', 'LCL']
+        enum: ['FCL', 'LCL'],
         //fcl full container load
         //less than container load
+        required: function () {
+            return this.service_type === 'sea'  
+            
+        }
     },
     container_type: {
         type: String,
-        enum: ['20ft','40ft','40ft_hc','20ft_reefer','40ft_reefer','40ft_open_top']
+        enum: ['20ft','40ft','40ft_hc','20ft_reefer','40ft_reefer','40ft_open_top'],
+        required: function () {
+            return this.service_type === 'sea'  
+            
+        }
     },
     number_of_containers: {
         type: String,
-        enum: ['1','2','3','4','5']
+        enum: ['1','2','3','4','5'],
+        required: function () {
+            return this.service_type === 'sea'  
+            
+        }
     },
     port_of_origin: {
         type: String,
-        enum: ['durban', 'richards_bay', 'cape_town', 'saldanha_bay', 'ngqura', 'gqeberha', 'east_london', 'mossel_bay']
+        enum: ['durban', 'richards_bay', 'cape_town', 'saldanha_bay', 'ngqura', 'gqeberha', 'east_london', 'mossel_bay'],
+        required: function () {
+            return this.service_type === 'sea'  
+            
+        }
     },
     port_of_destination: {
-        type: String
+        type: String,
+        required: function () {
+            return this.service_type === 'sea'  
+            
+        }
     },
     
     //Road Freight
     load_type: {
         type: String,
-        enum: ['FTL', 'LTL']
+        enum: ['FTL', 'LTL'],
         //ftl = full truck load
         //ltl = less than truck load
+        required: function () {
+            return this.service_type === 'road'  
+            
+        }
     },
     declared_value: {
-        type: String
+        type: String,
+        required: function () {
+            return this.service_type === 'air'  || this.service_type === 'road' ||  this.service_type === 'sea'
+            
+        }
     },
     required_delivery_date: {
         type: Date
+        
     },
     additional_information: {
         type: String

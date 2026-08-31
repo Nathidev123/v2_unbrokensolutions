@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 const Quotation = ({ order }) => {
     const navigate = useNavigate()
 
-    const [distance, setDistance] = useState(null)
-    const [duration, setDuration] = useState(null)
+    const [distanceKm, setDistance] = useState(null)
+    const [durationMinutes, setDuration] = useState(null)
     const [error, setError] = useState('')
     const [alert, setAlert] = useState('');
     const [message, setMessage] = useState('');
@@ -174,7 +174,7 @@ useEffect(() => {
                 shipment_options: order.shipment_options,
 
                 distance: distanceKm.toFixed(1),
-                duration: durationMinutes,
+                duration: durationMinutes,  
                 estimated_amount: estimatedAmount.toFixed(2),
             }
             //did cc 'unbrokensolutions(still my email for now)' to receive email as well

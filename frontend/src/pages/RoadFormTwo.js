@@ -5,6 +5,7 @@ import updatedlogo from '../assets/updatedlogo.png'
 import emailjs from '@emailjs/browser'
 import { jsPDF } from 'jspdf'
 import { useOrderContext } from "../hooks/useOrderContext"
+//import Quotation from "../Components/Quotation"
 
 const RoadFormTwo = () => {
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ const RoadFormTwo = () => {
     const { formData, emptyFields,  dispatch2 } = useFormContext()
     //const { emptyFields, setEmptyFields } = useState([])
     const [ error, setError ] = useState(null)
-    const [showQuotation, setShowQuotation] = useState(false)
+    //const [showQuotation, setShowQuotation] = useState(false)
 
     const [distance, setDistance] = useState(null)
     const [duration, setDuration] = useState(null)
@@ -29,7 +30,8 @@ const RoadFormTwo = () => {
     //for sea ports
     const[seaportResults, setSeaportResults] = useState([])
     const[seaportSearch, setSeaportSearch] = useState('')
-/*
+
+    //moved from quotation
     const getDistance = async () => {
     //sendin req to backend
     const response = await fetch('/api/order/distance', {
@@ -63,7 +65,8 @@ const RoadFormTwo = () => {
 
 useEffect(() => {
     getDistance()
-}, [])*/
+}, [])
+
 //for quotation to appear immediately
 
     
@@ -91,7 +94,9 @@ useEffect(() => {
                 'Content-Type' : 'application/json'
             },
             body: JSON.stringify({
-                ...formData
+                ...formData,
+                pickupAddress,
+                dropOffAddress
             })
         })
 
@@ -1109,3 +1114,7 @@ useEffect(() => {
 }
 
 export default RoadFormTwo
+/*<Quotation
+                formData = {formData}
+                >
+                </Quotation>*/

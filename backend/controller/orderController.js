@@ -55,8 +55,8 @@ const addOrder = async (req, res) => {
 
         //quote/order
         distanceKm, 
-        durationMinutes, 
-        quoteAmount
+        durationMinutes
+        
     }= req.body
 
     /*fixing the error display*/
@@ -248,28 +248,118 @@ const addOrder = async (req, res) => {
     if(!/^\d{10}$/.test(recipient_phone)){
         return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
     }
+    // Removing fields that are not relevant to the selected service
+        const orderData = {
+            service_type,
+            company_name, 
+            contact_name, 
+            email,
+            phone,
+
+            // address information
+            street_address: ['courier', 'road'].includes(service_type) ? street_address : undefined,
+            city: ['courier', 'road'].includes(service_type) ? city : undefined,
+            postal_code: ['courier', 'road'].includes(service_type) ? postal_code : undefined,
+            province: ['courier', 'road'].includes(service_type) ? province : undefined,
+
+            recipient_company,
+            recipient_name,
+            recipient_email,
+            recipient_phone,
+
+            recipient_street_address: ['courier', 'road'].includes(service_type)
+                ? recipient_street_address
+                : undefined,
+
+            recipient_city: ['courier', 'road'].includes(service_type)
+                ? recipient_city
+                : undefined,
+
+            recipient_province: ['courier', 'road'].includes(service_type)
+                ? recipient_province
+                : undefined,
+
+            // common
+            weight, 
+            height, 
+            length, 
+            width,
+
+            // courier
+            package_contents: service_type === 'courier' ? package_contents : undefined,
+            parcel_value: service_type === 'courier' ? parcel_value : undefined,
+            package_name: service_type === 'courier' ? package_name : undefined,
+            package_type: service_type === 'courier' ? package_type : undefined,
+            delivery_speed: service_type === 'courier' ? delivery_speed : undefined,
+
+            // air
+            origin_airport: service_type === 'air' ? origin_airport : undefined,
+            destination_airport: service_type === 'air' ? destination_airport : undefined,
+
+            // air / road / sea
+            cargo_type: ['air', 'road', 'sea'].includes(service_type)
+                ? cargo_type
+                : undefined,
+
+            cargo_description: ['air', 'road', 'sea'].includes(service_type)
+                ? cargo_description
+                : undefined,
+
+            declared_value: ['air', 'road', 'sea'].includes(service_type)
+                ? declared_value
+                : undefined,
+
+            // sea
+            shipment_type: service_type === 'sea' ? shipment_type : undefined,
+
+            container_type:
+                service_type === 'sea' && shipment_type === 'FCL'
+                    ? container_type
+                    : undefined,
+
+            number_of_containers:
+                service_type === 'sea' && shipment_type === 'FCL'
+                    ? number_of_containers
+                    : undefined,
+
+            port_of_origin: service_type === 'sea' ? port_of_origin : undefined,
+            port_of_destination: service_type === 'sea' ? port_of_destination : undefined,
+
+            // road
+            load_type: service_type === 'road' ? load_type : undefined,
+
+            required_delivery_date,
+
+            additional_information,
+
+            // quote/order
+            distanceKm, 
+            durationMinutes, 
+            quoteAmount
+}
     try {
         //the || undefined is to bypass the 'not valid enum' error
         //but not bypassing emptyFields
         //as these checks happen at ifferent stages
-        const order = await orderSchema.create({
+        const order = await orderSchema.create(orderData)
         //general info
+        /*
         service_type,
         company_name, 
         contact_name, 
         email,
         phone,
-        street_address,
-        city, 
-        postal_code, 
-        province, 
+        street_address: street_address || undefined,
+        city: city || undefined, 
+        postal_code: postal_code || undefined, 
+        province: province || undefined, 
         recipient_company, 
         recipient_name,
         recipient_email,
         recipient_phone, 
-        recipient_street_address,
-        recipient_city, 
-        recipient_province,
+        recipient_street_address: recipient_street_address || undefined,
+        recipient_city: recipient_city || undefined, 
+        recipient_province: recipient_province || undefined,
         weight, 
         height, 
         length, 
@@ -285,7 +375,7 @@ const addOrder = async (req, res) => {
         origin_airport: origin_airport || undefined,
         destination_airport: destination_airport || undefined,
         cargo_type: cargo_type || undefined,
-        cargo_description,
+        cargo_description: cargo_description || undefined,
         //sea freight
         shipment_type: shipment_type || undefined,
         container_type: container_type || undefined,
@@ -300,7 +390,7 @@ const addOrder = async (req, res) => {
         //quote/order
         distanceKm, 
         durationMinutes, 
-        quoteAmount})
+        quoteAmount})*/
         
         console.log(order)
         res.status(200).json(order)
