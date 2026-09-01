@@ -1,12 +1,14 @@
 const mongoose = require('mongoose')
 
 const orderSchema = require('../models/orderModel')
+const generateQuotationPDF = require('../services/pdfService')
+const sendQutationEmail = require('../services/emailService')
+const calculateQuote = require('../services/quoteService') 
 
 const addOrder = async (req, res) => {
     console.log({
     distanceKm: req.body.distanceKm,
     durationMinutes: req.body.durationMinutes,
-    quoteAmount: req.body.quoteAmount
 })
     const{
         //general info
@@ -248,6 +250,18 @@ const addOrder = async (req, res) => {
     if(!/^\d{10}$/.test(recipient_phone)){
         return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
     }
+
+        let quoteAmount 
+        //the quote and calculation will be for courier
+        //only, other service types will
+        //just send a request/enquiry email
+        if(service_type === 'courier') {
+        quoteAmount = calculateQuote({
+        weight,
+        distanceKm,
+        delivery_speed
+    }) 
+}
     // Removing fields that are not relevant to the selected service
         const orderData = {
             service_type,
@@ -336,70 +350,32 @@ const addOrder = async (req, res) => {
             distanceKm, 
             durationMinutes, 
             quoteAmount
+            
 }
+
+
     try {
-        //the || undefined is to bypass the 'not valid enum' error
-        //but not bypassing emptyFields
-        //as these checks happen at ifferent stages
-        const order = await orderSchema.create(orderData)
-        //general info
-        /*
-        service_type,
-        company_name, 
-        contact_name, 
-        email,
-        phone,
-        street_address: street_address || undefined,
-        city: city || undefined, 
-        postal_code: postal_code || undefined, 
-        province: province || undefined, 
-        recipient_company, 
-        recipient_name,
-        recipient_email,
-        recipient_phone, 
-        recipient_street_address: recipient_street_address || undefined,
-        recipient_city: recipient_city || undefined, 
-        recipient_province: recipient_province || undefined,
-        weight, 
-        height, 
-        length, 
-        width, 
-        package_contents, 
-        parcel_value,
-        package_name,
-        declared_value,
-        package_type: package_type || undefined,
-        delivery_speed: delivery_speed || undefined, 
-        additional_information,
-        //air freight
-        origin_airport: origin_airport || undefined,
-        destination_airport: destination_airport || undefined,
-        cargo_type: cargo_type || undefined,
-        cargo_description: cargo_description || undefined,
-        //sea freight
-        shipment_type: shipment_type || undefined,
-        container_type: container_type || undefined,
-        number_of_containers: number_of_containers || undefined,
-        port_of_origin: port_of_origin || undefined,
-        port_of_destination: port_of_destination || undefined,
-
-        //road freight
-        load_type: load_type || undefined, 
-        required_delivery_date,
-
-        //quote/order
-        distanceKm, 
-        durationMinutes, 
-        quoteAmount})*/
         
-        console.log(order)
-        res.status(200).json(order)
+        const order = await orderSchema.create(orderData)
+        
+        if(service_type === 'courier') {
+            const pdfBuffer = generateQuotationPDF(order)
+            await sendQutationEmail(order, pdfBuffer)
+            console.log(order)
+            res.status(200).json(order)
+        }
+        else {
+           await sendQutationEmail(order) 
+        }
+        
     }
     catch(error) {
         res.status(400).json({error: error.message})
     }
 }   
-
+//request -> validate -> if courier -> calculate quote
+// -> create order -> pdf + quotation email
+//else ->create order -> enquiry email
 
 const getAllOrders = async (req, res) => {
 

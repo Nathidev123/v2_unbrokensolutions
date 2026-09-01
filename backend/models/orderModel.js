@@ -143,7 +143,7 @@ const orderSchema = new Schema({
     //Courier & Express
     delivery_speed: {
         type: String,
-        enum: ['Economy', 'Standard', 'Priority'],
+        enum: ['same_day', 'tomorrow', 'normal'],
         required: function () {
             return this.service_type === 'courier'  
         }

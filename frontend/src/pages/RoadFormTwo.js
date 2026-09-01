@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react"
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom"
-import updatedlogo from '../assets/updatedlogo.png'
-import emailjs from '@emailjs/browser'
-import { jsPDF } from 'jspdf'
 import { useOrderContext } from "../hooks/useOrderContext"
 //import Quotation from "../Components/Quotation"
 
@@ -15,12 +12,14 @@ const RoadFormTwo = () => {
     const [ error, setError ] = useState(null)
     //const [showQuotation, setShowQuotation] = useState(false)
 
-    const [distance, setDistance] = useState(null)
-    const [duration, setDuration] = useState(null)
+    
     const [alert, setAlert] = useState('');
     const [message, setMessage] = useState('');
     const pickupAddress = `${formData.street_address}, ${formData.city}, ${formData.province},South Africa`
     const dropOffAddress = `${formData.recipient_street_address}, ${formData.recipient_city}, ${formData.recipient_province},South Africa`
+    
+    const [distance, setDistance] = useState(null)
+    const [duration, setDuration] = useState(null)
     const weight = formData.weight
 
     //for airports
@@ -52,20 +51,22 @@ const RoadFormTwo = () => {
     const json = await response.json()
 
     if (response.ok) {
+        console.log("PICKUP:", pickupAddress)
+        console.log("DROPOFF:", dropOffAddress)
         setDistance(json.distance)
         setDuration(json.duration)
         console.log(json)
+
+        return json.distance
+        
     } else {
         setError('Failed to calculate distance')
-        console.log(json)
+        
 
     }
 
 }
 
-useEffect(() => {
-    getDistance()
-}, [])
 
 //for quotation to appear immediately
 
@@ -87,7 +88,22 @@ useEffect(() => {
     //2 generate and send quote
     //3 send automated email
     const handleSubmit = async () => {
+        
         console.log("FORM DATA:", formData)
+        console.log("WEIGHT:", formData.weight)
+
+        let distanceResult = null
+        
+        if(formData.service_type === 'courier') {
+            distanceResult = await getDistance()
+        
+
+        if(!distanceResult) {
+            return
+        }
+        }    
+        
+
         const response = await fetch('/api/order/', {
             method: 'POST',
             headers: {
@@ -96,7 +112,8 @@ useEffect(() => {
             body: JSON.stringify({
                 ...formData,
                 pickupAddress,
-                dropOffAddress
+                dropOffAddress,
+                distanceKm: distanceResult
             })
         })
 
@@ -129,7 +146,7 @@ useEffect(() => {
 
         console.log("Great Success", json)
         setError(null)
-        const data = new FormData()
+        /*const data = new FormData()
 
        Object.entries(formData).forEach(([key, value]) => {
         data.append(key, value)
@@ -145,7 +162,7 @@ useEffect(() => {
        for(const[key, value] of data.entries()) {
         console.log(key, value)
        }
-
+    */
         
     }
 
@@ -743,9 +760,9 @@ useEffect(() => {
                     className={emptyFields.includes('delivery_speed') ? 'error': ''}
                     >
                             <option value="">Select Service Level</option>
-                            <option value="Economy">Economy</option>
-                            <option value="Standard">Standard</option>
-                            <option value="Priority">Priority</option>
+                            <option value="same_day">Same Day</option>
+                            <option value="tomorrow">Tomorrow</option>
+                            <option value="normal">Normal</option>
                      </select>
                     </div>
                 )}   
@@ -889,7 +906,7 @@ useEffect(() => {
                     <label htmlFor="load_type">Load Type</label>
                     <select 
                     name="load_type"
-                    value={formData.shipment_type}
+                    value={formData.load_type}
                     onChange={handleChange}
                     className={emptyFields.includes('load_type') ? 'error': ''}
                     >
