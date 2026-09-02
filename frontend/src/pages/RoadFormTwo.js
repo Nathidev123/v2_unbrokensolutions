@@ -2,7 +2,9 @@ import { useState, useEffect } from "react"
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom"
 import { useOrderContext } from "../hooks/useOrderContext"
+
 //import Quotation from "../Components/Quotation"
+
 
 const RoadFormTwo = () => {
     const navigate = useNavigate()
@@ -57,18 +59,18 @@ const RoadFormTwo = () => {
         setDuration(json.duration)
         console.log(json)
 
-        return json.distance
+        return {
+            distance: json.distance,
+            duration: json.duration
+        }
         
     } else {
-        setError('Failed to calculate distance')
+        setError(json.error || 'Failed to calculate distance')
         
-
+        return null
     }
 
 }
-
-
-//for quotation to appear immediately
 
     
 
@@ -89,37 +91,44 @@ const RoadFormTwo = () => {
     //3 send automated email
     const handleSubmit = async () => {
         
-        console.log("FORM DATA:", formData)
-        console.log("WEIGHT:", formData.weight)
+        let orderData = {
+            ...formData
+        }
 
-        let distanceResult = null
+        //let distanceResult = null
         
-        if(formData.service_type === 'courier') {
-            distanceResult = await getDistance()
-        
+        if (formData.service_type === 'courier') {
+
+            const distanceResult = await getDistance()
+
+            console.log("FORM DATA:", formData)
+            console.log("WEIGHT:", formData.weight)
 
         if(!distanceResult) {
             return
         }
-        }    
         
-
+        orderData = {
+            ...orderData,
+            pickupAddress,
+            dropOffAddress,
+            distanceKm: distanceResult.distance,
+            durationSeconds: distanceResult.duration
+        }
+    }
+        
+        //still all services reach this point  
         const response = await fetch('/api/order/', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
             },
-            body: JSON.stringify({
-                ...formData,
-                pickupAddress,
-                dropOffAddress,
-                distanceKm: distanceResult
-            })
+            body: JSON.stringify(orderData)
         })
 
         const json = await response.json()
         console.log("BACKEND RESPONSE:", json)
-        //debugging
+        
         
         if(!response.ok){
 
@@ -131,7 +140,14 @@ const RoadFormTwo = () => {
             
         })
     }   
-        setError(json.error, emptyFields)
+
+        if (json.invalidFields) {
+            dispatch2({
+                type: "SET_EMPTY_FIELDS",
+                payload: json.invalidFields
+            })
+        }
+        setError(json.error)
         return
   
     }
@@ -146,23 +162,7 @@ const RoadFormTwo = () => {
 
         console.log("Great Success", json)
         setError(null)
-        /*const data = new FormData()
-
-       Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value)
-        //to take every item in formData one by one
-        //and put each key and its value in the FormData package
-
-        //setShowQuotation(true)
-        //not going to display quote instead will send it via pdf after 
-        //submit
-
-       })
-       //this is just for console.log
-       for(const[key, value] of data.entries()) {
-        console.log(key, value)
-       }
-    */
+        navigate('/thankyou')
         
     }
 
@@ -242,6 +242,7 @@ const RoadFormTwo = () => {
 
                         <div className="form-group">
                            <input 
+                           type="number"
                            placeholder="Weight"
                            name="weight"
                            value={formData.weight}
@@ -251,6 +252,7 @@ const RoadFormTwo = () => {
 
                         <div className="form-group">
                            <input 
+                           type="number"
                            placeholder="Height"
                            name="height"
                            value={formData.height}
@@ -260,6 +262,7 @@ const RoadFormTwo = () => {
 
                         <div className="form-group">
                            <input 
+                           type="number"
                            placeholder="Length"
                            name="length"
                            value={formData.length}
@@ -269,6 +272,7 @@ const RoadFormTwo = () => {
 
                         <div className="form-group">
                            <input 
+                           type="number"
                            placeholder="Width"
                            name="width"
                            value={formData.width}
@@ -471,7 +475,8 @@ const RoadFormTwo = () => {
                 )}
 
                 {/* if not fcl, then cant choose container type*/}
-                {formData.service_type === "sea" && (
+                {formData.service_type === "sea" && 
+                    formData.shipment_type === "FCL" && (
                     <div className="form-group">
                     <label htmlFor="container_type">Container Type</label>
                     <select 

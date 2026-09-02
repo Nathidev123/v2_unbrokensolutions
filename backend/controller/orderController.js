@@ -57,9 +57,17 @@ const addOrder = async (req, res) => {
 
         //quote/order
         distanceKm, 
-        durationMinutes
+        durationSeconds,
+        
         
     }= req.body
+    console.log("durationSeconds:", durationSeconds)
+    console.log("type:", typeof durationSeconds)
+
+    //the 's' at the end of the durationSeconds string was causing the error
+    const durationSecondsNumber = Number(
+    String(durationSeconds).replace('s', '')
+)
 
     /*fixing the error display*/
     
@@ -348,29 +356,46 @@ const addOrder = async (req, res) => {
 
             // quote/order
             distanceKm, 
-            durationMinutes, 
+            durationSeconds: durationSecondsNumber, 
             quoteAmount
             
 }
-
+        
 
     try {
         
         const order = await orderSchema.create(orderData)
         
         if(service_type === 'courier') {
+
             const pdfBuffer = generateQuotationPDF(order)
             await sendQutationEmail(order, pdfBuffer)
+
             console.log(order)
+
             res.status(200).json(order)
         }
         else {
            await sendQutationEmail(order) 
+
+           console.log(order)
+           return res.status(200).json(order)
         }
         
     }
     catch(error) {
-        res.status(400).json({error: error.message})
+        if (error.name === 'ValidationError') {
+
+            const invalidFields = Object.keys(error.errors)
+            return res.status(400).json({
+                error: 'Please enter valid information in the highlighted fields',
+                invalidFields
+            })
+        }
+        return res.status(500).json({
+            error: 'Something went wrong. Please try again'
+        })
+       
     }
 }   
 //request -> validate -> if courier -> calculate quote
@@ -444,7 +469,7 @@ const patchOrder = async (req, res) => {
 
         //quote/order
         distanceKm, 
-        durationMinutes, 
+        durationSeconds, 
         quoteAmount
     }= req.body
     /* phone number */
@@ -550,18 +575,18 @@ const patchOrder = async (req, res) => {
     if(!load_type){
         emptyFields.push('load_type')
     }*/
-    if(!delivery_status){
+    /*if(!delivery_status){
         emptyFields.push('delivery_status')
     }
     if(!distanceKm){
         emptyFields.push('distanceKm')
     }
-    if(!durationMinutes){
-        emptyFields.push('durationMinutes')
+    if(!durationSeconds){
+        emptyFields.push('durationSeconds')
     }
     if(!quoteAmount){
         emptyFields.push('quoteAmount')
-    }
+    }*/
     if(emptyFields.length > 0 ){
         return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
     }

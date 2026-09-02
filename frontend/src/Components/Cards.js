@@ -23,7 +23,7 @@ const Cards = () => {
             <h2>Road Freight</h2>
             <p>Reliable and cost-effective transport solutions across
                 South Africa and beyond.
-            <Link to="/shipment"> Get a Quote </Link>
+            <Link to="/RoadFormOne"> Get a Quote </Link>
             </p>
             </div>
             
@@ -31,7 +31,7 @@ const Cards = () => {
             <PiBoatLight className="icons" />
             <h2>Sea Freight</h2>
             <p>Effecient ocean freight solutions for import and export cargo worldwide.
-            <Link to="/shipment"> Get a Quote </Link>
+            <Link to="/RoadFormOne"> Get a Quote </Link>
             </p>
 
             </div>
@@ -39,7 +39,7 @@ const Cards = () => {
             <IoAirplaneOutline className="icons" />
             <h2>Air Freight</h2>
             <p>Fast and secure air cargo services for time-sensitive deliveries.
-            <Link to="/shipment"> Get a Quote </Link>
+            <Link to="/RoadFormOne"> Get a Quote </Link>
             </p>
 
             </div>
@@ -49,7 +49,7 @@ const Cards = () => {
             <PiPackage className="icons" />
             <h2>Courier & Express</h2>
             <p>Door-to-door delivery with speed, care and real-time tracking.
-            <Link to="/shipment"> Get a Quote </Link>            
+            <Link to="/RoadFormOne"> Get a Quote </Link>         
             </p>
             </div>
 

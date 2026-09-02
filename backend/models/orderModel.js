@@ -25,7 +25,7 @@ const orderSchema = new Schema({
         required: true
     },
     phone: {
-        type: Number,
+        type: String,
         required: true
     },
 
@@ -199,15 +199,15 @@ const orderSchema = new Schema({
         type: String,
         enum: ['20ft','40ft','40ft_hc','20ft_reefer','40ft_reefer','40ft_open_top'],
         required: function () {
-            return this.service_type === 'sea'  
+            return this.shipment_type === 'FCL'  
             
         }
     },
     number_of_containers: {
-        type: String,
+        type: Number,
         enum: ['1','2','3','4','5'],
         required: function () {
-            return this.service_type === 'sea'  
+            return this.shipment_type === 'FCL'  
             
         }
     },
@@ -239,7 +239,7 @@ const orderSchema = new Schema({
         }
     },
     declared_value: {
-        type: String,
+        type: Number,
         required: function () {
             return this.service_type === 'air'  || this.service_type === 'road' ||  this.service_type === 'sea'
             
@@ -262,7 +262,7 @@ const orderSchema = new Schema({
     type: Number
     },
 
-    durationMinutes: {
+    durationSeconds: {
     type: Number
     },
 

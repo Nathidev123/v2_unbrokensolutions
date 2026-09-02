@@ -31,6 +31,16 @@ const calculateDistance = async (req, res) => {
             }
         )
 
+        //A check if cant find a route between the two addresses
+        if (
+            !response.data.routes ||
+            response.data.routes.length === 0 ||
+            !response.data.routes[0].distanceMeters
+        ) {
+            return res.status(404).json({
+                error: 'No valid route found between the provided addresses'
+            })
+        }
         const distance = response.data.routes[0].distanceMeters
 
         const duration = response.data.routes[0].duration

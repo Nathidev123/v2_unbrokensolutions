@@ -2,12 +2,17 @@ const {jsPDF} = require('jspdf')
 
 //Quote generator
    const generateQuotationPDF = (order) => {
+        const distanceKm = Number(order.distanceKm) / 1000
+
+        const durationSeconds = parseInt(order.durationSeconds)
+        const durationMinutes = durationSeconds / 60
+
         const doc = new jsPDF()
         const y = 20 
 
         doc.setFontSize(18)
         doc.text(order.company_name, 15, y)
-
+        
         doc.setFontSize(16)
         doc.text('Quotation', 15, y + 10)
 
@@ -40,11 +45,11 @@ const {jsPDF} = require('jspdf')
             "",
 
             `Package Contents: ${order.package_contents}`,
-            `Parcel Value: ${order.parcel_value}`,
+            `Parcel Value: R${order.parcel_value}`,
             `Package Name: ${order.package_name}`,
             `Delivery Speed: ${order.delivery_speed}`,
-            `Distance: ${order.distanceKm.toFixed(1)} km`,
-            `Duration: ${order.durationMinutes} min`,
+            `Distance: ${distanceKm.toFixed(2)} km`,
+            `Duration: ${durationMinutes.toFixed(0)} min`,
 
             "",
             "────────────────────────────────",
