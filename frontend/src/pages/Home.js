@@ -8,7 +8,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 const Home = () => {
 
     return(<>
-        <Link to={"/shipment"}>Create Shipment</Link>
+       
         <div className="home-container">
         <div className="main-content">
            <h1>Unbroken performance. Unbroken commitment. Reliable service.</h1> 

@@ -60,58 +60,6 @@ body{
   flex:1;
 }
 
-/* Header */
-
-header{
-  top:0;
-  z-index:1000;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-  box-shadow:0 1px 15px rgba(0,0,0,.04);
-}
-
-header h1{
-  width:100%;
-  text-align:center;
-  color:var(--brand-dark);
-}
-
-.navbar{
-  max-width:1400px;
-  margin:auto;
-  padding:1rem 3rem;
-  display:flex;
-  align-items:center;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:1rem;
-}
-
-.navlink{
-  margin-left:auto;
-  text-decoration:none;
-  color:var(--brand-blue);
-  font-weight:600;
-  font-size: 2rem;
-  transition:var(--transition);
-}
-
-.navlink:hover{
-  color:var(--brand-dark);
-}
-
-/* Logo */
-
-.logo-image{
-  width:auto;
-  max-height:130px;
-  
-}
-
 /* Home */
 
 .home-container{
@@ -420,9 +368,7 @@ h3{
   border: 1px solid var(--border);
 
 }
-.quotation label {
-  
-}
+
 /* Update */
 
 .admin-actions button:first-child {
