@@ -65,12 +65,10 @@ const addOrder = async (req, res) => {
     console.log("type:", typeof durationSeconds)
 
     //the 's' at the end of the durationSeconds string was causing the error
-    const durationSecondsNumber = Number(
-    String(durationSeconds).replace('s', '')
-)
+    const durationSecondsNumber = durationSeconds
+    ? Number(String(durationSeconds).replace('s', ''))
+    : undefined
 
-    /*fixing the error display*/
-    
     
     let emptyFields = []
 

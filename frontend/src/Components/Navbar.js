@@ -29,20 +29,16 @@ return(<>
     <div className='brand'>
 
     
-    <Link onClick={closeMobileMenu}>
+    <Link to='/'
+     onClick={closeMobileMenu}>
         <img 
         className='logo-image' 
         src={updatedlogo} alt="logo"/>
         </Link>
     </div>
     
-
-            {/*to only show services
-            {location.pathname === "/" && (
-                <Link to="/admin" className='navlink'>Admin</Link>
-            )}
-                */}
-            {/*to only show services*/}
+            
+            <div className='desktop-nav'>
             {location.pathname === "/services" && (
                 <Link to="/"  className='navlink'>Home</Link>
             )}
@@ -67,14 +63,59 @@ return(<>
 
             <button className='navlink nav-button' 
             onClick={() => toggleModal('Ink & Printing')}>
-                Ink & Printing </button>
-    
-    
+                Ink & Printing 
+            </button>
+            </div>
+        
+        {/*busy with the hamburger menu*/}
+     <button className='hamburger'
+     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+     aria-label='Open navigation menu'
+     >
+        <FiMenu />
+     </button>
+     
     </div>
-     {/*busy with the hamburger menu*/}
-
+     
     
     </header>
+
+
+    {mobileMenuOpen && (
+    <div className="mobile-menu">
+
+        {location.pathname !== "/" && (
+            <Link
+                to="/"
+                className="mobile-navlink"
+                onClick={closeMobileMenu}
+            >
+                Home
+            </Link>
+        )}
+
+        <button
+            className="mobile-navlink"
+            onClick={() => {
+                toggleModal('services');
+                closeMobileMenu();
+            }}
+        >
+            Services
+        </button>
+
+        <button
+            className="mobile-navlink"
+            onClick={() => {
+                toggleModal('Ink & Printing');
+                closeMobileMenu();
+            }}
+        >
+            Ink & Printing
+        </button>
+
+    </div>
+)}
     {/*Modal appears below*/}
     <NavModal activeModal={activeModal} />
     </>

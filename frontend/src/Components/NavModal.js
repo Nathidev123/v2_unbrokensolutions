@@ -14,24 +14,18 @@ import './NavModal.css';
                             <div className="service-column">
                             <h2>Shipping</h2>
                             <div className="service-links">
-                            <Link>Courier & Express</Link>
-                            <Link>Road Freight</Link>
-                            <Link>Air Freight</Link>
-                            <Link>Sea Freight</Link>
-                            <Link>Courier & Express</Link>
+                            <Link to='/ShippingServices' >Shipping Services</Link>
+                            <Link>Get Shipping Quote</Link>
+                            
                             </div>
                             </div>
                             <div className="service-column">
                             <h2>Consulting</h2>
                             <div className="service-links">
-                            <Link>Supply Chain Consulting</Link>
-                            <Link>Logistics Strategy & Planning</Link>
-                            <Link>Warehouse</Link>
-                            <Link>Inventory Management</Link>
-                            <Link>Transportation & Fleet Optimization</Link>
-                            <Link>Procurement & Sourcing Support</Link>
-                            <Link>Distribution Network Design</Link>
-                            <Link>Reverse Logistics Solutions</Link>
+                            <Link>Consulting Services</Link>
+                            <Link>Get Consultation</Link>
+                            {/*link it to an email form, or straight to the email form on consulting page */}
+                            
                             </div>
                         </div>
                     </div>   
@@ -41,8 +35,8 @@ import './NavModal.css';
                             <div className="service-column">
                             <h2>Ink & Printing</h2>
                             <div className="service-links">
-                            <Link>Ink Supplies</Link>
-                            <Link>Printer Repairs</Link>
+                            <Link>Ink & Print</Link>
+                            <Link>Get In Touch</Link>
                             </div>
                             </div>
                         </div>

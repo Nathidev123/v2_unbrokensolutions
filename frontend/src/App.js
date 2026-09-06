@@ -11,6 +11,7 @@ import RoadFreight from './pages/RoadFreightForm';
 import RoadFormOne from './pages/RoadFormOne'
 import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
+import ShippingServices from './pages/ShippingServices';
 
 function App() {
   return (
@@ -60,6 +61,10 @@ function App() {
 
       <Route path='/RoadFormTwo'
       element={<RoadFormTwo />}>
+      </Route>
+
+      <Route path='/ShippingServices'
+      element={<ShippingServices />}>
       </Route>
 
       </Routes>
