@@ -7,14 +7,16 @@ import {
     FiTruck,
     FiSend
 } from "react-icons/fi"
+import './ShippingServices.css'
 const ShippingServices = () => {
 
     return (
+        
         <main className="shipping-services">
 
             
             <section className="shipping-hero">
-
+                
                 <div className="shipping-hero-content">
                     <p className="eyebrow">SHIPPING SERVICES</p>
 

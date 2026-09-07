@@ -12,6 +12,8 @@ import RoadFormOne from './pages/RoadFormOne'
 import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
 import ShippingServices from './pages/ShippingServices';
+import Consulting from './pages/Consulting';
+import InkAndPrinting from './pages/InkAndPrinting';
 
 function App() {
   return (
@@ -65,6 +67,14 @@ function App() {
 
       <Route path='/ShippingServices'
       element={<ShippingServices />}>
+      </Route>
+
+      <Route path='/Consulting'
+      element={<Consulting />}>
+      </Route>
+
+      <Route path='/InkAndPrinting'
+      element={<InkAndPrinting />}>
       </Route>
 
       </Routes>

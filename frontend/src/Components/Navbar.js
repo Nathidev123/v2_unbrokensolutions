@@ -20,6 +20,11 @@ const location = useLocation()
         setMobileMenuOpen(false);
     }
 
+    const closeNavigation = () => {
+        setActiveModal(null)
+        setMobileMenuOpen(false)
+    }
+
 return(<>
 
     <header>
@@ -61,10 +66,10 @@ return(<>
             onClick={() => toggleModal('services')}>
                 Services </button>
 
-            <button className='navlink nav-button' 
+            {/*<button className='navlink nav-button' 
             onClick={() => toggleModal('Ink & Printing')}>
                 Ink & Printing 
-            </button>
+            </button>*/}
             </div>
         
         {/*busy with the hamburger menu*/}
@@ -104,20 +109,13 @@ return(<>
             Services
         </button>
 
-        <button
-            className="mobile-navlink"
-            onClick={() => {
-                toggleModal('Ink & Printing');
-                closeMobileMenu();
-            }}
-        >
-            Ink & Printing
-        </button>
 
     </div>
 )}
     {/*Modal appears below*/}
-    <NavModal activeModal={activeModal} />
+    <NavModal activeModal={activeModal} 
+    closeNavigation={closeNavigation}
+    />
     </>
 )
 }

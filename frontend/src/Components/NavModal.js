@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import './NavModal.css';
-    const NavModal = ({ activeModal }) => {
+    const NavModal = ({ activeModal, closeNavigation }) => {
 
         if(!activeModal) {
             return null
@@ -14,33 +14,39 @@ import './NavModal.css';
                             <div className="service-column">
                             <h2>Shipping</h2>
                             <div className="service-links">
-                            <Link to='/ShippingServices' >Shipping Services</Link>
-                            <Link>Get Shipping Quote</Link>
+                            <Link to='/ShippingServices'
+                            onClick={closeNavigation} >Shipping Services</Link>
+                            <Link to='/RoadFormOne'
+                            onClick={closeNavigation}>Get Shipping Quote</Link>
                             
                             </div>
                             </div>
                             <div className="service-column">
                             <h2>Consulting</h2>
                             <div className="service-links">
-                            <Link>Consulting Services</Link>
-                            <Link>Get Consultation</Link>
+                            <Link to='/Consulting'
+                            onClick={closeNavigation}
+                            >Consulting </Link>
+                            {/*}
+                            <Link onClick={closeNavigation}
+                            >Get Consultation</Link> */}
                             {/*link it to an email form, or straight to the email form on consulting page */}
                             
                             </div>
+                            
                         </div>
-                    </div>   
-                    )}
-                    {activeModal === 'Ink & Printing' && (
-                        <div className="printing-modal">
-                            <div className="service-column">
+                        <div className="service-column">
                             <h2>Ink & Printing</h2>
                             <div className="service-links">
-                            <Link>Ink & Print</Link>
-                            <Link>Get In Touch</Link>
+                            <Link to='/InkAndPrinting'
+                            onClick={closeNavigation}
+                            >Ink & Printing </Link>
                             </div>
                             </div>
-                        </div>
+                        
+                    </div>   
                     )}
+                    
                     </div>
                 </>)
     }
