@@ -6,8 +6,6 @@ import Home from './pages/Home';
 import ShipmentForm from './pages/ShipmentForm'
 import EmailForm from './pages/EmailForm';
 import Admin from './pages/Admin'
-import ConfirmationPage from './pages/confirmationPage';
-import RoadFreight from './pages/RoadFreightForm';
 import RoadFormOne from './pages/RoadFormOne'
 import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
@@ -43,14 +41,6 @@ function App() {
 
       <Route path='/admin'
       element={<Admin />}>
-      </Route>
-
-      <Route path='/roadFreight'
-      element={<RoadFreight />}>
-      </Route>
-
-      <Route path='/confirmation'
-      element={<ConfirmationPage />}>
       </Route>
 
       <Route path='/thankyou'

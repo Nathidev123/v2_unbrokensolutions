@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const orderSchema = require('../models/orderModel')
 const generateQuotationPDF = require('../services/pdfService')
-const sendQutationEmail = require('../services/emailService')
+const sendQuotationEmail = require('../services/emailService')
 const calculateQuote = require('../services/quoteService') 
 
 const addOrder = async (req, res) => {
@@ -367,14 +367,14 @@ const addOrder = async (req, res) => {
         if(service_type === 'courier') {
 
             const pdfBuffer = generateQuotationPDF(order)
-            await sendQutationEmail(order, pdfBuffer)
+            await sendQuotationEmail(order, pdfBuffer)
 
             console.log(order)
 
             res.status(200).json(order)
         }
         else {
-           await sendQutationEmail(order) 
+           await sendQuotationEmail(order) 
 
            console.log(order)
            return res.status(200).json(order)
@@ -382,6 +382,7 @@ const addOrder = async (req, res) => {
         
     }
     catch(error) {
+        console.error('Add Order Error', error)
         if (error.name === 'ValidationError') {
 
             const invalidFields = Object.keys(error.errors)

@@ -3,7 +3,6 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const orderRoutes = require('./routes/orders')
-const roadFreightRoutes =  require('./routes/roadFreight')
 const seaPortRoutes = require('./routes/seaPorts')
 const cors = require('cors') //added cors 
 //as was blocking sea port search
@@ -22,7 +21,6 @@ app.get("/", (req, res) => {
 
 //grabbing different routes from orders.js
 app.use('/api/order/',orderRoutes)
-app.use('/api/freight/', roadFreightRoutes)
 app.use('/api/seaports', seaPortRoutes)
 
 
