@@ -3,6 +3,7 @@ import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom"
 import { useOrderContext } from "../hooks/useOrderContext"
 
+import './RoadFormTwoCss.css'
 //import Quotation from "../Components/Quotation"
 
 
@@ -27,10 +28,14 @@ const RoadFormTwo = () => {
     //for airports
     const[airportResults, setAirportResults] = useState([])
     const[airportSearch, setAirportSearch] = useState('')
+    const [loadingAirPorts, setLoadingAirPorts] = useState(false)
 
     //for sea ports
     const[seaportResults, setSeaportResults] = useState([])
     const[seaportSearch, setSeaportSearch] = useState('')
+    const [loadingSeaPorts, setLoadingSeaPorts] = useState(false)
+
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
 
     //moved from quotation
     const getDistance = async () => {
@@ -90,10 +95,13 @@ const RoadFormTwo = () => {
     //2 generate and send quote
     //3 send automated email
     const handleSubmit = async () => {
-        
+        setLoadingSubmit(true)
+        try {
         let orderData = {
             ...formData
         }
+        
+        
 
         //let distanceResult = null
         
@@ -151,6 +159,7 @@ const RoadFormTwo = () => {
         return
   
     }
+        
     /* send request -> backend validate -> 
 
             |                       |                     
@@ -164,8 +173,14 @@ const RoadFormTwo = () => {
         setError(null)
         navigate('/thankyou')
         
+    } catch(error) {
+        console.error("Submit error:", error)
+        setError("Something went wrong. Please try again.")
     }
-
+    finally {
+        setLoadingSubmit(false)
+    }
+    }
 
     //this function is for searching Airports instead of 
     //hardcoding a limited number of airports
@@ -177,6 +192,7 @@ const RoadFormTwo = () => {
             setAirportResults([])
             return
         }
+        setLoadingAirPorts(true)
 
         try {
             //connecting api
@@ -192,6 +208,9 @@ const RoadFormTwo = () => {
             console.log(error)
             setError('Could not find destination Airport, try again')
         }
+        finally {
+            setLoadingAirPorts(false)
+        }
     }
 
     //same functionality but for sea ports
@@ -202,6 +221,7 @@ const RoadFormTwo = () => {
             setSeaportResults([])
             return
         }
+        setLoadingSeaPorts(true)
         setTimeout(async () => {
 
         
@@ -217,6 +237,9 @@ const RoadFormTwo = () => {
         } catch (error) {
             console.log(error)
             setError('Could not find destination Sea Port, try again')
+        }
+        finally {
+            setLoadingSeaPorts(false)
         }
     }, 400)}
     
@@ -338,6 +361,12 @@ const RoadFormTwo = () => {
                     className={emptyFields.includes('destination_airport') ? 'error': ''}
                     
                     />
+                {loadingAirPorts && (
+                    <div className="air-port-loading">
+                        <span className="loading-spinner"></span>
+                        Searching airports...
+                    </div>
+                )}
                 {/*iata is the standard 3 letter airport code system*/}
                 {airportResults.length > 0 && (
                     <div className="airport-results">
@@ -555,6 +584,13 @@ const RoadFormTwo = () => {
                     className={emptyFields.includes('port_of_destination') ? 'error': ''}
                     
                     />
+
+                {loadingSeaPorts && (
+                    <div className="sea-port-loading">
+                        <span className="loading-spinner"></span>
+                        Searching seaports...
+                    </div>
+                )}    
                 {/*iata is the standard 3 letter airport code system*/}
                 {seaportResults?.length > 0 && (
                     <div className="sea-port-results">
@@ -1126,10 +1162,26 @@ const RoadFormTwo = () => {
                     {error && <div className="error">{error}</div>}
                 </form>
                 
-                <button className="form-btn"
-                onClick={handleSubmit}>
-                    Done
-                </button>
+            <button className="form-btn"
+                onClick={handleSubmit}
+                disabled={loadingSubmit}>
+                    Done   
+            </button>
+            {loadingSubmit && (
+                    <div className="loading-overlay">
+                    <div className="loading-modal">
+
+                    <span className="submit-spinner"></span>
+
+                 <h2>Processing your request</h2>
+
+                    <p>
+                    Please wait while we submit your quotation.
+                </p>
+
+        </div>
+    </div>
+)}
                 </div>
             </div>
             </>)

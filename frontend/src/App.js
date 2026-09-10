@@ -1,11 +1,9 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
-import Services from "./pages/Services"
 import Home from './pages/Home';
 import ShipmentForm from './pages/ShipmentForm'
 import EmailForm from './pages/EmailForm';
-import Admin from './pages/Admin'
 import RoadFormOne from './pages/RoadFormOne'
 import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
@@ -26,10 +24,6 @@ function App() {
       element={<Home />}>
       
       </Route>
-      
-      <Route path='/services'
-      element={<Services />}>
-      </Route>
 
       <Route path='/emailForm'
       element={<EmailForm />}>
@@ -37,10 +31,6 @@ function App() {
       
       <Route path='/shipment'
       element={<ShipmentForm />}>
-      </Route>
-
-      <Route path='/admin'
-      element={<Admin />}>
       </Route>
 
       <Route path='/thankyou'

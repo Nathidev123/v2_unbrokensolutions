@@ -55,10 +55,10 @@ const ShippingServices = () => {
                         Shipping solutions for every need.
                     </h2>
 
-                    <p>
+                    {/*<p>
                         Choose the service that best suits your shipment,
                         destination and delivery requirements.
-                    </p>
+                    </p>  */}
                 </div>
 
 

@@ -205,7 +205,7 @@ const orderSchema = new Schema({
     },
     number_of_containers: {
         type: Number,
-        enum: ['1','2','3','4','5'],
+        enum: [1, 2, 3, 4, 5],
         required: function () {
             return this.shipment_type === 'FCL'  
             
