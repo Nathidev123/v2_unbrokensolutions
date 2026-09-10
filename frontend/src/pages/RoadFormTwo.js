@@ -36,7 +36,7 @@ const RoadFormTwo = () => {
     const [loadingSeaPorts, setLoadingSeaPorts] = useState(false)
 
     const [loadingSubmit, setLoadingSubmit] = useState(false)
-
+    //forgot to add loading state in commit message
     //moved from quotation
     const getDistance = async () => {
     //sendin req to backend
