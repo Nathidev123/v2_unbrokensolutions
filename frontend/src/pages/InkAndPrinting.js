@@ -12,7 +12,7 @@ import emailjs from '@emailjs/browser'
 
 import InkImage from '../assets/ink.jpg'
 import PrinterImage from '../assets/repairs.jpg'
-
+import './InkAndPrintingCss.css'
 
 const InkAndPrinting = () => {
 

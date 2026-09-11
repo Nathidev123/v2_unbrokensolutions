@@ -1,81 +1,194 @@
-import log from "../assets/log.png"
 import logo2 from "../assets/logo2.png"
 import { Link } from "react-router-dom"
 import { VscWorkspaceTrusted } from "react-icons/vsc";
 import { IoMdTime } from "react-icons/io";
 import { LiaHandsSolid } from "react-icons/lia";
 import { GiReceiveMoney } from "react-icons/gi";
+import { FiTruck, 
+    FiBarChart2, 
+    FiPrinter, 
+    FiArrowRight } 
+    from "react-icons/fi"
+import './HomeCss.css'
 const Home = () => {
 
     return(<>
        
-        <div className="home-container">
+       <main className="home-page">
+        <div className="home-container"> 
         <div className="main-content">
-           <h1>Unbroken performance. Unbroken commitment. Reliable service.</h1> 
-            <p>Gain a competitive edge with our trusted services. Browse our catalogue and get in touch to discover how we can help your business succeed.
+           <h1>More than logistics.
+            <br/>
+            A partner for your business
+            </h1> 
+            
+            <p className="business-description">
+                We provide in-house courier, consulting, and printing solutions,
+                while partnering with trusted providers to arrange road, air, and sea freight.
             </p>
-            <Link to="/services" className='contact-button'>Browse Services</Link>
+            
+            <div className="hero-actions">
+            <Link to="/RoadFormOne" 
+            className="home-secondary-button" >
+                 Get a quote </Link>
+            </div>
             
             
         </div>
-        <img src={logo2} alt="truck-image" className="truck-image" />
+        <div className="main-image">
+        <img src={logo2} 
+        alt="truck-image" className="truck-image" />
+        </div>
         </div>
 
+        {/*Going into depth on hybrid operations*/}
+        <section className="home-intro">
+             <div className="section-label">
+                 <span>01</span> 
+                 <p> WHAT WE DO </p>
+                  </div> 
+                  <div className="home-intro-content"> 
+                    <h2> One business. <br /> 
+                    Multiple solutions. </h2> 
+                    <div> 
+                    <p>
+                    Unbroken Solutions brings together logistics, supply chain expertise, and
+                    business support to help organisations operate more efficiently.
+                    </p>
 
-        <h1>Why Unbroken Solutions?</h1>
-        <div className="why-section">
-            <p>At Unbroken Solutions, we believe that great service is built on reliability, efficiency, and long-term partnerships. We understand that businesses depend on seamless operations to remain competitive, which is why we provide tailored solutions designed to keep your organization moving forward.
-             From logistics and supply chain support to printer solutions, repairs, and consumables, our team is committed to delivering services that combine quality, affordability, and exceptional customer care. We focus on understanding your unique requirements and providing practical, cost-effective solutions that help improve productivity and reduce operational challenges.
-            Our commitment to professionalism, on-time delivery, and customer satisfaction has earned us the trust of businesses across various industries. Whether you need dependable logistics support, expert consulting, or reliable printing solutions, Unbroken Solutions is dedicated to helping you achieve your goals with confidence.
-            Unbroken Solutions as your trusted partner and gain access to a team that values integrity, innovation, and results. Together, we turn challenges into opportunities and deliver solutions that drive lasting business success.
-        </p>
-        </div>
+                    <p>
+                    From moving goods and improving supply chain operations to keeping your
+                    printing environment running, we provide practical solutions through
+                    one trusted partner.
+                </p>
+
+                        </div>
+                    </div>
+            </section>
 
 
-        <h1>Our Values</h1>
-        <div className="trust-section">
+        {/* Services section */} 
+        <section className="home-services"> 
+            <div className="section-label"> 
+                <span>02</span> 
+                <p> OUR SERVICES </p> 
+                </div> 
+            <div className="home-services-heading"> 
+                <h2> Solutions that keep <br /> your business moving. </h2> 
+                <p>
+            From reliable courier and freight solutions to supply chain consulting and printing
+            support, we bring together the services businesses need to operate efficiently,
+            backed by practical solutions and trusted partnerships.
+            </p> 
+                    </div> 
+            <div className="home-service-grid"> 
+            {/* SHIPPING */} 
+                <article className="home-service-card"> 
+                    <div className="home-service-icon"> 
+                        <FiTruck /> 
+                        </div> 
+            <span className="home-service-number"> 01 </span> 
+            <h3> Shipping & Logistics </h3> 
+            <p>
+                Reliable in-house courier services alongside trusted road, air, and sea freight
+                solutions for businesses of all sizes.
+            </p>
+
+
+            <Link to="/ShippingServices" className="home-service-link" > Explore shipping 
+            <FiArrowRight /> 
+            </Link> 
+            </article> 
             
-            <div className="trust-item">
-            <VscWorkspaceTrusted className="icons"/>
-            <p>We deliver on our promises.
-            </p>
-            </div>
+            {/* CONSULTING */} 
+            <article className="home-service-card"> 
+                <div className="home-service-icon"> 
+                    <FiBarChart2 /> 
+                    </div> 
+                    <span className="home-service-number"> 02 </span> 
+                    <h3> Supply Chain & Consulting </h3> 
+                    <p> Practical consulting solutions covering supply chains, warehousing, inventory, procurement, transport and distribution. </p> 
+                    <Link to="/Consulting" className="home-service-link" > Explore consulting 
+                    <FiArrowRight /> 
+                    </Link> </article> 
+                    
+                {/* PRINTING */} 
+                <article className="home-service-card"> 
+                    <div className="home-service-icon"> 
+                        <FiPrinter /> </div> 
+                        <span className="home-service-number"> 03 </span> 
+                        <h3> Ink & Printing </h3> 
+                        <p> Quality printer ink and consumables, convenient delivery and printer repairs and support for businesses. </p> 
+                        <Link to="/InkAndPrinting" className="home-service-link" > Explore printing 
+                        <FiArrowRight /> 
+                        </Link> 
+                        </article> 
+                        </div> 
+                        </section>
 
-            <div className="trust-item">
-            <IoMdTime  className="icons"/>
-            <p>Punctuality you can count on.
-            </p>
-            </div>
+        {/* why section*/} 
+        <section className="home-why"> 
+            <div className="section-label"> 
+                <span>03</span> 
+                <p> WHY UNBROKEN </p> 
+                </div> 
+                <div className="home-why-content"> 
+                    <div> 
+                        <h2> Reliable solutions. <br /> Built around you. </h2> 
+                        </div> <div className="home-why-description"> 
+                            <p> Businesses need partners they can depend on. We focus on understanding what you need and providing practical solutions 
+                                that deliver real value. </p> <p> Whether we're moving your goods, improving your operations or keeping your printers 
+                                    running, reliability remains at the centre of everything we do. </p> 
+                                    </div> 
+                                    </div> 
+                <div className="home-values"> 
+                    <div className="home-value"> 
+                        <VscWorkspaceTrusted /> 
+                        <div> 
+                            <h3> Reliability </h3> 
+                            <p> We deliver on our promises. </p> 
+                            </div> 
+                            </div> 
+                <div className="home-value"> 
+                    <IoMdTime /> <div> 
+                        <h3> Punctuality </h3> 
+                        <p> Service you can count on. </p> 
+                        </div> 
+                        </div> 
+                <div className="home-value"> 
+                    <LiaHandsSolid /> 
+                    <div> 
+                        <h3> Care </h3> 
+                        <p> Your goods and business matter to us. </p> 
+                        </div> 
+                        </div> 
+                <div className="home-value"> 
+                    <GiReceiveMoney /> 
+                    <div> 
+                        <h3> Value </h3> 
+                        <p> Competitive rates backed by quality. </p> 
+                        </div> 
+                        </div> 
+                        </div> 
+                        </section>
 
-            <div className="trust-item">
-            <LiaHandsSolid  className="icons"/>
-            <p>Your cargo is safe with us.
-            </p>
-            </div>
-
-            <div className="trust-item">
-            <GiReceiveMoney  className="icons"/>
-            <p>Competitive rates backed by quality.
-            </p>
-            </div>
-        </div>
-
-
-        <div className="about-info">
-            <img src={log} alt="containers" className="container-image"/>
-            <h1>About Us</h1>
-            <p> 
-
-            </p>
-            Unbroken Solutions is a trusted provider of logistics, consulting, and printing solutions, committed to helping businesses operate more efficiently and grow with confidence. From freight and supply chain support to printer repairs and quality ink supplies, we deliver reliable, cost-effective services tailored to our clients' needs.
-             Our focus is on building long-term partnerships through professional service, practical solutions, and a commitment to excellence. With a customer-first approach and a reputation for reliability, Unbroken Solutions helps businesses overcome challenges, improve performance, and move forward with confidence.
-
-
-        </div>
         
-        <div className="email-div">
-        <Link to={'/emailForm'} className='email-button'>Email Us!</Link>
-        </div>
+
+
+         <section className="home-cta"> 
+            <div className="home-cta-content"> 
+                <p className="eyebrow"> LET'S FIND THE RIGHT SOLUTION FOR YOUR BUSINESS </p> 
+                <h2> Have a business <br /> challenge? </h2> <p> Whether you need to move a shipment, improve your supply chain or find a 
+                    reliable printing solution, we're ready to help. </p> 
+                    <div className="home-cta-actions"> 
+                        <Link to="/RoadFormOne" className="home-cta-primary" > Get a quote 
+                        <FiArrowRight /> </Link> 
+                        
+                        </div> 
+                        </div> 
+                        </section>
+        
+        </main>
         
         
         </>

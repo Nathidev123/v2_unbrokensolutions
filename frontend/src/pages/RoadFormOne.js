@@ -1,6 +1,7 @@
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom" 
 import { useState } from "react"
+import './Forms.css'
 const RoadFormOne = () => {
     const navigate = useNavigate()
     const { formData, emptyFields, dispatch2 } = useFormContext()
@@ -81,7 +82,7 @@ const RoadFormOne = () => {
 
  
                 <div className="form-group">
-                    <h1>Recipient</h1>
+                    <h1>Ship To</h1>
                     <input 
                     placeholder="Recipient Company"
                     name="recipient_company"

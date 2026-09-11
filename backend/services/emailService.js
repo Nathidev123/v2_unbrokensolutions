@@ -85,7 +85,7 @@ const sendQuotationEmail = async (order, pdfBuffer) => {
             },
             {
                 filename: 'emailstamp.png',
-                path: path.join(__dirname, '../backendAssets/emailstamp.png'),
+                path: path.join(__dirname, '../backendAssets/emailstamp2.0.png'),
                 cid: 'unbroken-logo'
             }
         ]
@@ -153,7 +153,7 @@ const sendQuotationEmail = async (order, pdfBuffer) => {
             attachments: [
                 {
                     filename: 'emailstamp.png',
-                    path: path.join(__dirname, '../backendAssets/emailstamp.png'),
+                    path: path.join(__dirname, '../backendAssets/emailstamp2.0.png'),
                     cid: 'unbroken-logo'
                 }
             ]

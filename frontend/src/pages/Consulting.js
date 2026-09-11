@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi"
 import { useState } from "react"
 import emailjs from '@emailjs/browser'
-
+import './ConsultingCss.css'
 const Consulting = () => {
     const [name, setName] = useState('')
     const [company_name, setCompanyName] = useState('')

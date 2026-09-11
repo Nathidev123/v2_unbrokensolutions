@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom"
 import { useOrderContext } from "../hooks/useOrderContext"
-
-import './RoadFormTwoCss.css'
+import Dimensions from '../assets/box.png'
+import './Forms.css'
 //import Quotation from "../Components/Quotation"
 
 
@@ -304,7 +304,14 @@ const RoadFormTwo = () => {
                             </div>  
                             
                         
-
+                   <div className="package-image">
+                   
+                    <img
+                    src={Dimensions}
+                     alt="Package Dimensions"
+                    />
+                   
+                    </div>
                         
                     <h1>Select Service</h1>
                     <div className="form-group">
@@ -925,6 +932,7 @@ const RoadFormTwo = () => {
                      
                     </div>
                 )}
+                {/*}
                 {formData.service_type === "courier" && (
                     <div className="form-group">
                     <label>Required delivery date</label>
@@ -940,7 +948,7 @@ const RoadFormTwo = () => {
                      
                     </div>
                 )}
-                
+                */}
                 {/*Road Freight*/}
                 {formData.service_type === "road" && (
                     <div className="form-group">

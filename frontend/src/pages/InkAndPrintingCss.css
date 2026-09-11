@@ -1,0 +1,2101 @@
+
+:root {
+    --brand-blue: #0057A3;
+    --brand-blue-light: #1D7DD8;
+    --brand-dark: #0A2540;
+    --secondary: #0f172a;
+
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+
+    --border: #e2e8f0;
+
+    --page-width: 1380px;
+    --side-space: clamp(18px, 4vw, 64px);
+    --section-gap: clamp(60px, 7vw, 105px);
+
+    --shadow-sm: 0 10px 30px rgba(10, 37, 64, 0.07);
+    --shadow-md: 0 20px 50px rgba(10, 37, 64, 0.11);
+    --shadow-lg: 0 30px 80px rgba(10, 37, 64, 0.16);
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text-primary);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.ink-printing-page {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+
+    overflow: clip;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--background) 0%,
+            var(--background) 45%,
+            var(--surface-alt) 100%
+        );
+}
+
+.ink-printing-page section {
+    position: relative;
+
+    width: min(
+        calc(100% - (var(--side-space) * 2)),
+        var(--page-width)
+    );
+
+    margin-inline: auto;
+}
+
+
+/* =========================================================
+   SHARED EYEBROW
+========================================================= */
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 15px;
+
+    color: var(--brand-blue);
+
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
+
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.eyebrow::before {
+    content: "";
+
+    width: 28px;
+    height: 2px;
+
+    flex: 0 0 auto;
+
+    background: var(--brand-blue);
+}
+
+
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 28px;
+
+    color: var(--text-muted);
+
+    font-size: 0.7rem;
+    font-weight: 800;
+
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.section-label span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid rgba(0, 87, 163, 0.2);
+    border-radius: 50%;
+
+    color: var(--brand-blue);
+
+    font-size: 0.66rem;
+    letter-spacing: 0;
+}
+
+.section-label p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.ink-hero {
+    min-height: 590px;
+
+    display: flex;
+    align-items: center;
+
+    padding:
+        clamp(65px, 8vw, 115px)
+        0
+        clamp(70px, 8vw, 115px);
+
+    isolation: isolate;
+}
+
+
+/* Large background circle */
+
+.ink-hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 680px;
+    height: 680px;
+
+    top: -270px;
+    right: -210px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(29, 125, 216, 0.11) 0%,
+            rgba(29, 125, 216, 0) 70%
+        );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* Fine outlined circle */
+
+.ink-hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    right: 6%;
+    bottom: -240px;
+
+    border:
+        1px solid
+        rgba(0, 87, 163, 0.07);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+.ink-hero-content {
+    width: 100%;
+    max-width: 980px;
+
+    animation:
+        inkHeroReveal
+        700ms
+        var(--ease-out)
+        both;
+}
+
+.ink-hero-content h1 {
+    max-width: 950px;
+
+    margin: 0;
+
+    color: var(--brand-dark);
+
+    font-size:
+        clamp(
+            3.8rem,
+            8vw,
+            7.7rem
+        );
+
+    font-weight: 850;
+
+    line-height: 0.88;
+
+    letter-spacing: -0.072em;
+}
+
+.ink-hero .hero-description {
+    max-width: 620px;
+
+    margin:
+        30px
+        0
+        32px;
+
+    color: var(--text-secondary);
+
+    font-size:
+        clamp(
+            1rem,
+            1.4vw,
+            1.13rem
+        );
+
+    line-height: 1.72;
+}
+
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    min-height: 53px;
+
+    padding: 0 24px;
+
+    border:
+        1px solid
+        var(--brand-blue);
+
+    border-radius: 8px;
+
+    background: var(--brand-blue);
+
+    color: #ffffff;
+
+    font-size: 0.94rem;
+    font-weight: 750;
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 87, 163, 0.21);
+
+    transition:
+        transform 350ms var(--ease-out),
+        box-shadow 350ms var(--ease-out),
+        background 250ms ease;
+}
+
+.hero-cta svg {
+    width: 17px;
+    height: 17px;
+
+    transition:
+        transform 300ms
+        var(--ease-out);
+}
+
+.hero-cta:hover {
+    transform: translateY(-4px);
+
+    background:
+        var(--brand-blue-light);
+
+    box-shadow:
+        0 18px 38px
+        rgba(0, 87, 163, 0.26);
+}
+
+.hero-cta:hover svg {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.ink-intro {
+    display: grid;
+
+    grid-template-columns:
+        190px
+        minmax(0, 1fr);
+
+    gap:
+        clamp(
+            30px,
+            5vw,
+            80px
+        );
+
+    padding:
+        75px
+        0
+        var(--section-gap);
+
+    border-top:
+        1px solid
+        var(--border);
+}
+
+.ink-intro .section-label {
+    margin-top: 7px;
+}
+
+.ink-intro-content {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(280px, 0.75fr);
+
+    gap:
+        clamp(
+            35px,
+            7vw,
+            110px
+        );
+}
+
+.ink-intro-content h2 {
+    margin: 0;
+
+    color: var(--brand-dark);
+
+    font-size:
+        clamp(
+            2.4rem,
+            4.6vw,
+            4.65rem
+        );
+
+    font-weight: 800;
+
+    line-height: 0.96;
+
+    letter-spacing: -0.055em;
+}
+
+.ink-intro-content > div:last-child {
+    padding-top: 5px;
+}
+
+.ink-intro-content p {
+    margin:
+        0
+        0
+        20px;
+
+    color: var(--text-secondary);
+
+    font-size: 0.98rem;
+
+    line-height: 1.75;
+}
+
+.ink-intro-content p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   INK FEATURE
+========================================================= */
+
+.ink-feature {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(0, 0.95fr);
+
+    min-height: 620px;
+
+    width: 100% !important;
+    max-width: none !important;
+
+    margin-inline: 0 !important;
+
+    background: var(--brand-dark);
+
+    overflow: hidden;
+
+    isolation: isolate;
+}
+
+
+/* Image */
+
+.ink-feature-image {
+    position: relative;
+
+    min-height: 520px;
+
+    overflow: hidden;
+}
+
+.ink-feature-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 37, 64, 0) 65%,
+            rgba(10, 37, 64, 0.28) 100%
+        );
+
+    pointer-events: none;
+}
+
+.ink-feature-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 900ms
+        var(--ease-out);
+}
+
+.ink-feature:hover
+.ink-feature-image img {
+    transform: scale(1.035);
+}
+
+
+/* Content */
+
+.ink-feature-content {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding:
+        clamp(45px, 7vw, 95px)
+        clamp(30px, 6vw, 90px);
+
+    color: #ffffff;
+
+    overflow: hidden;
+}
+
+.ink-feature-content::before {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    right: -220px;
+    bottom: -230px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.11);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.ink-feature-content::after {
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    top: -100px;
+    right: 80px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(29, 125, 216, 0.12);
+
+    pointer-events: none;
+}
+
+.ink-feature-content .eyebrow {
+    position: relative;
+    z-index: 2;
+
+    color: #ffffff;
+}
+
+.ink-feature-content .eyebrow::before {
+    background: #ffffff;
+}
+
+.ink-feature-content h2 {
+    position: relative;
+    z-index: 2;
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(
+            3rem,
+            5.8vw,
+            6rem
+        );
+
+    font-weight: 800;
+
+    line-height: 0.91;
+
+    letter-spacing: -0.065em;
+}
+
+.ink-feature-content > p:not(.eyebrow) {
+    position: relative;
+    z-index: 2;
+
+    max-width: 540px;
+
+    margin:
+        25px
+        0
+        0;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.72
+        );
+
+    font-size: 0.98rem;
+
+    line-height: 1.72;
+}
+
+.ink-feature-points {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 13px;
+
+    margin-top: 30px;
+}
+
+.ink-feature-points > div {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.9
+        );
+
+    font-size: 0.87rem;
+    font-weight: 650;
+}
+
+.ink-feature-points svg {
+    width: 19px;
+    height: 19px;
+
+    flex: 0 0 auto;
+
+    color:
+        #5da9e9;
+
+    stroke-width: 1.8;
+}
+
+
+/* =========================================================
+   PRINTER REPAIRS
+========================================================= */
+
+.printer-repairs {
+    padding:
+        85px
+        0
+        var(--section-gap);
+}
+
+.printer-repairs::before {
+    content: "";
+
+    position: absolute;
+
+    left: -8vw;
+    right: -8vw;
+
+    top: 0;
+    bottom: 0;
+
+    z-index: -1;
+
+    background:
+        var(--surface-alt);
+
+    border-top:
+        1px solid
+        var(--border);
+}
+
+.printer-repairs-heading {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(260px, 0.55fr);
+
+    align-items: end;
+
+    gap: 50px;
+
+    margin-bottom: 45px;
+}
+
+.printer-repairs-heading h2 {
+    margin: 0;
+
+    color: var(--brand-dark);
+
+    font-size:
+        clamp(
+            2.7rem,
+            5.4vw,
+            5.4rem
+        );
+
+    font-weight: 800;
+
+    line-height: 0.92;
+
+    letter-spacing: -0.06em;
+}
+
+.printer-repairs-heading > p {
+    max-width: 440px;
+
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 0.98rem;
+
+    line-height: 1.7;
+}
+
+
+/* Repair feature */
+
+.printer-repairs-feature {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 0.85fr)
+        minmax(0, 1.15fr);
+
+    min-height: 470px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        var(--surface);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    overflow: hidden;
+}
+
+.printer-repairs-content {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding:
+        clamp(35px, 5vw, 65px);
+
+    overflow: hidden;
+}
+
+.printer-repairs-content::before {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    top: -155px;
+    right: -130px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(29, 125, 216, 0.055);
+}
+
+.printer-repairs-content > svg {
+    width: 43px;
+    height: 43px;
+
+    margin-bottom: 28px;
+
+    color:
+        var(--brand-blue);
+
+    stroke-width: 1.45;
+
+    transition:
+        transform 450ms
+        var(--ease-out);
+}
+
+.printer-repairs-feature:hover
+.printer-repairs-content > svg {
+    transform:
+        translateY(-5px)
+        rotate(-5deg);
+}
+
+.printer-repairs-content h3 {
+    position: relative;
+
+    margin:
+        0
+        0
+        15px;
+
+    color:
+        var(--brand-dark);
+
+    font-size:
+        clamp(
+            1.5rem,
+            2.4vw,
+            2.2rem
+        );
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+.printer-repairs-content p {
+    position: relative;
+
+    max-width: 480px;
+
+    margin:
+        0
+        0
+        17px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 0.9rem;
+
+    line-height: 1.7;
+}
+
+.printer-repairs-content p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Repair image */
+
+.printer-repairs-image {
+    position: relative;
+
+    min-height: 430px;
+
+    overflow: hidden;
+}
+
+.printer-repairs-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 37, 64, 0.18),
+            transparent 35%
+        );
+
+    pointer-events: none;
+}
+
+.printer-repairs-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 900ms
+        var(--ease-out);
+}
+
+.printer-repairs-feature:hover
+.printer-repairs-image img {
+    transform: scale(1.035);
+}
+
+
+/* =========================================================
+   WHY UNBROKEN
+========================================================= */
+
+.ink-why {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin-inline: 0 !important;
+
+    padding:
+        95px
+        max(var(--side-space), 4vw)
+        100px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(360px, 0.75fr);
+
+    align-items: center;
+
+    gap:
+        clamp(
+            45px,
+            8vw,
+            130px
+        );
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            115deg,
+            var(--brand-dark) 0%,
+            #0a3153 48%,
+            var(--brand-blue) 100%
+        );
+
+    isolation: isolate;
+}
+
+.ink-why::before {
+    content: "";
+
+    position: absolute;
+
+    width: 620px;
+    height: 620px;
+
+    right: -230px;
+    top: -300px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 50%;
+
+    z-index: -1;
+}
+
+.ink-why::after {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    right: 25%;
+    bottom: -205px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            29,
+            125,
+            216,
+            0.22
+        );
+
+    z-index: -1;
+}
+
+.ink-why-content {
+    max-width: 760px;
+}
+
+.ink-why .eyebrow {
+    color: #ffffff;
+}
+
+.ink-why .eyebrow::before {
+    background: #ffffff;
+}
+
+.ink-why-content h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(
+            3rem,
+            6.2vw,
+            6.1rem
+        );
+
+    font-weight: 800;
+
+    line-height: 0.91;
+
+    letter-spacing: -0.065em;
+}
+
+.ink-why-content > p:last-child {
+    max-width: 620px;
+
+    margin:
+        28px
+        0
+        0;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.72
+        );
+
+    font-size:
+        clamp(
+            0.98rem,
+            1.4vw,
+            1.1rem
+        );
+
+    line-height: 1.72;
+}
+
+
+/* Why cards */
+
+.ink-why-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 0;
+
+    border-top:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
+}
+
+.ink-why-item {
+    padding:
+        28px
+        0;
+
+    border-bottom:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
+}
+
+.ink-why-item svg {
+    width: 28px;
+    height: 28px;
+
+    margin-bottom: 18px;
+
+    color:
+        #8ac5f2;
+
+    stroke-width: 1.5;
+}
+
+.ink-why-item h3 {
+    margin:
+        0
+        0
+        8px;
+
+    color: #ffffff;
+
+    font-size: 1.1rem;
+    font-weight: 800;
+
+    letter-spacing: -0.025em;
+}
+
+.ink-why-item p {
+    max-width: 420px;
+
+    margin: 0;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.62
+        );
+
+    font-size: 0.86rem;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.ink-contact {
+    display: grid;
+
+    grid-template-columns:
+        minmax(300px, 0.75fr)
+        minmax(0, 1.25fr);
+
+    align-items: start;
+
+    gap:
+        clamp(
+            45px,
+            8vw,
+            130px
+        );
+
+    padding:
+        95px
+        0
+        100px;
+}
+
+.ink-contact::before {
+    content: "";
+
+    position: absolute;
+
+    left: -8vw;
+    right: -8vw;
+
+    top: 0;
+    bottom: 0;
+
+    z-index: -1;
+
+    background:
+        var(--surface);
+
+    border-top:
+        1px solid
+        var(--border);
+}
+
+.ink-contact .contact-heading {
+    position: sticky;
+
+    top: 110px;
+}
+
+.ink-contact .contact-heading h2 {
+    margin: 0;
+
+    color:
+        var(--brand-dark);
+
+    font-size:
+        clamp(
+            2.7rem,
+            5vw,
+            5.2rem
+        );
+
+    font-weight: 800;
+
+    line-height: 0.94;
+
+    letter-spacing: -0.06em;
+}
+
+.ink-contact .contact-heading > p:last-child {
+    max-width: 430px;
+
+    margin:
+        22px
+        0
+        0;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 0.98rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.consulting-form {
+    position: relative;
+
+    padding:
+        34px
+        34px
+        30px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        var(--background);
+
+    box-shadow:
+        var(--shadow-sm);
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: 15px;
+}
+
+.consulting-form .form-group {
+    margin-bottom: 18px;
+}
+
+.consulting-form label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 0.7rem;
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.consulting-form input,
+.consulting-form textarea {
+    width: 100%;
+
+    padding:
+        14px
+        15px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background:
+        var(--surface);
+
+    color:
+        var(--text-primary);
+
+    font-family: inherit;
+
+    font-size: 0.9rem;
+
+    line-height: 1.5;
+
+    transition:
+        border-color 200ms ease,
+        box-shadow 200ms ease,
+        transform 200ms ease;
+}
+
+.consulting-form textarea {
+    min-height: 155px;
+
+    resize: vertical;
+}
+
+.consulting-form input::placeholder,
+.consulting-form textarea::placeholder {
+    color:
+        var(--text-muted);
+}
+
+.consulting-form input:focus,
+.consulting-form textarea:focus {
+    border-color:
+        var(--brand-blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            0,
+            87,
+            163,
+            0.08
+        );
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.contact-submit {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 11px;
+
+    min-height: 52px;
+
+    padding:
+        0
+        23px;
+
+    border:
+        1px solid
+        var(--brand-blue);
+
+    border-radius: 7px;
+
+    background:
+        var(--brand-blue);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 0.9rem;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px
+        rgba(
+            0,
+            87,
+            163,
+            0.17
+        );
+
+    transition:
+        transform 350ms
+        var(--ease-out),
+        background 250ms ease,
+        box-shadow 350ms
+        var(--ease-out);
+}
+
+.contact-submit svg {
+    width: 17px;
+    height: 17px;
+
+    transition:
+        transform 300ms
+        var(--ease-out);
+}
+
+.contact-submit:hover {
+    transform:
+        translateY(-3px);
+
+    background:
+        var(--brand-blue-light);
+
+    box-shadow:
+        0 15px 32px
+        rgba(
+            0,
+            87,
+            163,
+            0.23
+        );
+}
+
+.contact-submit:hover svg {
+    transform:
+        translateX(4px);
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.alert {
+    margin-top: 18px;
+
+    padding:
+        13px
+        15px;
+
+    border:
+        1px solid
+        var(--border);
+
+    font-size: 0.82rem;
+
+    line-height: 1.5;
+}
+
+.alert-success {
+    border-color:
+        rgba(
+            0,
+            87,
+            163,
+            0.18
+        );
+
+    background:
+        rgba(
+            0,
+            87,
+            163,
+            0.05
+        );
+
+    color:
+        var(--brand-blue);
+}
+
+.alert-error {
+    border-color:
+        rgba(
+            190,
+            30,
+            45,
+            0.18
+        );
+
+    background:
+        rgba(
+            190,
+            30,
+            45,
+            0.05
+        );
+
+    color:
+        #b42336;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes inkHeroReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@supports (animation-timeline: view()) {
+
+    .ink-intro-content,
+    .ink-feature,
+    .printer-repairs-feature,
+    .ink-why,
+    .ink-contact {
+        animation:
+            inkSectionReveal
+            linear
+            both;
+
+        animation-timeline:
+            view();
+
+        animation-range:
+            entry 0%
+            cover 35%;
+    }
+}
+
+
+@keyframes inkSectionReveal {
+
+    from {
+        opacity: 0.72;
+
+        transform:
+            translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   1100px
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .ink-intro-content {
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+    }
+
+    .printer-repairs-heading {
+        grid-template-columns:
+            1fr
+            0.6fr;
+    }
+
+    .ink-contact {
+        gap: 55px;
+    }
+
+    .ink-feature {
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+    .ink-why {
+        grid-template-columns:
+            1fr
+            0.75fr;
+    }
+}
+
+
+/* =========================================================
+   850px
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .ink-hero {
+        min-height: 500px;
+    }
+
+    .ink-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .ink-intro .section-label {
+        margin-bottom: 25px;
+    }
+
+    .ink-feature {
+        grid-template-columns: 1fr;
+
+        min-height: auto;
+    }
+
+    .ink-feature-image {
+        min-height: 430px;
+    }
+
+    .ink-feature-content {
+        min-height: 530px;
+    }
+
+    .printer-repairs-heading {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+    .printer-repairs-feature {
+        grid-template-columns: 1fr;
+    }
+
+    .printer-repairs-image {
+        min-height: 420px;
+
+        order: -1;
+    }
+
+    .ink-why {
+        grid-template-columns: 1fr;
+
+        gap: 55px;
+    }
+
+    .ink-why-grid {
+        max-width: 650px;
+    }
+
+    .ink-contact {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+    .ink-contact .contact-heading {
+        position: relative;
+
+        top: auto;
+    }
+}
+
+
+/* =========================================================
+   767px
+========================================================= */
+
+@media (max-width: 767px) {
+
+    :root {
+        --side-space: 18px;
+        --section-gap: 55px;
+    }
+
+
+    .ink-printing-page section {
+        width:
+            calc(
+                100% -
+                (var(--side-space) * 2)
+            );
+    }
+
+
+    /* Hero */
+
+    .ink-hero {
+        min-height: auto;
+
+        padding:
+            55px
+            0
+            65px;
+    }
+
+    .ink-hero::before {
+        width: 400px;
+        height: 400px;
+
+        top: -170px;
+        right: -200px;
+    }
+
+    .ink-hero-content h1 {
+        font-size:
+            clamp(
+                3rem,
+                14vw,
+                5rem
+            );
+
+        line-height: 0.9;
+    }
+
+    .ink-hero .hero-description {
+        margin:
+            23px
+            0
+            27px;
+
+        font-size: 0.96rem;
+
+        line-height: 1.67;
+    }
+
+
+    /* Intro */
+
+    .ink-intro {
+        gap: 0;
+
+        padding:
+            55px
+            0
+            var(--section-gap);
+    }
+
+    .ink-intro-content h2 {
+        font-size:
+            clamp(
+                2.35rem,
+                11vw,
+                3.5rem
+            );
+    }
+
+    .ink-intro-content > div:last-child {
+        padding-top: 0;
+    }
+
+    .ink-intro-content p {
+        font-size: 0.92rem;
+
+        line-height: 1.68;
+    }
+
+
+    /* Ink feature */
+
+    .ink-feature {
+        width: 100% !important;
+
+        margin-inline: 0 !important;
+    }
+
+    .ink-feature-image {
+        min-height: 340px;
+    }
+
+    .ink-feature-content {
+        min-height: auto;
+
+        padding:
+            60px
+            var(--side-space)
+            65px;
+    }
+
+    .ink-feature-content h2 {
+        font-size:
+            clamp(
+                3rem,
+                13vw,
+                4.6rem
+            );
+    }
+
+    .ink-feature-content > p:not(.eyebrow) {
+        font-size: 0.92rem;
+    }
+
+
+    /* Printer repairs */
+
+    .printer-repairs {
+        padding:
+            60px
+            0
+            var(--section-gap);
+    }
+
+    .printer-repairs-heading h2 {
+        font-size:
+            clamp(
+                2.5rem,
+                11.5vw,
+                4rem
+            );
+    }
+
+    .printer-repairs-heading > p {
+        font-size: 0.92rem;
+    }
+
+    .printer-repairs-feature {
+        grid-template-columns: 1fr;
+    }
+
+    .printer-repairs-image {
+        min-height: 300px;
+    }
+
+    .printer-repairs-content {
+        padding:
+            38px
+            24px
+            42px;
+    }
+
+    .printer-repairs-content h3 {
+        font-size: 1.5rem;
+    }
+
+    .printer-repairs-content p {
+        font-size: 0.88rem;
+    }
+
+
+    /* Why */
+
+    .ink-why {
+        width: 100% !important;
+
+        margin-inline: 0 !important;
+
+        padding:
+            70px
+            var(--side-space)
+            75px;
+
+        gap: 50px;
+    }
+
+    .ink-why::before {
+        width: 400px;
+        height: 400px;
+
+        right: -190px;
+        top: -150px;
+    }
+
+    .ink-why-content h2 {
+        font-size:
+            clamp(
+                3rem,
+                13vw,
+                4.5rem
+            );
+    }
+
+    .ink-why-content > p:last-child {
+        margin-top: 22px;
+
+        font-size: 0.94rem;
+    }
+
+    .ink-why-item {
+        padding: 24px 0;
+    }
+
+
+    /* Contact */
+
+    .ink-contact {
+        width:
+            calc(
+                100% -
+                (var(--side-space) * 2)
+            );
+
+        gap: 35px;
+
+        padding:
+            65px
+            0
+            70px;
+    }
+
+    .ink-contact .contact-heading h2 {
+        font-size:
+            clamp(
+                2.7rem,
+                12vw,
+                4rem
+            );
+    }
+
+    .ink-contact .contact-heading > p:last-child {
+        margin-top: 18px;
+
+        font-size: 0.92rem;
+    }
+
+
+    /* Form */
+
+    .consulting-form {
+        padding:
+            25px
+            20px
+            22px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+    .consulting-form input,
+    .consulting-form textarea {
+        padding:
+            13px
+            14px;
+
+        font-size: 0.88rem;
+    }
+
+    .consulting-form textarea {
+        min-height: 135px;
+    }
+
+    .contact-submit {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   390px
+========================================================= */
+
+@media (max-width: 390px) {
+
+    :root {
+        --side-space: 15px;
+    }
+
+    .ink-hero {
+        padding-top: 45px;
+    }
+
+    .ink-hero-content h1 {
+        font-size:
+            clamp(
+                2.8rem,
+                14.5vw,
+                3.8rem
+            );
+    }
+
+    .ink-intro-content h2 {
+        font-size:
+            clamp(
+                2.25rem,
+                11.5vw,
+                3.3rem
+            );
+    }
+
+    .ink-feature-content {
+        padding:
+            52px
+            18px
+            58px;
+    }
+
+    .ink-feature-content h2 {
+        font-size:
+            clamp(
+                2.8rem,
+                13vw,
+                4rem
+            );
+    }
+
+    .printer-repairs {
+        padding-top: 50px;
+    }
+
+    .printer-repairs-heading h2 {
+        font-size:
+            clamp(
+                2.3rem,
+                11.5vw,
+                3.4rem
+            );
+    }
+
+    .printer-repairs-image {
+        min-height: 260px;
+    }
+
+    .printer-repairs-content {
+        padding:
+            32px
+            19px
+            36px;
+    }
+
+    .ink-why {
+        padding:
+            60px
+            15px
+            65px;
+    }
+
+    .ink-why-content h2 {
+        font-size:
+            clamp(
+                2.8rem,
+                13vw,
+                4rem
+            );
+    }
+
+    .ink-contact {
+        padding-bottom: 55px;
+    }
+
+    .consulting-form {
+        padding:
+            22px
+            17px
+            20px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        scroll-behavior:
+            auto !important;
+    }
+
+    .ink-hero-content,
+    .ink-intro-content,
+    .ink-feature,
+    .printer-repairs-feature,
+    .ink-why,
+    .ink-contact {
+        transform: none !important;
+    }
+}

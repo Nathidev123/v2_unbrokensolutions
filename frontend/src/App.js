@@ -3,7 +3,6 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Home from './pages/Home';
 import ShipmentForm from './pages/ShipmentForm'
-import EmailForm from './pages/EmailForm';
 import RoadFormOne from './pages/RoadFormOne'
 import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
@@ -23,10 +22,6 @@ function App() {
       <Route path='/'
       element={<Home />}>
       
-      </Route>
-
-      <Route path='/emailForm'
-      element={<EmailForm />}>
       </Route>
       
       <Route path='/shipment'

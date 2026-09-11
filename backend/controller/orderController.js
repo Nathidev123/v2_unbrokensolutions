@@ -151,9 +151,10 @@ const addOrder = async (req, res) => {
     if(! recipient_province){
         emptyFields.push('recipient_province')
     }
+    /*
     if(!required_delivery_date){
         emptyFields.push('required_delivery_date')
-    }
+    }*/
     }
 
 
@@ -256,7 +257,12 @@ const addOrder = async (req, res) => {
     if(!/^\d{10}$/.test(recipient_phone)){
         return res.status(400).json({error: 'Phone number must be exactly 10 digits'})
     }
-
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    return res.status(400).json({error: 'Please enter a valid email address'})
+    }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient_email)){
+    return res.status(400).json({error: 'Please enter a valid email address'})
+}
         let quoteAmount 
         //the quote and calculation will be for courier
         //only, other service types will
@@ -348,7 +354,9 @@ const addOrder = async (req, res) => {
             // road
             load_type: service_type === 'road' ? load_type : undefined,
 
-            required_delivery_date,
+            required_delivery_date:
+            ['road', 'air', 'sea'].includes(service_type)
+                ? required_delivery_date : undefined,
 
             additional_information,
 

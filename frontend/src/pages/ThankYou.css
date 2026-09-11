@@ -1,4 +1,4 @@
-.thank-div {
+/*.thank-div {
     min-height: 80vh;
     display: flex;
     justify-content: center;
@@ -118,3 +118,926 @@
     }
 
 }
+*/
+
+
+:root {
+    /* Brand */
+    --brand-blue: #0057A3;
+    --brand-blue-light: #1D7DD8;
+    --brand-dark: #0A2540;
+    --secondary: #0f172a;
+
+    /* Surfaces */
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+
+    /* Text */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+
+    /* Borders */
+    --border: #e2e8f0;
+
+    /* Layout */
+    --page-width: 1380px;
+    --side-space: clamp(18px, 4vw, 64px);
+
+    /* Effects */
+    --shadow-sm: 0 10px 30px rgba(10, 37, 64, 0.07);
+    --shadow-md: 0 20px 50px rgba(10, 37, 64, 0.11);
+    --shadow-lg: 0 30px 80px rgba(10, 37, 64, 0.16);
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    background: var(--background);
+    color: var(--text-primary);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+.thank-div {
+    position: relative;
+
+    min-height: calc(100vh - 80px);
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        70px
+        var(--side-space)
+        90px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--background) 0%,
+            var(--background) 55%,
+            var(--surface-alt) 100%
+        );
+}
+
+
+/* =========================================================
+   BACKGROUND DETAILS
+   ========================================================= */
+
+.thank-div::before {
+    content: "";
+
+    position: absolute;
+
+    width: 620px;
+    height: 620px;
+
+    top: -310px;
+    right: -180px;
+
+    border:
+        1px solid
+        rgba(0, 87, 163, 0.08);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+.thank-div::after {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    bottom: -260px;
+    left: -180px;
+
+    border:
+        1px dashed
+        rgba(0, 87, 163, 0.08);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.thank-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(900px, 100%);
+
+    text-align: center;
+
+    animation:
+        thankReveal 700ms var(--ease-out) both;
+}
+
+
+/* =========================================================
+   SUCCESS ICON
+   ========================================================= */
+
+.thank-icon {
+    width: 68px;
+    height: 68px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin:
+        0
+        auto
+        25px;
+
+    border:
+        1px solid
+        rgba(0, 87, 163, 0.2);
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    color: var(--brand-blue);
+
+    font-size: 1.8rem;
+    font-weight: 500;
+
+    box-shadow:
+        0 10px 30px
+        rgba(10, 37, 64, 0.08);
+
+    animation:
+        iconReveal 650ms var(--ease-out) 100ms both;
+
+    transition:
+        transform 400ms var(--ease-out),
+        box-shadow 400ms ease,
+        background 300ms ease;
+}
+
+.thank-icon:hover {
+    transform:
+        translateY(-5px)
+        scale(1.04);
+
+    background: #fafdff;
+
+    box-shadow: var(--shadow-md);
+}
+
+
+/* =========================================================
+   EYEBROW
+   ========================================================= */
+
+.thank-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin:
+        0
+        0
+        17px;
+
+    color: var(--brand-blue);
+
+    font-size: 0.72rem;
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+}
+
+.thank-eyebrow::before,
+.thank-eyebrow::after {
+    content: "";
+
+    width: 28px;
+    height: 2px;
+
+    background: var(--brand-blue);
+}
+
+.thank-eyebrow::before {
+    transform-origin: right center;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+   ========================================================= */
+
+.thank-content h1 {
+    max-width: 850px;
+
+    margin:
+        0
+        auto;
+
+    color: var(--brand-dark);
+
+    font-size:
+        clamp(
+            3rem,
+            6.5vw,
+            6rem
+        );
+
+    font-weight: 850;
+
+    line-height: 0.94;
+
+    letter-spacing: -0.068em;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.thank-message {
+    max-width: 620px;
+
+    margin:
+        25px
+        auto
+        42px;
+
+    color: var(--text-secondary);
+
+    font-size:
+        clamp(
+            0.98rem,
+            1.4vw,
+            1.08rem
+        );
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   NEXT STEPS
+   ========================================================= */
+
+.thank-next {
+    position: relative;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin:
+        0
+        auto
+        38px;
+
+    text-align: left;
+}
+
+
+/* Connecting line */
+
+.thank-next::before {
+    content: "";
+
+    position: absolute;
+
+    top: 26px;
+    left: 9%;
+    right: 9%;
+
+    height: 1px;
+
+    background:
+        repeating-linear-gradient(
+            to right,
+            var(--border) 0,
+            var(--border) 8px,
+            transparent 8px,
+            transparent 15px
+        );
+}
+
+
+/* =========================================================
+   STEP
+   ========================================================= */
+
+.thank-step {
+    position: relative;
+    z-index: 2;
+
+    min-width: 0;
+
+    padding:
+        0
+        22px
+        15px
+        0;
+}
+
+
+/* Step number */
+
+.thank-step > span {
+    position: relative;
+    z-index: 3;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border:
+        1px solid
+        rgba(0, 87, 163, 0.2);
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    color: var(--brand-blue);
+
+    font-size: 0.72rem;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    box-shadow:
+        0 7px 18px
+        rgba(10, 37, 64, 0.07);
+
+    transition:
+        transform 400ms var(--ease-out),
+        background 250ms ease,
+        color 250ms ease,
+        box-shadow 400ms ease;
+}
+
+
+/* Step hover */
+
+.thank-step:hover > span {
+    transform:
+        translateY(-5px)
+        scale(1.05);
+
+    background: var(--brand-blue);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 12px 25px
+        rgba(0, 87, 163, 0.18);
+}
+
+
+/* =========================================================
+   STEP TEXT
+   ========================================================= */
+
+.thank-step h3 {
+    margin:
+        0
+        0
+        9px;
+
+    color: var(--brand-dark);
+
+    font-size: 1.12rem;
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    letter-spacing: -0.025em;
+}
+
+
+.thank-step p {
+    max-width: 250px;
+
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 0.87rem;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.thank-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid
+        var(--border);
+}
+
+
+/* Footer text */
+
+.thank-footer p {
+    margin: 0;
+
+    color: var(--text-muted);
+
+    font-size: 0.86rem;
+}
+
+
+/* =========================================================
+   RETURN HOME BUTTON
+   ========================================================= */
+
+.thank-footer a {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 45px;
+
+    padding:
+        0
+        19px;
+
+    border:
+        1px solid
+        var(--brand-blue);
+
+    border-radius: 7px;
+
+    background: var(--brand-blue);
+
+    color: #ffffff;
+
+    font-size: 0.84rem;
+    font-weight: 750;
+
+    box-shadow:
+        0 9px 22px
+        rgba(0, 87, 163, 0.16);
+
+    transition:
+        transform 350ms var(--ease-out),
+        background 250ms ease,
+        box-shadow 350ms var(--ease-out);
+}
+
+
+.thank-footer a::after {
+    content: "↗";
+
+    font-size: 0.95rem;
+
+    transition:
+        transform 300ms var(--ease-out);
+}
+
+
+.thank-footer a:hover {
+    transform: translateY(-3px);
+
+    background: var(--brand-blue-light);
+
+    box-shadow:
+        0 14px 28px
+        rgba(0, 87, 163, 0.22);
+}
+
+
+.thank-footer a:hover::after {
+    transform:
+        translate(
+            3px,
+            -3px
+        );
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes thankReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes iconReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .thank-div {
+        padding:
+            60px
+            var(--side-space)
+            75px;
+    }
+
+    .thank-content h1 {
+        font-size:
+            clamp(
+                2.8rem,
+                7vw,
+                5rem
+            );
+    }
+
+    .thank-next {
+        gap: 8px;
+    }
+
+    .thank-step {
+        padding-right: 15px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    :root {
+        --side-space: 18px;
+    }
+
+    .thank-div {
+        min-height: calc(100vh - 70px);
+
+        align-items: flex-start;
+
+        padding:
+            45px
+            var(--side-space)
+            60px;
+    }
+
+
+    /* Background */
+
+    .thank-div::before {
+        width: 400px;
+        height: 400px;
+
+        top: -200px;
+        right: -180px;
+    }
+
+    .thank-div::after {
+        width: 300px;
+        height: 300px;
+
+        bottom: -180px;
+        left: -150px;
+    }
+
+
+    /* Icon */
+
+    .thank-icon {
+        width: 60px;
+        height: 60px;
+
+        margin-bottom: 22px;
+
+        font-size: 1.55rem;
+    }
+
+
+    /* Eyebrow */
+
+    .thank-eyebrow {
+        font-size: 0.66rem;
+
+        letter-spacing: 0.15em;
+    }
+
+    .thank-eyebrow::before,
+    .thank-eyebrow::after {
+        width: 20px;
+    }
+
+
+    /* Heading */
+
+    .thank-content h1 {
+        font-size:
+            clamp(
+                2.55rem,
+                12.5vw,
+                4rem
+            );
+
+        line-height: 0.95;
+
+        letter-spacing: -0.065em;
+    }
+
+
+    /* Message */
+
+    .thank-message {
+        margin:
+            20px
+            auto
+            34px;
+
+        font-size: 0.94rem;
+
+        line-height: 1.65;
+    }
+
+
+    /* Steps */
+
+    .thank-next {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+
+        margin-bottom: 32px;
+
+        text-align: left;
+    }
+
+
+    /* Vertical connector */
+
+    .thank-next::before {
+        top: 26px;
+        bottom: 26px;
+
+        left: 25px;
+        right: auto;
+
+        width: 1px;
+        height: auto;
+
+        background:
+            repeating-linear-gradient(
+                to bottom,
+                var(--border) 0,
+                var(--border) 8px,
+                transparent 8px,
+                transparent 15px
+            );
+    }
+
+
+    /* Step layout */
+
+    .thank-step {
+        display: grid;
+
+        grid-template-columns:
+            52px
+            minmax(0, 1fr);
+
+        column-gap: 17px;
+
+        padding: 0;
+    }
+
+
+    .thank-step > span {
+        grid-row: 1 / span 2;
+
+        margin: 0;
+    }
+
+
+    .thank-step h3 {
+        margin:
+            2px
+            0
+            7px;
+    }
+
+
+    .thank-step p {
+        max-width: none;
+
+        font-size: 0.86rem;
+    }
+
+
+    /* Footer */
+
+    .thank-footer {
+        flex-direction: column;
+
+        gap: 13px;
+
+        padding-top: 23px;
+    }
+
+    .thank-footer p {
+        font-size: 0.82rem;
+    }
+
+    .thank-footer a {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+    :root {
+        --side-space: 15px;
+    }
+
+    .thank-div {
+        padding:
+            38px
+            var(--side-space)
+            50px;
+    }
+
+    .thank-icon {
+        width: 56px;
+        height: 56px;
+
+        font-size: 1.4rem;
+    }
+
+    .thank-content h1 {
+        font-size:
+            clamp(
+                2.35rem,
+                13.5vw,
+                3.5rem
+            );
+    }
+
+    .thank-message {
+        font-size: 0.9rem;
+    }
+
+    .thank-next {
+        gap: 22px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .thank-content,
+    .thank-icon,
+    .thank-step > span {
+        transform: none !important;
+    }
+}
+

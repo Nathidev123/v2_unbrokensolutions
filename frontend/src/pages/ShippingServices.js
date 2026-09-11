@@ -55,10 +55,12 @@ const ShippingServices = () => {
                         Shipping solutions for every need.
                     </h2>
 
-                    {/*<p>
-                        Choose the service that best suits your shipment,
-                        destination and delivery requirements.
-                    </p>  */}
+                    <p>
+                        We offer a range of shipping solutions, including local courier 
+                        deliveries and road, air and sea freight.
+
+
+                    </p>  
                 </div>
 
 
@@ -182,7 +184,7 @@ const ShippingServices = () => {
                     <p className="eyebrow">BEFORE YOU SHIP</p>
 
                     <h2>
-                        What information do we need?
+                        What your shipment requires.
                     </h2>
 
                     <p>
