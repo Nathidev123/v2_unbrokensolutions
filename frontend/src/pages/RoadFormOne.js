@@ -21,13 +21,12 @@ const RoadFormOne = () => {
     }
 
 
-
-
     const handleSubmit = () => {
         navigate('/RoadFormTwo')
     }
     //create emptyFields section
     return(<>
+        
         <div className="form-page">
             <div className="form-card">
         <form>
@@ -37,9 +36,9 @@ const RoadFormOne = () => {
                 style={{ width: "50%" }}
                 ></div>
 
-                
+                <div className="shipper-section">
                 <div className="form-group">
-                    <h1>Ship Form</h1>
+                    <h1>Ship From</h1>
                     
                     <input 
                     placeholder="Company Name"
@@ -79,8 +78,9 @@ const RoadFormOne = () => {
                     className={emptyFields.includes('phone') ? 'error': ''}
                     />
                 </div>
-
- 
+                </div>
+                
+                <div className="recipient-section">
                 <div className="form-group">
                     <h1>Ship To</h1>
                     <input 
@@ -122,7 +122,7 @@ const RoadFormOne = () => {
                     />
                 </div>
 
-
+            </div>
 
             </div>
         </div> 

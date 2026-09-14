@@ -1,5 +1,4 @@
 
-import { Link } from "react-router-dom"
 import {
     FiArrowRight,
     FiTruck,
@@ -21,11 +20,20 @@ const InkAndPrinting = () => {
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
     const [phone, setPhone] = useState('')
+    const [privacyConsent, setPrivacyConsent] = useState(false)
     const [alert, setAlert] = useState(null)
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        if(!privacyConsent){
+                setAlert({
+                    type: 'error',
+                    message: 'Please agree to the Privacy Policy before submitting your enquiry'
+                })
+                return
+            }
 
         const serviceId = 'service_wsyny93'
         const templateId = 'template_tqe19wu'
@@ -54,6 +62,7 @@ const InkAndPrinting = () => {
                 setEmail('')
                 setMessage('')
                 setPhone('')
+                setPrivacyConsent(false)
             })
             .catch((error) => {
                 console.error('Error sending email:', error)
@@ -473,6 +482,26 @@ const InkAndPrinting = () => {
                         />
 
                     </div>
+                    <div className="privacy-consent">
+                    <label className="privacy-checkbox">
+                    <input
+                        type="checkbox"
+                        name="privacyConsent"
+                        checked={privacyConsent || false}
+                        onChange={(e) => setPrivacyConsent(e.target.checked)}
+                    />
+
+                    <span>
+                        I have read and agree to the{" "}
+                        <a href="/PrivacyPolicy" 
+                        target="_blank" 
+                        rel="noreferrer">
+                            Privacy Policy
+                        </a>
+                        .
+                    </span>
+                </label>
+            </div>    
 
 
                     <button

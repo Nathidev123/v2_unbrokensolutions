@@ -1,5 +1,4 @@
 import { FaPhone } from "react-icons/fa6";
-import { MdEmail } from "react-icons/md";
 import './Footer.css'
 const Footer = () => {
 
@@ -16,12 +15,20 @@ const Footer = () => {
          <div className="footer-contact">
         <a href="tel:0716488541">
             <FaPhone className="phone-icon" size={17}/>
-        071 648 8541</a>
+            060 875 7163</a>
+        <a href='/ShippingServices'>
+            Shipping Services</a>
 
-        <a href='/emailForm'>
-            <MdEmail className="email-icon" size={17}/>
-            info@unbrokensolutions.co.za</a>
-    
+        <a href='/Consulting'>
+            Consulting</a>
+        
+        <a href='/InkAndPrinting'>
+            Ink & Printing</a>
+
+        <a href='/RoadFormOne'>
+            Create A Shipment</a>
+
+        
         </div>
         </div>
         <div className="footer-bottom">

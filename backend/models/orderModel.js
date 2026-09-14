@@ -153,7 +153,7 @@ const orderSchema = new Schema({
     //Air freight
     origin_airport: {
         type: String,
-        enum: ['JNB', 'CPT', 'DUR', 'PLZ', 'BFN', 'GRJ', 'MQP','HLA', 'UTN' ],
+        enum: ['JNB', 'CPT', 'DUR', 'PLZ', 'BFN','ELS', 'GRJ', 'MQP','HLA', 'UTN' ],
         required: function () {
             return this.service_type === 'air'  
         }

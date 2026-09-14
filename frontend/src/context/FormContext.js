@@ -38,7 +38,8 @@ const initialState = {
         port_of_origin: '',
         port_of_destination: '',
         load_type: '',
-        additional_information: ''
+        additional_information: '',
+        privacy_consent: false
     },
    emptyFields: [] 
      

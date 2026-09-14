@@ -1,19 +1,21 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import ScrollToTop from './Components/ScrollToTop';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Home from './pages/Home';
-import ShipmentForm from './pages/ShipmentForm'
 import RoadFormOne from './pages/RoadFormOne'
 import RoadFormTwo from './pages/RoadFormTwo';
 import ThankYouPage from './pages/ThankYouPage';
 import ShippingServices from './pages/ShippingServices';
 import Consulting from './pages/Consulting';
 import InkAndPrinting from './pages/InkAndPrinting';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      <ScrollToTop />
       <Navbar />
       
       <main className='pages'>
@@ -22,10 +24,6 @@ function App() {
       <Route path='/'
       element={<Home />}>
       
-      </Route>
-      
-      <Route path='/shipment'
-      element={<ShipmentForm />}>
       </Route>
 
       <Route path='/thankyou'
@@ -50,6 +48,10 @@ function App() {
 
       <Route path='/InkAndPrinting'
       element={<InkAndPrinting />}>
+      </Route>
+
+      <Route path='/PrivacyPolicy'
+      element={<PrivacyPolicy />}>
       </Route>
 
       </Routes>

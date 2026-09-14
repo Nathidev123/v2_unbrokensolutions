@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom"
 import { useOrderContext } from "../hooks/useOrderContext"
@@ -38,6 +38,10 @@ const RoadFormTwo = () => {
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     //forgot to add loading state in commit message
     //moved from quotation
+
+    //to avoid the 429 error for api(too many requests)
+    const seaPortTimeout = useRef(null)
+    const airportTimeout = useRef(null)
     const getDistance = async () => {
     //sendin req to backend
     const response = await fetch('/api/order/distance', {
@@ -95,11 +99,18 @@ const RoadFormTwo = () => {
     //2 generate and send quote
     //3 send automated email
     const handleSubmit = async () => {
+        if(!formData.privacy_consent){
+            setError("Please agree to the Privacy Policy before submitting your enquiry")
+            return
+        }
+
         setLoadingSubmit(true)
+
         try {
         let orderData = {
             ...formData
         }
+
         
         
 
@@ -171,7 +182,11 @@ const RoadFormTwo = () => {
 
         console.log("Great Success", json)
         setError(null)
+        dispatch2({
+            type: "RESET_FORM"
+        })
         navigate('/thankyou')
+
         
     } catch(error) {
         console.error("Submit error:", error)
@@ -188,11 +203,21 @@ const RoadFormTwo = () => {
 
         setAirportSearch(value)
 
+        //for too many requests
+        if(airportTimeout.current){
+            clearTimeout(airportTimeout.current)
+        }
+
         if(value.length < 2){
             setAirportResults([])
             return
         }
-        setLoadingAirPorts(true)
+        //to start search only when user stops typing
+        //and not after every letter 
+        airportTimeout.current = setTimeout(async () => {
+            setLoadingAirPorts(true)
+        })
+        //setLoadingAirPorts(true)
 
         try {
             //connecting api
@@ -215,14 +240,22 @@ const RoadFormTwo = () => {
 
     //same functionality but for sea ports
     const searchSeaports = async(query) => {
+
          setSeaportSearch(query)
+
+         if(seaPortTimeout.current){
+            clearTimeout(seaPortTimeout.current)
+         }
 
         if(query.length < 2){
             setSeaportResults([])
             return
         }
-        setLoadingSeaPorts(true)
-        setTimeout(async () => {
+        seaPortTimeout.current = setTimeout(async () => {
+            setLoadingSeaPorts(true)
+        
+        
+        //setTimeout(async () => {
 
         
         try {
@@ -266,7 +299,7 @@ const RoadFormTwo = () => {
                         <div className="form-group">
                            <input 
                            type="number"
-                           placeholder="Weight"
+                           placeholder="Weight in kg"
                            name="weight"
                            value={formData.weight}
                            onChange={handleChange}
@@ -276,7 +309,7 @@ const RoadFormTwo = () => {
                         <div className="form-group">
                            <input 
                            type="number"
-                           placeholder="Height"
+                           placeholder="Height in cm"
                            name="height"
                            value={formData.height}
                            onChange={handleChange}
@@ -286,7 +319,7 @@ const RoadFormTwo = () => {
                         <div className="form-group">
                            <input 
                            type="number"
-                           placeholder="Length"
+                           placeholder="Length in cm"
                            name="length"
                            value={formData.length}
                            onChange={handleChange}
@@ -296,7 +329,7 @@ const RoadFormTwo = () => {
                         <div className="form-group">
                            <input 
                            type="number"
-                           placeholder="Width"
+                           placeholder="Width in cm"
                            name="width"
                            value={formData.width}
                            onChange={handleChange}
@@ -317,6 +350,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="service_type"></label>
                     <select 
+                    id="service_type"
                     name="service_type"
                     value={formData.service_type}
                     onChange={handleChange}
@@ -334,6 +368,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="origin_airport">Origin Airport</label>
                     <select 
+                    id="origin_airport"
                     name="origin_airport"
                     value={formData.origin_airport}
                     onChange={handleChange}
@@ -360,6 +395,7 @@ const RoadFormTwo = () => {
                     <label htmlFor="destination_airport">Destination Airport</label>
                     
                     <input 
+                    id="destination_airport"
                     type="text"
                     placeholder="Search the airport or city..."
                     name="destination_airport"
@@ -440,6 +476,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="cargo_type">Cargo Type</label>
                     <select 
+                    id="cargo_type"
                     name="cargo_type"
                     value={formData.cargo_type}
                     onChange={handleChange}                  
@@ -483,7 +520,8 @@ const RoadFormTwo = () => {
                     type="date"
                     name="required_delivery_date"
                     value={formData.required_delivery_date}
-                    onChange={handleChange}                  
+                    onChange={handleChange}  
+                    min={new Date().toISOString().split("T")[0]}                
                     className={emptyFields.includes('required_delivery_date') ? 'error': ''}
                     
                     />
@@ -497,6 +535,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="shipment_type">Shipment Type</label>
                     <select 
+                    id="shipment_type"
                     name="shipment_type"
                     value={formData.shipment_type}
                     onChange={handleChange}
@@ -516,6 +555,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="container_type">Container Type</label>
                     <select 
+                    id="container_type"
                     name="container_type"
                     value={formData.container_type}
                     onChange={handleChange}
@@ -537,6 +577,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="number_of_containers">No. of Containers</label>
                     <select 
+                    id="number_of_containers"
                     name="number_of_containers"
                     value={formData.number_of_containers}
                     onChange={handleChange}
@@ -558,6 +599,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="port_of_origin">Port of Origin</label>
                     <select 
+                    id="port_of_origin"
                     name="port_of_origin"
                     value={formData.port_of_origin}
                     onChange={handleChange}
@@ -583,6 +625,7 @@ const RoadFormTwo = () => {
                     <label htmlFor="port_of_destination">Destination Sea Port</label>
                     
                     <input 
+                    id="port_of_destination"
                     type="text"
                     placeholder="Search the sea port or city..."
                     name="port_of_destination"
@@ -649,6 +692,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="cargo_type">Cargo Type</label>
                     <select 
+                    id="cargo_type"
                     name="cargo_type"
                     value={formData.cargo_type}
                     onChange={handleChange}                  
@@ -709,7 +753,8 @@ const RoadFormTwo = () => {
                     type="date"
                     name="required_delivery_date"
                     value={formData.required_delivery_date}
-                    onChange={handleChange}                  
+                    onChange={handleChange} 
+                    min={new Date().toISOString().split("T")[0]}                 
                     className={emptyFields.includes('required_delivery_date') ? 'error': ''}
                     
                     />
@@ -954,6 +999,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="load_type">Load Type</label>
                     <select 
+                    id="load_type"
                     name="load_type"
                     value={formData.load_type}
                     onChange={handleChange}
@@ -992,12 +1038,12 @@ const RoadFormTwo = () => {
                     type="date"
                     name="required_delivery_date"
                     value={formData.required_delivery_date}
-                    onChange={handleChange}                  
+                    onChange={handleChange}         
+                    min={new Date().toISOString().split("T")[0]}         
                     className={emptyFields.includes('required_delivery_date') ? 'error': ''}
                     
                     />
                    
-                     
                     </div>
                 )}
 
@@ -1005,6 +1051,7 @@ const RoadFormTwo = () => {
                     <div className="form-group">
                     <label htmlFor="cargo_type">Cargo Type</label>
                     <select 
+                    id="cargo_type"
                     name="cargo_type"
                     value={formData.cargo_type}
                     onChange={handleChange}                  
@@ -1169,7 +1216,24 @@ const RoadFormTwo = () => {
                     </div>
                     {error && <div className="error">{error}</div>}
                 </form>
-                
+            <div className="privacy-consent">
+                <label className="privacy-checkbox">
+                    <input
+                        type="checkbox"
+                        name="privacy_consent"
+                        checked={formData.privacy_consent || false}
+                        onChange={handleChange}
+                    />
+
+                    <span>
+                        I have read and agree to the{" "}
+                        <a href="/PrivacyPolicy" target="_blank" rel="noreferrer">
+                            Privacy Policy
+                        </a>
+                        .
+                    </span>
+                </label>
+            </div>    
             <button className="form-btn"
                 onClick={handleSubmit}
                 disabled={loadingSubmit}>

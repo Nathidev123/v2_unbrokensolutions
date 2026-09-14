@@ -2,14 +2,76 @@ import { LuShip } from "react-icons/lu";
 import { Link } from "react-router-dom"
 import Services from '../assets/services.png'
 import UBCourier from '../assets/UBCourier.png'
+import { useState } from "react"
+import emailjs from '@emailjs/browser'
 import {
+    FiArrowRight,
     FiPackage,
     FiTruck,
     FiSend
 } from "react-icons/fi"
 import './ShippingServices.css'
 const ShippingServices = () => {
-
+    
+        
+        const [name, setName] = useState('')
+        const [company_name, setCompanyName] = useState('')
+        const [email, setEmail] = useState('')
+        const [message, setMessage] = useState('')
+        const [phone, setPhone] = useState('')
+        const [privacyConsent, setPrivacyConsent] = useState(false)
+        const [alert, setAlert] = useState(null)
+    
+    
+        const handleSubmit = (e) => {
+            e.preventDefault()
+            
+            if(!privacyConsent){
+                setAlert({
+                    type: 'error',
+                    message: 'Please agree to the Privacy Policy before submitting your enquiry'
+                })
+                return
+            }
+            const serviceId = 'service_wsyny93'
+            const templateId = 'template_tqe19wu'
+            const publicKey = 'eCS5a5yRYSaLDbX4R'
+    
+            const templateParams = {
+                from_name: name,
+                to_email: email,
+                to_name: 'Unbroken Solutions',
+                company_name: company_name,
+                message: message,
+                phone: phone
+            }
+    
+            emailjs.send(serviceId, templateId, templateParams, publicKey)
+                .then((response) => {
+                    console.log('Email sent successfully', response)
+    
+                    setAlert({
+                        type: 'success',
+                        message: 'Your enquiry has been sent! We will get back to you shortly.'
+                    })
+    
+                    setName('')
+                    setCompanyName('')
+                    setEmail('')
+                    setMessage('')
+                    setPhone('')
+                    setPrivacyConsent(false)
+                })
+                .catch((error) => {
+                    console.error('Error sending email:', error)
+    
+                    setAlert({
+                        type: 'error',
+                        message: 'Failed to send enquiry. Please try again.'
+                    })
+                })
+        }
+    
     return (
         
         <main className="shipping-services">
@@ -262,7 +324,175 @@ const ShippingServices = () => {
                     Get a Quote
                 </Link>
 
+           
             </section>
+
+           
+            {/* CONTACT */}
+            <section className="shipping-contact">
+
+                <div className="contact-heading">
+
+                    <p className="eyebrow">
+                        LET'S TALK SHIPPING
+                    </p>
+
+                    <h2>
+                        Planning a shipment?
+                        <br />
+                        Not sure where to start?
+                    </h2>
+
+                    <p>
+                        Tell us what you're looking to move and where it needs to go.
+                        Whether you're ready for a quote or just have a question,
+                        we'll help you find the right shipping solution.
+                    </p>
+
+                </div>
+
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="consulting-form"
+                >
+
+                    <div className="form-row">
+
+                        <div className="form-group">
+
+                            <label htmlFor="name">
+                                Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Your name"
+                                required
+                            />
+
+                        </div>
+
+
+                        <div className="form-group">
+
+                            <label htmlFor="company">
+                                Company
+                            </label>
+
+                            <input
+                                type="text"
+                                id="company"
+                                value={company_name}
+                                onChange={(e) => setCompanyName(e.target.value)}
+                                placeholder="Company name"
+                            />
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="form-row">
+
+                        <div className="form-group">
+
+                            <label htmlFor="email">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="you@company.com"
+                                required
+                            />
+
+                        </div>
+
+
+                        <div className="form-group">
+
+                            <label htmlFor="phone">
+                                Phone
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                placeholder="Phone number"
+                            />
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="form-group">
+
+                        <label htmlFor="message">
+                            How can we help?
+                        </label>
+
+                        <textarea
+                            id="message"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            required
+                            rows="6"
+                            placeholder="Tell us what you're looking to ship, where it's going, or anything you'd like to ask about our shipping services..."
+                        />
+
+                    </div>
+
+                    <div className="privacy-consent">
+                    <label className="privacy-checkbox">
+                    <input
+                        type="checkbox"
+                        name="privacyConsent"
+                        checked={privacyConsent || false}
+                        onChange={(e) => setPrivacyConsent(e.target.checked)}
+                    />
+
+                    <span>
+                        I have read and agree to the{" "}
+                        <a href="/PrivacyPolicy" 
+                        target="_blank" 
+                        rel="noreferrer">
+                            Privacy Policy
+                        </a>
+                        .
+                    </span>
+                </label>
+            </div>    
+
+                    <button
+                        type="submit"
+                        className="contact-submit"
+                    >
+                        Send enquiry
+                        <FiArrowRight />
+                    </button>
+
+
+                    {alert && (
+                        <div className={`alert alert-${alert.type}`}>
+                            {alert.message}
+                        </div>
+                    )}
+
+                </form>
+
+            </section>
+
+
 
         </main>
     )

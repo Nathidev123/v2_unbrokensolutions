@@ -1232,3 +1232,43 @@ form > .error {
     }
 
 }
+/* Privacy Consent */
+.privacy-consent {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.privacy-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+
+    cursor: pointer;
+}
+
+.privacy-checkbox input {
+    width: 16px;
+    height: 16px;
+
+    margin-top: 2px;
+    flex-shrink: 0;
+
+    accent-color: var(--brand-blue);
+
+    cursor: pointer;
+}
+
+.privacy-checkbox a {
+    color: var(--brand-blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.privacy-checkbox a:hover {
+    text-decoration: underline;
+}
