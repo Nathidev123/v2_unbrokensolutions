@@ -1,27 +1,24 @@
-const nodemailer = require('nodemailer')
-const path = require('path')
+const nodemailer = require("nodemailer");
+const path = require("path");
 const transporter = nodemailer.createTransport({
-    
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-})
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 const sendQuotationEmail = async (order, pdfBuffer) => {
+  let mailOptions;
 
-    let mailOptions 
+  if (order.service_type === "courier") {
+    mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: order.email,
+      cc: process.env.COMPANY_EMAIL,
+      subject: `Unbroken Solutions Quotation for - ${order.company_name}`,
 
-        if(order.service_type === 'courier') {
-
-        mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: order.email,
-            cc: process.env.COMPANY_EMAIL,
-            subject: `Unbroken Solutions Quotation for - ${order.company_name}`,
-            
-           html: `
+      html: `
                 <div style="
                     font-family: Arial, Helvetica, sans-serif;
                     max-width: 600px;
@@ -77,27 +74,26 @@ const sendQuotationEmail = async (order, pdfBuffer) => {
 
                 </div>
             `,
-        attachments: [
-            {
-                filename: `Unbroken Solutions Quote-${order.company_name}.pdf`,
-                content: pdfBuffer,
-                contentType: 'application/pdf'
-            },
-            {
-                filename: 'emailstamp.png',
-                path: path.join(__dirname, '../backendAssets/emailstamp2.0.png'),
-                cid: 'unbroken-logo'
-            }
-        ]
-    }
-}
-    else {
-        mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: order.email,
-            cc: process.env.COMPANY_EMAIL,
-            subject: `Unbroken Solutions Enquiry for - ${order.company_name}`,
-            html: `
+      attachments: [
+        {
+          filename: `Unbroken Solutions Quote-${order.company_name}.pdf`,
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
+        {
+          filename: "emailstamp.png",
+          path: path.join(__dirname, "../backendAssets/emailstamp2.0.png"),
+          cid: "unbroken-logo",
+        },
+      ],
+    };
+  } else {
+    mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: order.email,
+      cc: process.env.COMPANY_EMAIL,
+      subject: `Unbroken Solutions Enquiry for - ${order.company_name}`,
+      html: `
                 <div style="
                     font-family: Arial, Helvetica, sans-serif;
                     max-width: 600px;
@@ -150,18 +146,18 @@ const sendQuotationEmail = async (order, pdfBuffer) => {
 
                 </div>
             `,
-            attachments: [
-                {
-                    filename: 'emailstamp.png',
-                    path: path.join(__dirname, '../backendAssets/emailstamp2.0.png'),
-                    cid: 'unbroken-logo'
-                }
-            ]
-        }
-    }
+      attachments: [
+        {
+          filename: "emailstamp.png",
+          path: path.join(__dirname, "../backendAssets/emailstamp2.0.png"),
+          cid: "unbroken-logo",
+        },
+      ],
+    };
+  }
 
-    const info = await transporter.sendMail(mailOptions)
-    return info
-}
+  const info = await transporter.sendMail(mailOptions);
+  return info;
+};
 
-module.exports = sendQuotationEmail
+module.exports = sendQuotationEmail;

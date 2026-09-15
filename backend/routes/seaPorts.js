@@ -1,8 +1,8 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const { getSeaPort } = require('../controller/getSeaPort')
+const { getSeaPort } = require("../controller/getSeaPort");
 
-router.get('/', getSeaPort)
+router.get("/", getSeaPort);
 
-module.exports = router
+module.exports = router;

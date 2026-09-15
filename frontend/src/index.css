@@ -1,38 +1,35 @@
 /* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
 
-:root{
+:root {
   /* Brand */
-  --brand-blue:#0057A3;
-  --brand-blue-light:#1D7DD8;
-  --brand-dark:#0A2540;
-  --secondary:#0f172a;
+  --brand-blue: #0057a3;
+  --brand-blue-light: #1d7dd8;
+  --brand-dark: #0a2540;
+  --secondary: #0f172a;
 
   /* Surfaces */
-  --background:#f8fafc;
-  --surface:#ffffff;
-  --surface-alt:#f1f5f9;
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
 
   /* Text */
-  --text-primary:#0f172a;
-  --text-secondary:#475569;
-  --text-muted:#64748b;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
 
   /* Borders */
-  --border:#e2e8f0;
+  --border: #e2e8f0;
 
   /* Effects */
-  --shadow:
-    0 1px 3px rgba(15,23,42,.06),
-    0 8px 24px rgba(15,23,42,.08);
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.08);
 
   --shadow-hover:
-    0 12px 32px rgba(15,23,42,.12),
-    0 24px 60px rgba(15,23,42,.08);
+    0 12px 32px rgba(15, 23, 42, 0.12), 0 24px 60px rgba(15, 23, 42, 0.08);
 
-  --transition:all .3s ease;
+  --transition: all 0.3s ease;
   /*error*/
-    --error: #e7195a; 
+  --error: #e7195a;
 }
 
 /* Global */
@@ -56,6 +53,3 @@ body{
   min-height:100vh;
 }
 */
-
-
-

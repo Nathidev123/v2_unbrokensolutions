@@ -1,334 +1,302 @@
-
-const { jsPDF } = require('jspdf')
+const { jsPDF } = require("jspdf");
 
 // Quote generator
 const generateQuotationPDF = (order) => {
+  const distanceKm = Number(order.distanceKm) / 1000;
 
-    const distanceKm = Number(order.distanceKm) / 1000
+  const durationSeconds = parseInt(order.durationSeconds);
+  const durationMinutes = durationSeconds / 60;
 
-    const durationSeconds = parseInt(order.durationSeconds)
-    const durationMinutes = durationSeconds / 60
+  const doc = new jsPDF();
 
-    const doc = new jsPDF()
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
 
-    const pageWidth = doc.internal.pageSize.getWidth()
-    const pageHeight = doc.internal.pageSize.getHeight()
+  // --------------------------------------------------
+  // COLOURS
+  // --------------------------------------------------
 
-    // --------------------------------------------------
-    // COLOURS
-    // --------------------------------------------------
+  const dark = [30, 30, 30];
+  const grey = [105, 105, 105];
+  const lightGrey = [245, 245, 245];
+  const borderGrey = [220, 220, 220];
+  const white = [255, 255, 255];
 
-    const dark = [30, 30, 30]
-    const grey = [105, 105, 105]
-    const lightGrey = [245, 245, 245]
-    const borderGrey = [220, 220, 220]
-    const white = [255, 255, 255]
+  // --------------------------------------------------
+  // HEADER
+  // --------------------------------------------------
 
-    // --------------------------------------------------
-    // HEADER
-    // --------------------------------------------------
+  doc.setFillColor(...dark);
+  doc.rect(0, 0, pageWidth, 32, "F");
 
-    doc.setFillColor(...dark)
-    doc.rect(0, 0, pageWidth, 32, 'F')
+  doc.setTextColor(...white);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(20);
 
-    doc.setTextColor(...white)
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(20)
+  doc.text("UNBROKEN SOLUTIONS", 15, 14);
 
-    doc.text('UNBROKEN SOLUTIONS', 15, 14)
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
+  doc.text("LOGISTICS & SHIPPING", 15, 21);
 
-    doc.text('LOGISTICS & SHIPPING', 15, 21)
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(17);
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(17)
+  doc.text("QUOTATION", pageWidth - 15, 15, {
+    align: "right",
+  });
 
-    doc.text('QUOTATION', pageWidth - 15, 15, {
-        align: 'right'
-    })
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(8)
+  doc.text(
+    `Date: ${new Date().toLocaleDateString("en-ZA")}`,
+    pageWidth - 15,
+    22,
+    { align: "right" },
+  );
 
-    doc.text(
-        `Date: ${new Date().toLocaleDateString('en-ZA')}`,
-        pageWidth - 15,
-        22,
-        { align: 'right' }
-    )
+  // --------------------------------------------------
+  // QUOTATION REFERENCE
+  // --------------------------------------------------
 
-    // --------------------------------------------------
-    // QUOTATION REFERENCE
-    // --------------------------------------------------
+  let y = 45;
 
-    let y = 45
+  doc.setTextColor(...dark);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
 
-    doc.setTextColor(...dark)
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(11)
+  doc.text("Quotation For", 15, y);
 
-    doc.text('Quotation For', 15, y)
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(11)
+  doc.text(order.company_name || "Customer", 15, y + 7);
 
-    doc.text(order.company_name || 'Customer', 15, y + 7)
+  // --------------------------------------------------
+  // CUSTOMER INFORMATION
+  // --------------------------------------------------
 
-    // --------------------------------------------------
-    // CUSTOMER INFORMATION
-    // --------------------------------------------------
+  y += 18;
 
-    y += 18
+  doc.setFillColor(...lightGrey);
+  doc.roundedRect(15, y, 85, 48, 2, 2, "F");
 
-    doc.setFillColor(...lightGrey)
-    doc.roundedRect(15, y, 85, 48, 2, 2, 'F')
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(10);
+  doc.setTextColor(...dark);
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(10)
-    doc.setTextColor(...dark)
+  doc.text("CUSTOMER DETAILS", 20, y + 8);
 
-    doc.text('CUSTOMER DETAILS', 20, y + 8)
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(...grey);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
-    doc.setTextColor(...grey)
+  doc.text(`Contact: ${order.contact_name || "-"}`, 20, y + 17);
+  doc.text(`Email: ${order.email || "-"}`, 20, y + 24);
+  doc.text(`Phone: ${order.phone || "-"}`, 20, y + 31);
 
-    doc.text(`Contact: ${order.contact_name || '-'}`, 20, y + 17)
-    doc.text(`Email: ${order.email || '-'}`, 20, y + 24)
-    doc.text(`Phone: ${order.phone || '-'}`, 20, y + 31)
+  const customerAddress = [
+    order.street_address,
+    order.city,
+    order.province,
+    order.postal_code,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
-    const customerAddress = [
-        order.street_address,
-        order.city,
-        order.province,
-        order.postal_code
-    ]
-        .filter(Boolean)
-        .join(', ')
-
-    const customerAddressLines = doc.splitTextToSize(
-        customerAddress || '-',
-        70
-    )
-
-    doc.text('Address:', 20, y + 38)
-
-    doc.text(
-        customerAddressLines,
-        20,
-        y + 43
-    )
+  const customerAddressLines = doc.splitTextToSize(customerAddress || "-", 70);
 
-    // --------------------------------------------------
-    // RECIPIENT INFORMATION
-    // --------------------------------------------------
-
-    doc.setFillColor(...lightGrey)
-    doc.roundedRect(110, y, 85, 48, 2, 2, 'F')
+  doc.text("Address:", 20, y + 38);
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(10)
-    doc.setTextColor(...dark)
+  doc.text(customerAddressLines, 20, y + 43);
 
-    doc.text('DELIVERY DETAILS', 115, y + 8)
-
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
-    doc.setTextColor(...grey)
-
-    doc.text(
-        `Company: ${order.recipient_company || '-'}`,
-        115,
-        y + 17
-    )
+  // --------------------------------------------------
+  // RECIPIENT INFORMATION
+  // --------------------------------------------------
 
-    const recipientAddress = [
-        order.recipient_street_address,
-        order.recipient_city,
-        order.recipient_province
-    ]
-        .filter(Boolean)
-        .join(', ')
+  doc.setFillColor(...lightGrey);
+  doc.roundedRect(110, y, 85, 48, 2, 2, "F");
 
-    const recipientAddressLines = doc.splitTextToSize(
-        recipientAddress || '-',
-        70
-    )
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(10);
+  doc.setTextColor(...dark);
 
-    doc.text('Address:', 115, y + 26)
+  doc.text("DELIVERY DETAILS", 115, y + 8);
 
-    doc.text(
-        recipientAddressLines,
-        115,
-        y + 32
-    )
-
-    // --------------------------------------------------
-    // SHIPMENT DETAILS
-    // --------------------------------------------------
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(...grey);
 
-    y += 60
+  doc.text(`Company: ${order.recipient_company || "-"}`, 115, y + 17);
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(11)
-    doc.setTextColor(...dark)
+  const recipientAddress = [
+    order.recipient_street_address,
+    order.recipient_city,
+    order.recipient_province,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
-    doc.text('SHIPMENT DETAILS', 15, y)
+  const recipientAddressLines = doc.splitTextToSize(
+    recipientAddress || "-",
+    70,
+  );
 
-    y += 7
+  doc.text("Address:", 115, y + 26);
 
-    // Table background
-    doc.setFillColor(...dark)
-    doc.roundedRect(15, y, 180, 9, 2, 2, 'F')
+  doc.text(recipientAddressLines, 115, y + 32);
 
-    doc.setTextColor(...white)
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(8)
+  // --------------------------------------------------
+  // SHIPMENT DETAILS
+  // --------------------------------------------------
 
-    doc.text('DESCRIPTION', 20, y + 6)
-    doc.text('DETAILS', 125, y + 6)
+  y += 60;
 
-    y += 9
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(...dark);
 
-    const shipmentDetails = [
-        ['Package', order.package_name || '-'],
-        ['Contents', order.package_contents || '-'],
-        ['Weight', `${order.weight || '-'} kg`],
-        ['Dimensions', `${order.length || '-'} × ${order.width || '-'} × ${order.height || '-'} cm`],
-        ['Delivery Speed', order.delivery_speed || '-'],
-        ['Distance', `${distanceKm.toFixed(2)} km`],
-        ['Estimated Transit Time', `${durationMinutes.toFixed(0)} min`],
-        ['Parcel Value', `R${Number(order.parcel_value || 0).toFixed(2)}`]
-    ]
+  doc.text("SHIPMENT DETAILS", 15, y);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
+  y += 7;
 
-    shipmentDetails.forEach((item, index) => {
+  // Table background
+  doc.setFillColor(...dark);
+  doc.roundedRect(15, y, 180, 9, 2, 2, "F");
 
-        const rowHeight = 9
+  doc.setTextColor(...white);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(8);
 
-        if (index % 2 === 0) {
-            doc.setFillColor(...lightGrey)
-            doc.rect(15, y, 180, rowHeight, 'F')
-        }
+  doc.text("DESCRIPTION", 20, y + 6);
+  doc.text("DETAILS", 125, y + 6);
 
-        doc.setTextColor(...grey)
-        doc.text(item[0], 20, y + 6)
-
-        doc.setTextColor(...dark)
+  y += 9;
 
-        const detailLines = doc.splitTextToSize(
-            String(item[1]),
-            65
-        )
-
-        doc.text(
-            detailLines,
-            125,
-            y + 6
-        )
+  const shipmentDetails = [
+    ["Package", order.package_name || "-"],
+    ["Contents", order.package_contents || "-"],
+    ["Weight", `${order.weight || "-"} kg`],
+    [
+      "Dimensions",
+      `${order.length || "-"} × ${order.width || "-"} × ${order.height || "-"} cm`,
+    ],
+    ["Delivery Speed", order.delivery_speed || "-"],
+    ["Distance", `${distanceKm.toFixed(2)} km`],
+    ["Estimated Transit Time", `${durationMinutes.toFixed(0)} min`],
+    ["Parcel Value", `R${Number(order.parcel_value || 0).toFixed(2)}`],
+  ];
 
-        y += rowHeight
-    })
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
 
-    // --------------------------------------------------
-    // QUOTATION TOTAL
-    // --------------------------------------------------
+  shipmentDetails.forEach((item, index) => {
+    const rowHeight = 9;
 
-    y += 12
+    if (index % 2 === 0) {
+      doc.setFillColor(...lightGrey);
+      doc.rect(15, y, 180, rowHeight, "F");
+    }
 
-    doc.setFillColor(...dark)
-    doc.roundedRect(115, y, 80, 28, 2, 2, 'F')
+    doc.setTextColor(...grey);
+    doc.text(item[0], 20, y + 6);
 
-    doc.setTextColor(...white)
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
+    doc.setTextColor(...dark);
 
-    doc.text('ESTIMATED QUOTATION', 155, y + 9, {
-        align: 'center'
-    })
+    const detailLines = doc.splitTextToSize(String(item[1]), 65);
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(17)
+    doc.text(detailLines, 125, y + 6);
 
-    doc.text(
-        `R${Number(order.quoteAmount || 0).toFixed(2)}`,
-        155,
-        y + 20,
-        { align: 'center' }
-    )
+    y += rowHeight;
+  });
 
-    // --------------------------------------------------
-    // NOTE
-    // --------------------------------------------------
+  // --------------------------------------------------
+  // QUOTATION TOTAL
+  // --------------------------------------------------
 
-    y += 40
+  y += 12;
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(9)
-    doc.setTextColor(...dark)
+  doc.setFillColor(...dark);
+  doc.roundedRect(115, y, 80, 28, 2, 2, "F");
 
-    doc.text('IMPORTANT', 15, y)
+  doc.setTextColor(...white);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setTextColor(...grey)
+  doc.text("ESTIMATED QUOTATION", 155, y + 9, {
+    align: "center",
+  });
 
-    const note = doc.splitTextToSize(
-        'This quotation is based on the shipment information provided and is subject to confirmation by Unbroken Solutions. Final charges may vary if shipment details change.',
-        180
-    )
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(17);
 
-    doc.text(note, 15, y + 7, {
-        lineHeightFactor: 1.5
-    })
+  doc.text(`R${Number(order.quoteAmount || 0).toFixed(2)}`, 155, y + 20, {
+    align: "center",
+  });
 
-    // --------------------------------------------------
-    // FOOTER
-    // --------------------------------------------------
+  // --------------------------------------------------
+  // NOTE
+  // --------------------------------------------------
 
-    doc.setDrawColor(...borderGrey)
-    doc.line(15, pageHeight - 24, pageWidth - 15, pageHeight - 24)
+  y += 40;
 
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(9)
-    doc.setTextColor(...dark)
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9);
+  doc.setTextColor(...dark);
 
-    doc.text(
-        'Unbroken Solutions',
-        15,
-        pageHeight - 16
-    )
+  doc.text("IMPORTANT", 15, y);
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(8)
-    doc.setTextColor(...grey)
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...grey);
 
-    doc.text(
-        'Professional logistics. Delivered with purpose.',
-        15,
-        pageHeight - 11
-    )
+  const note = doc.splitTextToSize(
+    "This quotation is based on the shipment information provided and is subject to confirmation by Unbroken Solutions. Final charges may vary if shipment details change.",
+    180,
+  );
 
-    doc.text(
-        'Thank you for choosing Unbroken Solutions.',
-        pageWidth - 15,
-        pageHeight - 13,
-        { align: 'right' }
-    )
+  doc.text(note, 15, y + 7, {
+    lineHeightFactor: 1.5,
+  });
 
-    // --------------------------------------------------
-    // PDF BUFFER
-    // --------------------------------------------------
+  // --------------------------------------------------
+  // FOOTER
+  // --------------------------------------------------
 
-    const pdfBuffer = Buffer.from(
-        doc.output('arraybuffer')
-    )
+  doc.setDrawColor(...borderGrey);
+  doc.line(15, pageHeight - 24, pageWidth - 15, pageHeight - 24);
 
-    return pdfBuffer
-}
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9);
+  doc.setTextColor(...dark);
 
-module.exports = generateQuotationPDF
+  doc.text("Unbroken Solutions", 15, pageHeight - 16);
 
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(...grey);
+
+  doc.text(
+    "Professional logistics. Delivered with purpose.",
+    15,
+    pageHeight - 11,
+  );
+
+  doc.text(
+    "Thank you for choosing Unbroken Solutions.",
+    pageWidth - 15,
+    pageHeight - 13,
+    { align: "right" },
+  );
+
+  // --------------------------------------------------
+  // PDF BUFFER
+  // --------------------------------------------------
+
+  const pdfBuffer = Buffer.from(doc.output("arraybuffer"));
+
+  return pdfBuffer;
+};
+
+module.exports = generateQuotationPDF;
