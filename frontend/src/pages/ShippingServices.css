@@ -2401,7 +2401,7 @@ a {
     line-height: 1.5;
 }
 
-.shipping-contact .alert-success {
+/*.shipping-contact .alert-success {
     border-color:
         rgba(
             0,
@@ -2420,7 +2420,7 @@ a {
 
     color:
         var(--brand-blue);
-}
+}*/
 
 .shipping-contact .alert-error {
     border-color:
@@ -2708,4 +2708,152 @@ a {
         height: 16px;
     }
 
+}
+/* ================================
+   SUBMISSION LOADING OVERLAY
+================================ */
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(10, 37, 64, 0.28);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    animation: overlayFadeIn 0.25s ease forwards;
+}
+
+
+/* ================================
+   LOADING MODAL
+================================ */
+
+.loading-modal {
+    width: min(420px, calc(100% - 40px));
+    padding: 42px 40px;
+
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(10, 37, 64, 0.18),
+        0 8px 25px rgba(10, 37, 64, 0.08);
+
+    animation: modalEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+/* ================================
+   SPINNER
+================================ */
+
+.submit-spinner {
+    display: block;
+
+    width: 46px;
+    height: 46px;
+
+    margin: 0 auto 24px;
+
+    border: 4px solid #e2e8f0;
+    border-top-color: #0057A3;
+
+    border-radius: 50%;
+
+    animation: submitSpin 0.8s linear infinite;
+}
+
+
+/* ================================
+   LOADING TEXT
+================================ */
+
+.loading-modal h2 {
+    margin: 0 0 10px;
+
+    color: #0A2540;
+
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+
+.loading-modal p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+
+/* ================================
+   ANIMATIONS
+================================ */
+
+@keyframes submitSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes modalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .loading-modal {
+        padding: 34px 26px;
+        border-radius: 16px;
+    }
+
+    .loading-modal h2 {
+        font-size: 1.2rem;
+    }
+
+    .loading-modal p {
+        font-size: 0.9rem;
+    }
+
+    .submit-spinner {
+        width: 42px;
+        height: 42px;
+    }
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom"
-import { useOrderContext } from "../hooks/useOrderContext"
+//import { useOrderContext } from "../hooks/useOrderContext"
 import Dimensions from '../assets/box.png'
 import './Forms.css'
 //import Quotation from "../Components/Quotation"
@@ -9,21 +9,19 @@ import './Forms.css'
 
 const RoadFormTwo = () => {
     const navigate = useNavigate()
-    const { orders, dispatch } = useOrderContext()
+    //const { orders, dispatch } = useOrderContext()
     const { formData, emptyFields,  dispatch2 } = useFormContext()
     //const { emptyFields, setEmptyFields } = useState([])
     const [ error, setError ] = useState(null)
     //const [showQuotation, setShowQuotation] = useState(false)
 
     
-    const [alert, setAlert] = useState('');
-    const [message, setMessage] = useState('');
     const pickupAddress = `${formData.street_address}, ${formData.city}, ${formData.province},South Africa`
     const dropOffAddress = `${formData.recipient_street_address}, ${formData.recipient_city}, ${formData.recipient_province},South Africa`
     
-    const [distance, setDistance] = useState(null)
-    const [duration, setDuration] = useState(null)
-    const weight = formData.weight
+    const [setDistance] = useState(null)
+    const [ setDuration] = useState(null)
+    //const weight = formData.weight
 
     //for airports
     const[airportResults, setAirportResults] = useState([])
@@ -1216,24 +1214,24 @@ const RoadFormTwo = () => {
                     </div>
                     {error && <div className="error">{error}</div>}
                 </form>
-            <div className="privacy-consent">
-                <label className="privacy-checkbox">
-                    <input
-                        type="checkbox"
-                        name="privacy_consent"
-                        checked={formData.privacy_consent || false}
-                        onChange={handleChange}
-                    />
+                <div className="privacy-consent">
+                    <label className="privacy-checkbox">
+                        <input
+                            type="checkbox"
+                            name="privacy_consent"
+                            checked={formData.privacy_consent || false}
+                            onChange={handleChange}
+                        />
 
-                    <span>
-                        I have read and agree to the{" "}
-                        <a href="/PrivacyPolicy" target="_blank" rel="noreferrer">
-                            Privacy Policy
-                        </a>
-                        .
-                    </span>
-                </label>
-            </div>    
+                        <span>
+                            I have read and agree to the{" "}
+                            <a href="/PrivacyPolicy" target="_blank" rel="noreferrer">
+                                Privacy Policy
+                            </a>
+                            .
+                        </span>
+                    </label>
+                </div>    
             <button className="form-btn"
                 onClick={handleSubmit}
                 disabled={loadingSubmit}>
@@ -1260,7 +1258,3 @@ const RoadFormTwo = () => {
 }
 
 export default RoadFormTwo
-/*<Quotation
-                formData = {formData}
-                >
-                </Quotation>*/

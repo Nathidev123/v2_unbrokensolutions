@@ -22,7 +22,7 @@ const InkAndPrinting = () => {
     const [phone, setPhone] = useState('')
     const [privacyConsent, setPrivacyConsent] = useState(false)
     const [alert, setAlert] = useState(null)
-
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -34,7 +34,14 @@ const InkAndPrinting = () => {
                 })
                 return
             }
-
+        if (!/^\d{10}$/.test(phone)) {
+            setAlert({
+                type: 'error',
+                message: 'Phone number must be exactly 10 digits'
+            })
+            return
+        }
+        setLoadingSubmit(true)
         const serviceId = 'service_wsyny93'
         const templateId = 'template_tqe19wu'
         const publicKey = 'eCS5a5yRYSaLDbX4R'
@@ -71,6 +78,9 @@ const InkAndPrinting = () => {
                     type: 'error',
                     message: 'Failed to send enquiry. Please try again.'
                 })
+            })
+            .finally (() => {
+                setLoadingSubmit(false)
             })
     }
 
@@ -420,6 +430,7 @@ const InkAndPrinting = () => {
                                 value={company_name}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 placeholder="Company name"
+                                required
                             />
 
                         </div>
@@ -459,6 +470,7 @@ const InkAndPrinting = () => {
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 placeholder="Phone number"
+                                required
                             />
 
                         </div>
@@ -520,7 +532,21 @@ const InkAndPrinting = () => {
                     )}
 
                 </form>
+            {loadingSubmit && (
+                    <div className="loading-overlay">
+                    <div className="loading-modal">
 
+                    <span className="submit-spinner"></span>
+
+                 <h2>Processing your request</h2>
+
+                    <p>
+                    Please wait while we submit your enquiry.
+                </p>
+
+        </div>
+    </div>
+)}
             </section>
 
         </main>

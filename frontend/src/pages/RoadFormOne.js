@@ -1,13 +1,11 @@
 import { useFormContext } from "../hooks/useFormContext"
 import { useNavigate } from "react-router-dom" 
-import { useState } from "react"
 import './Forms.css'
 const RoadFormOne = () => {
     const navigate = useNavigate()
     const { formData, emptyFields, dispatch2 } = useFormContext()
     //const { emptyFields, setEmptyFields } = useState([])
-    const [ error, setError ] = useState(null)
-
+    
 
     //formContext update function
     //monitoring changes

@@ -1,5 +1,3 @@
-
-import { Link } from "react-router-dom"
 import {
     FiArrowRight,
     FiBarChart2,
@@ -20,7 +18,8 @@ const Consulting = () => {
     const [phone, setPhone] = useState('')
     const [privacyConsent, setPrivacyConsent] = useState(false)
     const [alert, setAlert] = useState(null)
-    
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
+
 const handleSubmit = (e) => {
         e.preventDefault()
         
@@ -31,6 +30,15 @@ const handleSubmit = (e) => {
                 })
                 return
         }
+
+        if (!/^\d{10}$/.test(phone)) {
+        setAlert({
+            type: 'error',
+            message: 'Phone number must be exactly 10 digits'
+        })
+        return
+    }
+    setLoadingSubmit(true)
         //EmailJS service ID, template ID, and public key
         const serviceId = 'service_wsyny93'
         const templateId = 'template_tqe19wu'
@@ -61,6 +69,9 @@ const handleSubmit = (e) => {
         .catch((error) => {
             console.error('Error sending email:', error)
             setAlert({ type: 'error', message: 'Failed to send email' })
+        })
+        .finally (() => {
+            setLoadingSubmit(false)
         })
     } 
 
@@ -460,6 +471,7 @@ const handleSubmit = (e) => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Your name"
+                                required
                             />
 
                         </div>
@@ -477,6 +489,7 @@ const handleSubmit = (e) => {
                                 value={company_name}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 placeholder="Company name"
+                                
                             />
 
                         </div>
@@ -498,6 +511,7 @@ const handleSubmit = (e) => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="you@company.com"
+                                required
                             />
 
                         </div>
@@ -515,6 +529,7 @@ const handleSubmit = (e) => {
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 placeholder="Phone number"
+                                required
                             />
 
                         </div>
@@ -573,7 +588,21 @@ const handleSubmit = (e) => {
                 </div>
                     )}
                 </form>
+            {loadingSubmit && (
+                    <div className="loading-overlay">
+                    <div className="loading-modal">
 
+                    <span className="submit-spinner"></span>
+
+                 <h2>Processing your request</h2>
+
+                    <p>
+                    Please wait while we submit your enquiry.
+                </p>
+
+        </div>
+    </div>
+)}
             </section>
 
         </main>
