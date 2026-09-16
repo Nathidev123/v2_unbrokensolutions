@@ -8,6 +8,7 @@ import "./Forms.css";
 
 const RoadFormTwo = () => {
   const navigate = useNavigate();
+  console.log("API URL:", process.env.REACT_APP_API_URL);
   //const { orders, dispatch } = useOrderContext()
   const { formData, emptyFields, dispatch2 } = useFormContext();
   //const { emptyFields, setEmptyFields } = useState([])
@@ -40,7 +41,7 @@ const RoadFormTwo = () => {
   const airportTimeout = useRef(null);
   const getDistance = async () => {
     //sendin req to backend
-    const response = await fetch("/api/order/distance", {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/order/distance`, {
       method: "POST",
 
       headers: {
@@ -124,7 +125,7 @@ const RoadFormTwo = () => {
       }
 
       //still all services reach this point
-      const response = await fetch("/api/order/", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/order/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -201,7 +202,7 @@ const RoadFormTwo = () => {
       //connecting api
       const response = await fetch(
         `https://api.freeairportdb.com/v1/airports?q=${value}&limit=10`,
-      );
+      ); //here dont need to change request as were calling directly from frontend
 
       const data = await response.json();
       setAirportResults(data.data);
@@ -235,7 +236,7 @@ const RoadFormTwo = () => {
       try {
         //connecting to api
         const response = await fetch(
-          `http://localhost:8000/api/seaports?query=${encodeURIComponent(query)}`,
+          `${process.env.REACT_APP_API_URL}/api/seaports?query=${encodeURIComponent(query)}`,
         );
         const data = await response.json();
         setSeaportResults(data);
@@ -840,7 +841,7 @@ const RoadFormTwo = () => {
               {formData.service_type === "courier" && (
                 <div className="form-group">
                   <input
-                    placeholder="Street Address"
+                    placeholder="Pickup Street Address"
                     type="text"
                     name="street_address"
                     value={formData.street_address}
