@@ -39,6 +39,7 @@ const RoadFormTwo = () => {
   //to avoid the 429 error for api(too many requests)
   const seaPortTimeout = useRef(null);
   const airportTimeout = useRef(null);
+  const lastPortSearch = useRef("")
   const getDistance = async () => {
     //sendin req to backend
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/order/distance`, {
@@ -219,7 +220,7 @@ const RoadFormTwo = () => {
   //same functionality but for sea ports
   const searchSeaports = async (query) => {
     setSeaportSearch(query);
-
+    
     if (seaPortTimeout.current) {
       clearTimeout(seaPortTimeout.current);
     }
@@ -228,6 +229,10 @@ const RoadFormTwo = () => {
       setSeaportResults([]);
       return;
     }
+    if(query === lastPortSearch.current){
+      return;
+    }
+    lastPortSearch.current = query
     seaPortTimeout.current = setTimeout(async () => {
       setLoadingSeaPorts(true);
 
@@ -242,12 +247,14 @@ const RoadFormTwo = () => {
         setSeaportResults(data);
         console.log("Sea Port Response:", data);
       } catch (error) {
+
         console.log(error);
         setError("Could not find destination Sea Port, try again");
+
       } finally {
         setLoadingSeaPorts(false);
       }
-    }, 400);
+    }, 800);
   };
 
   const handleBacktBtn = () => {

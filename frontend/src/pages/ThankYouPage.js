@@ -14,17 +14,18 @@ const ThankYouPage = () => {
         </h1>
 
         <p className="thank-message">
-          Your request has been successfully submitted and our team is now
-          reviewing your shipment details.
+         Your request has been successfully submitted. 
+         We’ll send a confirmation email to the address
+          you provided — please keep an eye on your inbox.
         </p>
 
         <div className="thank-next">
           <div className="thank-step">
             <span>01</span>
             <div>
-              <h3>Check your email</h3>
+              <h3>Keep an eye on your inbox</h3>
               <p>
-                We've sent a confirmation to the email address you provided.
+                We’ll send a confirmation email to the address you provided.
               </p>
             </div>
           </div>
