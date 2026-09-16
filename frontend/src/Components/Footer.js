@@ -10,7 +10,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-contact">
-          <a href="tel:0716488541">
+          <a href="tel:0608757163">
             <FaPhone className="phone-icon" size={17} />
             060 875 7163
           </a>

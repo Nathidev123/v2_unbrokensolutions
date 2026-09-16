@@ -8,7 +8,8 @@ import "./Forms.css";
 
 const RoadFormTwo = () => {
   const navigate = useNavigate();
-  console.log("API URL:", process.env.REACT_APP_API_URL);
+  //testing
+  //console.log("API URL:", process.env.REACT_APP_API_URL);
   //const { orders, dispatch } = useOrderContext()
   const { formData, emptyFields, dispatch2 } = useFormContext();
   //const { emptyFields, setEmptyFields } = useState([])
@@ -448,6 +449,9 @@ const RoadFormTwo = () => {
                 )}
                 {formData.service_type === "air" && (
                   <div className="form-group">
+                  <div className="currency-input">
+                  <span className="currency-prefix">R</span>
+
                     <input
                       placeholder="Declared Value"
                       type="text"
@@ -458,6 +462,7 @@ const RoadFormTwo = () => {
                         emptyFields.includes("declared_value") ? "error" : ""
                       }
                     />
+                  </div>
                   </div>
                 )}
 
@@ -709,6 +714,9 @@ const RoadFormTwo = () => {
 
                 {formData.service_type === "sea" && (
                   <div className="form-group">
+                  <div className="currency-input">
+                  <span className="currency-prefix">R</span>
+                    
                     <input
                       placeholder="Declared Value"
                       type="text"
@@ -719,6 +727,7 @@ const RoadFormTwo = () => {
                         emptyFields.includes("declared_value") ? "error" : ""
                       }
                     />
+                  </div>
                   </div>
                 )}
 
@@ -773,7 +782,10 @@ const RoadFormTwo = () => {
 
                 {formData.service_type === "courier" && (
                   <div className="form-group">
-                    <input
+                  <div className="currency-input">
+                  <span className="currency-prefix">R</span>
+                    
+                    <input 
                       placeholder="Parcel Value"
                       type="text"
                       name="parcel_value"
@@ -783,6 +795,7 @@ const RoadFormTwo = () => {
                         emptyFields.includes("parcel_value") ? "error" : ""
                       }
                     />
+                  </div>
                   </div>
                 )}
 
@@ -980,6 +993,9 @@ const RoadFormTwo = () => {
 
               {formData.service_type === "road" && (
                 <div className="form-group">
+                <div className="currency-input">
+                  <span className="currency-prefix">R</span>
+
                   <input
                     placeholder="Declared Value"
                     type="text"
@@ -990,6 +1006,7 @@ const RoadFormTwo = () => {
                       emptyFields.includes("declared_value") ? "error" : ""
                     }
                   />
+                </div>
                 </div>
               )}
               {formData.service_type === "road" && (
@@ -1166,7 +1183,27 @@ const RoadFormTwo = () => {
                 />
               </div>
             </div>
-            {error && <div className="error">{error}</div>}
+            {error && (
+            <div className="form-alert form-alert-error" role="alert">
+              <div className="form-alert-icon">
+                !
+              </div>
+
+              <div className="form-alert-content">
+                <strong>Something needs your attention</strong>
+                <p>{error}</p>
+              </div>
+
+              <button
+                type="button"
+                className="form-alert-close"
+                onClick={() => setError(null)}
+                aria-label="Close notification"
+              >
+                ×
+              </button>
+            </div>
+          )}
           </form>
           <div className="privacy-consent">
             <label className="privacy-checkbox">

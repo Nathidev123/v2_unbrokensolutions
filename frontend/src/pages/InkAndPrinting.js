@@ -393,15 +393,41 @@ const InkAndPrinting = () => {
               </span>
             </label>
           </div>
+          {alert && (
+          <div
+            className={`form-alert form-alert-${alert.type}`}
+            role="alert"
+          >
+            <div className="form-alert-icon">
+              {alert.type === "success" ? "✓" : "!"}
+            </div>
 
+            <div className="form-alert-content">
+              <strong>
+                {alert.type === "success"
+                  ? "Enquiry sent successfully"
+                  : "Something needs your attention"}
+              </strong>
+
+              <p>{alert.message}</p>
+            </div>
+
+            <button
+              type="button"
+              className="form-alert-close"
+              onClick={() => setAlert(null)}
+              aria-label="Close notification"
+            >
+              ×
+            </button>
+          </div>
+        )}
           <button type="submit" className="contact-submit">
             Send enquiry
             <FiArrowRight />
           </button>
 
-          {alert && (
-            <div className={`alert alert-${alert.type}`}>{alert.message}</div>
-          )}
+          
         </form>
         {loadingSubmit && (
           <div className="loading-overlay">
